@@ -52,15 +52,19 @@ export function ProductSummary({
         <ReturnsSummary data={returns} />
       </Paper>
       <PriceChart prices={prices} color={color} />
-      <p className="mb-3 text-center text-sm uppercase text-neutral-600">
+      <p className="mb-3 text-center text-sm text-neutral-600 uppercase">
         live for {inception}
       </p>
       <Divider />
       <KPISummary ITD={ITD} YTD={YTD} MTD={MTD} />
       <Divider />
-      <p className="whitespace-pre-wrap text-balance p-4 text-center text-xs text-neutral-500">
-        {t("prices.disclaimer")}
-      </p>
+      <div
+        className="prose prose-sm max-w-none p-4 opacity-70"
+        // className=" text-center text-xs "
+        dangerouslySetInnerHTML={{
+          __html: t.raw("prices.disclaimer") as string,
+        }}
+      />
     </Paper>
   );
 }
