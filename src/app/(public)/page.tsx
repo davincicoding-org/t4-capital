@@ -1,4 +1,3 @@
-import { SECTION_IDS } from "@/const";
 import { fetchStrategies, fetchTeamMembers } from "@/server/actions";
 import { cn } from "@/ui/utils";
 import { About, Hero, Strategies } from "@/ui/views";
@@ -13,18 +12,10 @@ export default async function Home() {
     <main className={cn("grid gap-32 pb-48 md:gap-48 md:pb-72")}>
       <header className="grid">
         <ButtonsBar />
-        <Hero id={SECTION_IDS.HERO} />
+        <Hero />
       </header>
-      <Strategies
-        id={SECTION_IDS.STRATEGY}
-        className="container"
-        strategies={strategies}
-      />
-      <About
-        id={SECTION_IDS.ABOUT}
-        className="container"
-        teamMembers={teamMembers}
-      />
+      <Strategies className="container" strategies={strategies} />
+      <About className="container" teamMembers={teamMembers} />
     </main>
   );
 }
