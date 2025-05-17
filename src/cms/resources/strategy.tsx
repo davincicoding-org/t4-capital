@@ -4,7 +4,6 @@ import {
   DateInput,
   Edit,
   List,
-  NumberField,
   NumberInput,
   required,
   SelectInput,

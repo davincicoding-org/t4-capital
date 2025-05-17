@@ -220,7 +220,6 @@ function MessageField({
     } = register(name, {
       required: true,
       minLength: 1,
-      onBlur: console.log,
     });
     return (
       <Card

@@ -30,22 +30,22 @@ export const teamMember = pgTable(
   // (t) => [index("name_idx").on(t.name)],
 );
 
-export const security = pgTable(
-  "security",
-  (d) => ({
-    isin: d.text().primaryKey(),
-    password: d.text().notNull(),
-    strategyId: d.uuid().references(() => strategy.id, {}),
-  }),
-  // (t) => [index("name_idx").on(t.name)],
-);
+// export const security = pgTable(
+//   "security",
+//   (d) => ({
+//     isin: d.text().primaryKey(),
+//     password: d.text().notNull(),
+//     strategyId: d.uuid().references(() => strategy.id, {}),
+//   }),
+//   // (t) => [index("name_idx").on(t.name)],
+// );
 
-export const securityPrice = pgTable(
-  "security_price",
-  (d) => ({
-    securityId: d.text().references(() => security.isin, {}),
-    date: d.date().notNull(),
-    price: d.integer().notNull(),
-  }),
-  // (t) => [index("name_idx").on(t.name)],
-);
+// export const securityPrice = pgTable(
+//   "security_price",
+//   (d) => ({
+//     securityId: d.text().references(() => security.isin, {}),
+//     date: d.date().notNull(),
+//     price: d.integer().notNull(),
+//   }),
+//   // (t) => [index("name_idx").on(t.name)],
+// );

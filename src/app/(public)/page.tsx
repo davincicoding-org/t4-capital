@@ -8,9 +8,10 @@ export default async function Home() {
     fetchStrategies(),
     fetchTeamMembers(),
   ]);
+
   return (
     <main className={cn("grid gap-32 pb-48 md:gap-48 md:pb-72")}>
-      <header className="grid">
+      <header className="grid shadow-lg">
         <ButtonsBar />
         <Hero />
       </header>

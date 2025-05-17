@@ -10,7 +10,7 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
-    DATABASE_URL: z.string(),
+    POSTGRES_URL: z.string(),
     GOOGLE_CLOUD_PROJECT_ID: z.string(),
     GOOGLE_CLOUD_PRIVATE_KEY_ID: z.string(),
     GOOGLE_CLOUD_PRIVATE_KEY: z.string(),
@@ -22,7 +22,6 @@ export const env = createEnv({
   },
 
   client: {
-    NEXT_PUBLIC_SUPABASE_PROJECT_ID: z.string(),
     NEXT_PUBLIC_SUPABASE_URL: z.string(),
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
   },
@@ -30,7 +29,7 @@ export const env = createEnv({
   runtimeEnv: {
     AUTH_SECRET: process.env.AUTH_SECRET,
     NODE_ENV: process.env.NODE_ENV,
-    DATABASE_URL: process.env.DATABASE_URL,
+    POSTGRES_URL: process.env.POSTGRES_URL,
     GOOGLE_CLOUD_PROJECT_ID: process.env.GOOGLE_CLOUD_PROJECT_ID,
     GOOGLE_CLOUD_PRIVATE_KEY_ID: process.env.GOOGLE_CLOUD_PRIVATE_KEY_ID,
     GOOGLE_CLOUD_PRIVATE_KEY: process.env.GOOGLE_CLOUD_PRIVATE_KEY,
@@ -39,8 +38,6 @@ export const env = createEnv({
     MAILCHIMP_APIKEY: process.env.MAILCHIMP_APIKEY,
     NEWSLETTER_AUDIENCE_ID: process.env.NEWSLETTER_AUDIENCE_ID,
     I18N_SECRET: process.env.I18N_SECRET,
-    NEXT_PUBLIC_SUPABASE_PROJECT_ID:
-      process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   },

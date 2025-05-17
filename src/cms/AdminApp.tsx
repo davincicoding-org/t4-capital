@@ -3,9 +3,6 @@
 import GroupsIcon from "@mui/icons-material/GroupsOutlined";
 import StarIcon from "@mui/icons-material/StarOutline";
 import {
-  CreateGuesser,
-  EditGuesser,
-  ListGuesser,
   LoginPage,
   supabaseAuthProvider,
   supabaseDataProvider,
