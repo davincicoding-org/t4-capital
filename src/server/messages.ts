@@ -1,7 +1,6 @@
-import { unstable_cache } from "next/cache";
-
 import type { MessagesTree } from "@/i18n/types";
 
+import { cachedRequest } from "./cache";
 import { supabaseClient } from "./supabase";
 
 export async function saveMessages(locale: string, messages: MessagesTree) {
@@ -24,9 +23,7 @@ export async function fetchMessages(
   return JSON.parse(content) as MessagesTree;
 }
 
-export const fetchCachedMessages = unstable_cache(fetchMessages, [], {
-  tags: ["cms", "messages"],
-});
-
-// TODO this should be a server action and should be secured
-// export const revalidateMessages = () => revalidateTag("messages");
+export const fetchCachedMessages = cachedRequest(fetchMessages, [
+  "cms",
+  "messages",
+]);

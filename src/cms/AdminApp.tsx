@@ -17,6 +17,7 @@ import { Route } from "react-router-dom";
 
 import { env } from "@/env";
 import { MESSAGES_SCHEMA, SUPPORTED_LOCALES } from "@/i18n/config";
+import { revalidateCache } from "@/server/actions";
 import { fetchMessages, saveMessages } from "@/server/messages";
 import { supabaseClient } from "@/server/supabase";
 
@@ -41,7 +42,38 @@ const dataProvider = withLifecycleCallbacks(
     apiKey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     supabaseClient,
   }),
-  [],
+  [
+    {
+      resource: "strategy",
+      afterSave: async (params: undefined) => {
+        void revalidateCache("strategies");
+        return params;
+      },
+      afterDelete: async (args) => {
+        void revalidateCache("strategies");
+        return args;
+      },
+      afterDeleteMany: async (args) => {
+        void revalidateCache("strategies");
+        return args;
+      },
+    },
+    {
+      resource: "team_member",
+      afterSave: async (params: undefined) => {
+        void revalidateCache("team-members");
+        return params;
+      },
+      afterDelete: async (args) => {
+        void revalidateCache("team-members");
+        return args;
+      },
+      afterDeleteMany: async (args) => {
+        void revalidateCache("team-members");
+        return args;
+      },
+    },
+  ],
 );
 
 export default function AdminApp() {
@@ -60,7 +92,10 @@ export default function AdminApp() {
               schema={MESSAGES_SCHEMA}
               locales={SUPPORTED_LOCALES}
               fetchMessages={fetchMessages}
-              saveMessages={saveMessages}
+              saveMessages={async (locale, messages) => {
+                await saveMessages(locale, messages);
+                await revalidateCache("messages");
+              }}
             />
           }
         />
