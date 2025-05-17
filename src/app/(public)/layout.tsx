@@ -1,18 +1,18 @@
 import "./globals.css";
-import { cn } from "@/ui/utils";
-import { Footer } from "@/ui/views";
-import { Analytics } from "@vercel/analytics/react";
-
-import { createTheme, MantineProvider } from "@mantine/core";
-import { LazyMotion, domAnimation } from "motion/react";
 
 import { type Metadata } from "next";
+import {
+  Host_Grotesk as Font,
+  Azeret_Mono as MonoFont,
+} from "next/font/google";
+import { createTheme, MantineProvider } from "@mantine/core";
+import { Analytics } from "@vercel/analytics/react";
+import { domAnimation, LazyMotion } from "motion/react";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
-import {
-  Azeret_Mono as MonoFont,
-  Host_Grotesk as Font,
-} from "next/font/google";
+
+import { cn } from "@/ui/utils";
+import { Footer } from "@/ui/views";
 
 // MARK: Metadata
 export const generateMetadata = async (): Promise<Metadata> => {
@@ -20,8 +20,8 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
   return {
     metadataBase: new URL("https://t4-capital.ch"),
-    title: t("META-TITLE"),
-    description: t("META-DESCRIPTION"),
+    title: t("meta.title"),
+    description: t("meta.description"),
   };
 };
 
@@ -63,7 +63,7 @@ export default async function RootLayout({
   const messages = await getMessages();
   return (
     <html lang="en" className={cn(font.className, monoFont.variable)}>
-      <body className="overscroll-y-none">
+      <body className="flex min-h-dvh flex-col overscroll-y-none">
         <MantineProvider theme={theme}>
           <LazyMotion features={domAnimation}>
             <NextIntlClientProvider messages={messages}>

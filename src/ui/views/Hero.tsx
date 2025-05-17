@@ -1,6 +1,6 @@
 "use client";
-import { forwardRef, useMemo } from "react";
 
+import { forwardRef, useMemo } from "react";
 import * as m from "motion/react-m";
 import { useTranslations } from "next-intl";
 
@@ -13,7 +13,7 @@ export const Hero = forwardRef<
   { className?: string; id?: string }
 >(function Hero({ className }, ref) {
   const t = useTranslations();
-  const headline = useMemo(() => t("HERO-HEADLINE").split("\n"), [t]);
+  const headline = useMemo(() => t("headline").split("\n"), [t]);
 
   return (
     <section

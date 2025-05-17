@@ -2,7 +2,10 @@ import type { Config } from "tailwindcss";
 import containerQueries from "@tailwindcss/container-queries";
 
 const config = {
-  content: ["./src/ui/**/*.{ts,tsx}", "./src/app/**/*.{ts,tsx}"],
+  content: ["./src/**/*.{ts,tsx}"],
+  corePlugins: {
+    preflight: false,
+  },
   plugins: [containerQueries],
   theme: {
     container: {
@@ -14,9 +17,9 @@ const config = {
     },
     extend: {
       colors: {
-        black: {
-          DEFAULT: "#08202D",
-        },
+        // black: {
+        //   DEFAULT: "#08202D",
+        // },
         primary: {
           DEFAULT: "#CBE5F4",
           foreground: "#000",

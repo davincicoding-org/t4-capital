@@ -1,16 +1,12 @@
 import { useState } from "react";
-
 import { Alert, Button, Modal, TextInput } from "@mantine/core";
-import { useTranslations } from "next-intl";
 import { useForm } from "@tanstack/react-form";
-
-import { cn } from "@/ui/utils";
-
-import {
-  type INewsletterSubscriptionOutput,
-  subscribeToNewsletter,
-} from "@/services/mailchimp";
+import { useTranslations } from "next-intl";
 import { z } from "zod";
+
+import type { INewsletterSubscriptionOutput } from "@/services/mailchimp";
+import { subscribeToNewsletter } from "@/services/mailchimp";
+import { cn } from "@/ui/utils";
 
 const formSchema = z.object({
   firstname: z.string().trim().min(1),
@@ -24,7 +20,7 @@ export interface INewsletterFormProps {
 }
 
 export function NewsletterForm({ open, onClose }: INewsletterFormProps) {
-  const t = useTranslations();
+  const t = useTranslations("newsletter");
   const [submission, setSubmission] = useState<INewsletterSubscriptionOutput>();
   const form = useForm({
     defaultValues: {
@@ -44,9 +40,7 @@ export function NewsletterForm({ open, onClose }: INewsletterFormProps) {
   return (
     <Modal
       title={
-        <span className="text-center text-xl font-medium">
-          {t("NEWSLETTER-TITLE")}
-        </span>
+        <span className="text-center text-xl font-medium">{t("title")}</span>
       }
       opened={open}
       transitionProps={{
@@ -57,22 +51,16 @@ export function NewsletterForm({ open, onClose }: INewsletterFormProps) {
       radius="lg"
     >
       {submission?.success === true && (
-        <Alert
-          color="green"
-          className="mb-3"
-          title={t("NEWSLETTER-SUBSCRIBED")}
-        />
+        <Alert color="green" className="mb-3" title={t("success")} />
       )}
       {submission?.success === false && (
         <Alert
           color="red"
           className="mb-3"
-          title={submission.error ?? t("NEWSLETTER-ERROR")}
+          title={submission.error ?? t("error")}
         />
       )}
-      <p className="mb-4 text-balance text-center">
-        {t("NEWSLETTER-DESCRIPTION")}
-      </p>
+      <p className="mb-4 text-balance text-center">{t("description")}</p>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -83,7 +71,7 @@ export function NewsletterForm({ open, onClose }: INewsletterFormProps) {
           <form.Field name="firstname">
             {(field) => (
               <TextInput
-                label={t("NEWSLETTER-FNAME_LABEL")}
+                label={t("fields.firstname")}
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 disabled={field.form.state.isSubmitting}
@@ -93,7 +81,7 @@ export function NewsletterForm({ open, onClose }: INewsletterFormProps) {
           <form.Field name="lastname">
             {(field) => (
               <TextInput
-                label={t("NEWSLETTER-LNAME_LABEL")}
+                label={t("fields.lastname")}
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 disabled={field.form.state.isSubmitting}
@@ -105,7 +93,7 @@ export function NewsletterForm({ open, onClose }: INewsletterFormProps) {
             {(field) => (
               <TextInput
                 className="col-span-2"
-                label={t("NEWSLETTER-EMAIL_LABEL")}
+                label={t("fields.email")}
                 type="email"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
@@ -131,7 +119,7 @@ export function NewsletterForm({ open, onClose }: INewsletterFormProps) {
               disabled={!isTouched || !canSubmit}
               loading={isSubmitting}
             >
-              {t("NEWSLETTER-SUBMIT")}
+              {t("submit")}
             </Button>
           )}
         </form.Subscribe>

@@ -1,5 +1,4 @@
-export const CONTACT_EMAIL = "info@t4-capital.ch";
-export const CONTACT_LINK = `mailto:${CONTACT_EMAIL}`;
+
 export const SECTION_IDS = {
   HERO: "",
   STRATEGY: "strategy",

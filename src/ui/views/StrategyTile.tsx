@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef } from "react";
-
+import Link from "next/link";
 import { ActionIcon, Button } from "@mantine/core";
 import { useDisclosure, useOs } from "@mantine/hooks";
 import dayjs from "dayjs";
@@ -35,7 +34,7 @@ export function StrategyTile({
   presentationUrl,
   className,
 }: IStrategyTileProps) {
-  const t = useTranslations();
+  const t = useTranslations("strategies");
   const shouldReduceMotion = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const os = useOs();
@@ -63,7 +62,7 @@ export function StrategyTile({
         className={cn(
           "group/card relative grid h-full w-full grid-rows-[auto_1fr] shadow",
           "grid sm:max-lg:grid-cols-[2fr_3fr]",
-          "bg-noise rounded-2xl",
+          "rounded-2xl bg-noise",
           className,
         )}
       >
@@ -78,13 +77,13 @@ export function StrategyTile({
         >
           <div
             className={cn(
-              "absolute top-2 left-2 rounded-full bg-white px-2.5 py-0.5 text-sm font-medium uppercase shadow empty:hidden",
+              "absolute left-2 top-2 rounded-full bg-white px-2.5 py-0.5 text-sm font-medium uppercase shadow empty:hidden",
             )}
           >
             {liveSince} live
           </div>
 
-          <h3 className={cn("px-4 text-center text-3xl text-wrap text-black")}>
+          <h3 className={cn("text-wrap px-4 text-center text-3xl text-black")}>
             {title}
           </h3>
 
@@ -93,8 +92,8 @@ export function StrategyTile({
               color="black"
               radius="xl"
               variant="outline"
-              className="absolute top-2 right-2"
-              aria-label="Play Video"
+              className="absolute right-2 top-2"
+              aria-label={t("video-button")}
               onClick={toggleVideo}
             >
               <svg
@@ -118,7 +117,7 @@ export function StrategyTile({
             as="p"
             translateZ="20"
             className={cn(
-              "mb-3 text-base text-balance opacity-60 sm:max-lg:my-auto sm:max-lg:text-pretty md:text-lg lg:text-center",
+              "mb-3 text-balance text-base opacity-60 sm:max-lg:my-auto sm:max-lg:text-pretty md:text-lg lg:text-center",
             )}
           >
             {subtitle}
@@ -136,7 +135,7 @@ export function StrategyTile({
               target="_blank"
               fullWidth
             >
-              {t("STRATEGIES-TILE-PRESENTATION_BUTTON")}
+              {t("attachment-button")}
             </Button>
           </CardItem>
         </div>
@@ -147,7 +146,7 @@ export function StrategyTile({
             "absolute -z-10 opacity-0",
             isMobile
               ? "inset-0"
-              : "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+              : "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
             {
               "cursor-pointer overflow-hidden rounded-2xl shadow-2xl":
                 !isMobile,

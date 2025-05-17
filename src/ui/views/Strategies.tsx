@@ -1,16 +1,15 @@
-import { forwardRef, type HTMLAttributes } from "react";
-
+import type { HTMLAttributes } from "react";
+import { forwardRef } from "react";
 import { getTranslations } from "next-intl/server";
 
-import { cn } from "@/ui/utils";
-
 import { PRODUCTS } from "@/const";
+import { cn } from "@/ui/utils";
 
 import { StrategyTile } from "./StrategyTile";
 
 export const Strategies = forwardRef<HTMLElement, HTMLAttributes<HTMLElement>>(
   async function Strategies({ className, ...attrs }, ref) {
-    const t = await getTranslations();
+    const t = await getTranslations("strategies");
     return (
       <section
         ref={ref}
@@ -19,10 +18,10 @@ export const Strategies = forwardRef<HTMLElement, HTMLAttributes<HTMLElement>>(
       >
         <div className="grid content-start gap-4 text-center">
           <span className={cn("md:text-5xl", "text-4xl font-medium")}>
-            {t("STRATEGIES-TITLE")}
+            {t("title")}
           </span>
           <span className={cn("md:text-2xl", "text-sm text-gray-69")}>
-            {t("STRATEGIES-HEADLINE")}
+            {t("headline")}
           </span>
         </div>
         <div
@@ -31,17 +30,17 @@ export const Strategies = forwardRef<HTMLElement, HTMLAttributes<HTMLElement>>(
           )}
         >
           <StrategyTile
-            title={t("STRATEGIES-ALT-TITLE")}
-            subtitle={t("STRATEGIES-ALT-DESCRIPTION")}
+            title="STRATEGIES-ALT-TITLE"
+            subtitle="STRATEGIES-ALT-DESCRIPTION"
             launchDate={PRODUCTS.ALT.launchDate}
-            badge={t("STRATEGIES-DIGITAL-BADGE")}
+            badge="STRATEGIES-DIGITAL-BADGE"
             image={PRODUCTS.ALT.gradient}
             presentationUrl={PRODUCTS.ALT.docs.presentation}
           />
           <StrategyTile
-            title={t("STRATEGIES-ENT-TITLE")}
-            subtitle={t("STRATEGIES-ENT-DESCRIPTION")}
-            badge={t("STRATEGIES-DIGITAL-BADGE")}
+            title="STRATEGIES-ENT-TITLE"
+            subtitle="STRATEGIES-ENT-DESCRIPTION"
+            badge="STRATEGIES-DIGITAL-BADGE"
             launchDate={PRODUCTS.ENT.launchDate}
             image={PRODUCTS.ENT.gradient}
             video={PRODUCTS.ENT.video}

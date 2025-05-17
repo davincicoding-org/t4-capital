@@ -1,17 +1,11 @@
-import { unstable_cache } from "next/cache";
-
 import { getRequestConfig } from "next-intl/server";
 
-import { fetchMessages } from "./fetch";
+import { fetchCachedMessages } from "@/server/messages";
 
-const fetchCachedMessages = unstable_cache(fetchMessages, [], {
-  tags: ["i18n"],
-});
+import { SUPPORTED_LOCALES } from "./config";
 
 export default getRequestConfig(async () => {
-  // Provide a static locale, fetch a user setting,
-  // read from `cookies()`, `headers()`, etc.
-  const locale = "en";
+  const locale = SUPPORTED_LOCALES[0];
 
   return {
     locale,

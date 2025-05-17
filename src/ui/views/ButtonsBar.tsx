@@ -1,12 +1,12 @@
 "use client";
-import Link from "next/link";
 
+import Link from "next/link";
 import { Button } from "@mantine/core";
-import * as m from "motion/react-m"
+import * as m from "motion/react-m";
 import { useTranslations } from "next-intl";
 
 export function ButtonsBar() {
-  const t = useTranslations();
+  const t = useTranslations("header");
   return (
     <m.div
       className="sticky left-0 right-0 top-0 z-20 -mb-16 flex justify-center gap-3 p-3 md:justify-end"
@@ -29,7 +29,7 @@ export function ButtonsBar() {
         href="https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7084918813661560833"
         target="_blank"
       >
-        {t("HEADER-NEWSLETTER_CTA")}
+        {t("newsletter")}
       </Button>
 
       <Button
@@ -39,7 +39,7 @@ export function ButtonsBar() {
         component={Link}
         href="/prices"
       >
-        {t("HEADER-CTA")}
+        {t("login")}
       </Button>
     </m.div>
   );

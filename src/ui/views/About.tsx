@@ -1,13 +1,12 @@
+import type { HTMLAttributes } from "react";
+import { forwardRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { type HTMLAttributes, forwardRef } from "react";
-
 import { ActionIcon } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
 
-import { cn } from "@/ui/utils";
-
 import { CORE_TEAM } from "@/const";
+import { cn } from "@/ui/utils";
 
 function Logo() {
   return (
@@ -23,7 +22,7 @@ function Logo() {
 
 export const About = forwardRef<HTMLElement, HTMLAttributes<HTMLElement>>(
   async function About({ className, ...attrs }, ref) {
-    const t = await getTranslations();
+    const t = await getTranslations("about");
     return (
       <section
         ref={ref}
@@ -32,23 +31,23 @@ export const About = forwardRef<HTMLElement, HTMLAttributes<HTMLElement>>(
       >
         <div className={cn("grid gap-6 md:grid-cols-[auto_1fr] md:gap-32")}>
           <span className="text-xl font-medium max-sm:text-lg">
-            {t("ABOUT-TITLE")}
+            {t("title")}
           </span>
           <div className={cn("grid gap-10 md:gap-16")}>
             <p className={cn("max-w-4xl text-3xl md:text-5xl")}>
-              {t.rich("ABOUT-CONTENT", {
+              {t.rich("content", {
                 Logo,
               })}
             </p>
             <p className={cn("max-w-2xl text-2xl text-gray-69")}>
-              {t("ABOUT-FOUNDERS")}
+              {t("founders")}
             </p>
           </div>
         </div>
 
         <div className="grid gap-6">
           <span className="text-xl font-medium uppercase max-sm:text-lg">
-            {t("ABOUT-TEAM-TITLE")}
+            {t("team")}
           </span>
           <div
             className={cn(
@@ -61,7 +60,7 @@ export const About = forwardRef<HTMLElement, HTMLAttributes<HTMLElement>>(
             <Image
               width="4032"
               height="2688"
-              className={cn("w-full rounded-2xl shadow-lg")}
+              className={cn("h-auto w-full rounded-2xl shadow-lg")}
               src="/images/team.webp"
               alt="Team Photo"
             />

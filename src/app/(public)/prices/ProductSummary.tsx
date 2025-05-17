@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
 
+import { useEffect, useState } from "react";
 import { LineChart } from "@mantine/charts";
 import {
   Button,
@@ -52,14 +52,14 @@ export function ProductSummary({
         <ReturnsSummary data={returns} />
       </Paper>
       <PriceChart prices={prices} color={color} />
-      <p className="mb-3 text-center text-sm text-neutral-600 uppercase">
+      <p className="mb-3 text-center text-sm uppercase text-neutral-600">
         live for {inception}
       </p>
       <Divider />
       <KPISummary ITD={ITD} YTD={YTD} MTD={MTD} />
       <Divider />
-      <p className="p-4 text-center text-xs text-balance whitespace-pre-wrap text-neutral-500">
-        {t("PRICES-DISCLAIMER")}
+      <p className="whitespace-pre-wrap text-balance p-4 text-center text-xs text-neutral-500">
+        {t("prices.disclaimer")}
       </p>
     </Paper>
   );

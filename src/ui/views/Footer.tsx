@@ -1,15 +1,14 @@
 "use client";
+
+import { type HTMLAttributes } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { type HTMLAttributes } from "react";
-
-import { Button, Anchor } from "@mantine/core";
+import { Anchor, Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslations } from "next-intl";
 
+import { SECTION_IDS } from "@/const";
 import { cn } from "@/ui/utils";
-
-import { CONTACT_EMAIL, CONTACT_LINK, SECTION_IDS } from "@/const";
 
 import { NewsletterForm } from "./NewsletterForm";
 
@@ -60,7 +59,7 @@ export function Footer({ className, ...attrs }: HTMLAttributes<HTMLElement>) {
             />
           }
         >
-          {t("FOOTER-FOLLOW_CTA")}
+          {t("footer.cta.follow")}
         </Button>
         <Button
           color="black"
@@ -68,7 +67,7 @@ export function Footer({ className, ...attrs }: HTMLAttributes<HTMLElement>) {
           radius="xl"
           onClick={newsletter.open}
         >
-          {t("FOOTER-NEWSLETTER_CTA")}
+          {t("footer.cta.newsletter")}
         </Button>
 
         <NewsletterForm open={isNewsletterOpen} onClose={newsletter.close} />
@@ -83,7 +82,7 @@ export function Footer({ className, ...attrs }: HTMLAttributes<HTMLElement>) {
         )}
       >
         <div className={cn("grid h-fit gap-y-4")}>
-          <span className="text-gray-69">{t("FOOTER-CONTACT")}</span>
+          <span className="text-gray-69">{t("footer.contact")}</span>
           <div className={cn("grid gap-y-2")}>
             <p>
               T4 Capital AG
@@ -94,10 +93,10 @@ export function Footer({ className, ...attrs }: HTMLAttributes<HTMLElement>) {
             <Anchor
               component={Link}
               c="black"
-              href={CONTACT_LINK}
+              href={`mailto:info@t4-capital.ch`}
               target="_blank"
             >
-              {CONTACT_EMAIL}
+              info@t4-capital.ch
             </Anchor>
           </div>
         </div>
@@ -105,16 +104,19 @@ export function Footer({ className, ...attrs }: HTMLAttributes<HTMLElement>) {
           <span className="text-gray-69" translate="no">
             T4 Capital
           </span>
-          <div className={cn("grid gap-y-6")}>
+          <div className={cn("grid")}>
             <Anchor c="black" component={Link} href="/imprint" target="_blank">
-              {t("FOOTER-IMPRINT")}
+              {t("imprint.title")}
+            </Anchor>
+            <Anchor c="black" component={Link} href="/privacy" target="_blank">
+              {t("privacy.title")}
             </Anchor>
           </div>
         </div>
       </div>
 
       <span className={cn("col-span-2 text-gray-69 md:order-4 md:col-span-3")}>
-        {t("FOOTER-COPYRIGHT")}
+        {t("footer.copyright")}
       </span>
     </footer>
   );
