@@ -4,7 +4,7 @@ import { Layout, Menu } from "react-admin";
 
 const CustomMenu = () => (
   <Menu className="h-full">
-    {/* <Menu.ResourceItems /> */}
+    <Menu.ResourceItems />
     <Menu.Item
       to="/translations"
       primaryText="Translations"

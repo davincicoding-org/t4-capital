@@ -18,14 +18,8 @@ export const Hero = forwardRef<
   return (
     <section
       ref={ref}
-      style={{
-        backgroundSize: "750px, cover",
-        background:
-          "url(/images/noise.svg), linear-gradient(to top, var(--tw-gradient-stops))",
-      }}
       className={cn(
-        "grid min-h-screen grid-rows-2 overflow-x-hidden",
-        "from-[#2fd7fc] to-[#e4f9fe] bg-fixed shadow-lg",
+        "bg-gradient grid min-h-screen grid-rows-2 overflow-x-hidden bg-cover bg-fixed shadow-lg",
         className,
       )}
     >

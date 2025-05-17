@@ -29,6 +29,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
 const font = Font({
   subsets: ["latin"],
+  variable: "--font-sans",
 });
 
 const monoFont = MonoFont({
@@ -39,6 +40,8 @@ const monoFont = MonoFont({
 
 const theme = createTheme({
   black: "#08202D",
+  fontFamily: font.style.fontFamily,
+  fontFamilyMonospace: monoFont.style.fontFamily,
   colors: {
     accent: [
       "#e8f8ff",
@@ -62,7 +65,7 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const messages = await getMessages();
   return (
-    <html lang="en" className={cn(font.className, monoFont.variable)}>
+    <html lang="en" className={cn(font.variable, monoFont.variable)}>
       <body className="flex min-h-dvh flex-col overscroll-y-none">
         <MantineProvider theme={theme}>
           <LazyMotion features={domAnimation}>

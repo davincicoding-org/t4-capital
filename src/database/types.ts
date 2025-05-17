@@ -1,4 +1,4 @@
-import type { product } from "./schema";
+import type { strategy, teamMember } from "./schema";
 
-export type Product = typeof product.$inferSelect;
-export type ProductInsert = typeof product.$inferInsert;
+export type Strategy = typeof strategy.$inferSelect;
+export type TeamMember = typeof teamMember.$inferSelect;

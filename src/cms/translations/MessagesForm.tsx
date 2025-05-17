@@ -140,13 +140,13 @@ export function MessagesTree({
             <Accordion
               variant="outlined"
               className={cn({
-                "[&:not(.Mui-expanded)]:!border-red-500": hasErrors,
+                "[&:not(.Mui-expanded)]:border-red-500!": hasErrors,
               })}
             >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 className={cn({
-                  "[&:not(.Mui-expanded)]:!text-red-500": hasErrors,
+                  "[&:not(.Mui-expanded)]:text-red-500!": hasErrors,
                 })}
                 sx={{
                   "&.MuiAccordionSummary-root": {
@@ -160,7 +160,7 @@ export function MessagesTree({
               >
                 <b>{key}</b>
               </AccordionSummary>
-              <AccordionDetails className="!pt-0">
+              <AccordionDetails className="pt-0!">
                 {isMessageConfig(config) ? (
                   <div className={cn("flex gap-4")}>
                     {locales.map((locale) => (
@@ -227,13 +227,13 @@ function MessageField({
         variant="outlined"
         component="fieldset"
         className={cn("p-3 pt-0", {
-          "!border-red-500": error,
+          "border-red-500!": error,
         })}
       >
         <legend>
           <InputLabel
-            className={cn("!px-1 !text-xs", {
-              "!text-red-500": error,
+            className={cn("px-1! text-xs!", {
+              "text-red-500!": error,
             })}
           >
             {label}

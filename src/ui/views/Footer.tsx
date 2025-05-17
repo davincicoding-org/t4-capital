@@ -7,7 +7,6 @@ import { Anchor, Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslations } from "next-intl";
 
-import { SECTION_IDS } from "@/const";
 import { cn } from "@/ui/utils";
 
 import { NewsletterForm } from "./NewsletterForm";
@@ -18,9 +17,9 @@ export function Footer({ className, ...attrs }: HTMLAttributes<HTMLElement>) {
   return (
     <footer
       className={cn(
-        "relative bg-image-gradient bg-fixed text-black",
-        "grid grid-cols-[1fr_auto] gap-6 px-4 pb-12 pt-8",
-        "md:grid-cols-[120px_auto_1fr] md:gap-y-[120px] md:px-8 md:pb-16 md:pt-20",
+        "bg-gradient relative bg-fixed text-black",
+        "grid grid-cols-[1fr_auto] gap-6 px-4 pt-8 pb-12",
+        "md:grid-cols-[120px_auto_1fr] md:gap-y-[120px] md:px-8 md:pt-20 md:pb-16",
         "md:px-16 md:pb-16 lg:grid-cols-[220px_auto_1fr]",
         "xl:grid-cols-[300px_auto_1fr]",
         className,
@@ -30,7 +29,7 @@ export function Footer({ className, ...attrs }: HTMLAttributes<HTMLElement>) {
       }}
       {...attrs}
     >
-      <Link href={`#${SECTION_IDS.HERO}`} className={cn("md:order-1")}>
+      <Link href="/" className={cn("md:order-1")}>
         <Image
           width={60}
           height={30}
@@ -115,7 +114,7 @@ export function Footer({ className, ...attrs }: HTMLAttributes<HTMLElement>) {
         </div>
       </div>
 
-      <span className={cn("col-span-2 text-gray-69 md:order-4 md:col-span-3")}>
+      <span className={cn("text-gray-69 col-span-2 md:order-4 md:col-span-3")}>
         {t("footer.copyright")}
       </span>
     </footer>

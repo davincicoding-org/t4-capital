@@ -1,21 +1,19 @@
 import { pgEnum, pgTable } from "drizzle-orm/pg-core";
 
-const gradient = pgEnum("gradient", ["blue", "pink", "yellow"]);
+export const colorEnum = pgEnum("color", ["blue", "pink", "yellow"]);
 
-export const product = pgTable(
-  "product",
+export const strategy = pgTable(
+  "strategy",
   (d) => ({
     id: d.uuid().primaryKey().defaultRandom(),
     title: d.text().notNull().unique(),
-    description: d.jsonb().$type<Record<string, string>>(),
+    description: d.jsonb().$type<Record<"en", string>>().notNull(),
     launchDate: d.date().notNull(),
     video: d.text(),
-    // TODO replac with image url
-    gradient: gradient().notNull(),
-    docs: d.jsonb().$type<{
-      title: Record<string, string>;
-      url: string;
-    }>(),
+    order: d.integer().notNull(),
+    color: colorEnum().notNull(),
+    deck: d.text().notNull(),
+
     // docs
   }),
   // (t) => [index("name_idx").on(t.name)],
@@ -36,15 +34,16 @@ export const security = pgTable(
   "security",
   (d) => ({
     isin: d.text().primaryKey(),
-    productId: d.uuid().references(() => product.id, {}),
+    password: d.text().notNull(),
+    strategyId: d.uuid().references(() => strategy.id, {}),
   }),
   // (t) => [index("name_idx").on(t.name)],
 );
 
 export const securityPrice = pgTable(
-  "security",
+  "security_price",
   (d) => ({
-    securityId: d.uuid().references(() => security.isin, {}),
+    securityId: d.text().references(() => security.isin, {}),
     date: d.date().notNull(),
     price: d.integer().notNull(),
   }),

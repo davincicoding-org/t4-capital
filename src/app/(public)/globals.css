@@ -1,13 +1,65 @@
-@import "@mantine/core/styles.css";
+@import "@mantine/core/styles.css" layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-black: #08202d;
+  --color-primary: #cbe5f4;
+  --color-primary-foreground: #000;
+
+  --color-dark: #3c4460;
+
+  --color-gray-69: #696969;
+  --color-gray-AC: #acacac;
+
+  --font-mono: var(--font-mono);
+
+  --background-image-gradient:
+    url(/images/noise.svg), url("/images/gradient.webp");
+
+  --background-image-noise: url(/images/noise.svg);
+
+  --radius-lg: 0.5rem;
+  --radius-md: calc(0.5rem - 2px);
+  --radius-sm: calc(0.5rem - 4px);
+
+  --width-max: 1224px;
+}
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @media (width >= --theme(--breakpoint-sm)) {
+    max-width: none;
+  }
+  @media (width >= 1224px) {
+    max-width: 1224px;
+  }
+}
 
 @theme {
   --font-sans:
     var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
 }
 
 @layer base {

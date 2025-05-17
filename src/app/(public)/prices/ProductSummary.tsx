@@ -128,7 +128,7 @@ function ReturnsSummary({ data }: { data: Array<YearlyReturnType> }) {
           <Table>
             <Table.Thead>
               <Table.Tr>
-                <Table.Th className="sticky left-0 backdrop-blur">
+                <Table.Th className="sticky left-0 backdrop-blur-sm">
                   Year
                 </Table.Th>
                 <Table.Th className="text-center">JAN</Table.Th>
@@ -149,7 +149,7 @@ function ReturnsSummary({ data }: { data: Array<YearlyReturnType> }) {
             <Table.Tbody>
               {data.map(({ year, months, overall }) => (
                 <Table.Tr key={year}>
-                  <Table.Td className="sticky left-0 font-medium backdrop-blur">
+                  <Table.Td className="sticky left-0 font-medium backdrop-blur-sm">
                     {year}
                   </Table.Td>
                   {months.map((value, index) => (

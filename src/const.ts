@@ -1,10 +1,12 @@
-
 export const SECTION_IDS = {
   HERO: "",
   STRATEGY: "strategy",
   ABOUT: "about",
 };
 
+/**
+ * @deprecated load from database
+ */
 export const CORE_TEAM: {
   name: string;
   linkedIn: string;
@@ -29,6 +31,9 @@ export const CORE_TEAM: {
 
 export type KProduct = keyof typeof PRODUCTS;
 
+/**
+ * @deprecated load from database
+ */
 export const PRODUCTS = {
   ALT: {
     launchDate: "2023/02/01",
