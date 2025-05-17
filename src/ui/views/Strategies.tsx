@@ -42,6 +42,7 @@ export async function Strategies({
             launchDate={strategy.launchDate}
             image={`/gradients/${strategy.color}.webp`}
             presentationUrl={strategy.deck}
+            video={strategy.video}
           />
         ))}
       </div>

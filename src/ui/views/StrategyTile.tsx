@@ -20,7 +20,7 @@ export interface IStrategyTileProps {
   subtitle: string;
   launchDate: string;
   image: string;
-  video?: string;
+  video?: string | null;
   presentationUrl?: string;
   className?: string;
 }
