@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Anchor, Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { IconBrandLinkedinFilled } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 
 import type { NewsletterHandler } from "@/services/newsletter";
@@ -39,12 +40,7 @@ export function Footer({
       {...attrs}
     >
       <Link href="/" className={cn("md:order-1")}>
-        <Image
-          width={60}
-          height={30}
-          alt="T4 Logo"
-          src="/images/logo-inline.svg"
-        />
+        <Image width={60} height={30} alt="T4 Logo" src="/images/logo.svg" />
       </Link>
 
       <div
@@ -58,14 +54,7 @@ export function Footer({
           component={Link}
           href="https://www.linkedin.com/company/t4-capital"
           target="_blank"
-          leftSection={
-            <Image
-              height={24}
-              width={24}
-              alt="LinkedIn Logo"
-              src="/images/linkedin-logo.svg"
-            />
-          }
+          leftSection={<IconBrandLinkedinFilled size={24} />}
         >
           {t("footer.cta.follow")}
         </Button>

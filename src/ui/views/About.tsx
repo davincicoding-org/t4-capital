@@ -2,6 +2,7 @@ import type { HTMLAttributes } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ActionIcon } from "@mantine/core";
+import { IconBrandLinkedinFilled } from "@tabler/icons-react";
 import { getTranslations } from "next-intl/server";
 
 import type { TeamMember } from "@/database/types";
@@ -10,7 +11,7 @@ import { cn } from "@/ui/utils";
 function Logo() {
   return (
     <Image
-      src="/images/logo-inline.svg"
+      src="/images/logo.svg"
       alt="T4 Logo"
       className={cn("inline h-8 w-8 md:h-14 md:w-14")}
       width={56}
@@ -80,12 +81,7 @@ export async function About({
                 href={member.linkedInUrl}
                 target="_blank"
               >
-                <Image
-                  src="/images/linkedin-logo.svg"
-                  alt="LinkedIn logo"
-                  width={24}
-                  height={24}
-                />
+                <IconBrandLinkedinFilled size={32} />
               </ActionIcon>
             </div>
           ))}

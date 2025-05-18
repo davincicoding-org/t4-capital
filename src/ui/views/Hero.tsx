@@ -15,9 +15,9 @@ export function Hero({ className }: { className?: string }) {
 
   return (
     <BackgroundGradientAnimation
-      secondColor="72,155,199"
+      fifthColor="72,155,199"
       fourthColor="163,121,223"
-      fifthColor="73,155,197"
+      secondColor="73,155,197"
       pointerColor="189,241,252"
       size="300%"
     >

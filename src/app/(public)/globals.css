@@ -19,7 +19,7 @@
   --background-image-noise: url(/images/noise.svg);
 
   --background-image-gradient:
-    var(--background-image-noise), url("/images/gradient.webp");
+    var(--background-image-noise), url("/gradients/default.webp");
 
   --radius-lg: 0.5rem;
   --radius-md: calc(0.5rem - 2px);
