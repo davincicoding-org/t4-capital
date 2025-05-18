@@ -6,13 +6,17 @@ import {
   Azeret_Mono as MonoFont,
 } from "next/font/google";
 import { createTheme, MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 import { Analytics } from "@vercel/analytics/react";
 import { domAnimation, LazyMotion } from "motion/react";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 
+import { subscribeToNewsletter } from "@/services/newsletter";
 import { cn } from "@/ui/utils";
 import { Footer } from "@/ui/views";
+
+import { QueryClientProvider } from "./query-client";
 
 // MARK: Metadata
 export const generateMetadata = async (): Promise<Metadata> => {
@@ -70,12 +74,13 @@ export default async function RootLayout({
         <MantineProvider theme={theme}>
           <LazyMotion features={domAnimation}>
             <NextIntlClientProvider messages={messages}>
-              <>
+              <QueryClientProvider>
                 {children}
-                <Footer />
-              </>
+                <Footer newsletterHandler={subscribeToNewsletter} />
+              </QueryClientProvider>
             </NextIntlClientProvider>
           </LazyMotion>
+          <Notifications />
         </MantineProvider>
       </body>
       <Analytics />

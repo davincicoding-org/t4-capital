@@ -7,11 +7,20 @@ import { Anchor, Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useTranslations } from "next-intl";
 
+import type { NewsletterHandler } from "@/services/newsletter";
 import { cn } from "@/ui/utils";
 
 import { NewsletterForm } from "./NewsletterForm";
 
-export function Footer({ className, ...attrs }: HTMLAttributes<HTMLElement>) {
+interface IFooterProps {
+  newsletterHandler: NewsletterHandler;
+}
+
+export function Footer({
+  newsletterHandler,
+  className,
+  ...attrs
+}: IFooterProps & HTMLAttributes<HTMLElement>) {
   const t = useTranslations();
   const [isNewsletterOpen, newsletter] = useDisclosure();
   return (
@@ -69,7 +78,11 @@ export function Footer({ className, ...attrs }: HTMLAttributes<HTMLElement>) {
           {t("footer.cta.newsletter")}
         </Button>
 
-        <NewsletterForm open={isNewsletterOpen} onClose={newsletter.close} />
+        <NewsletterForm
+          handler={newsletterHandler}
+          open={isNewsletterOpen}
+          onClose={newsletter.close}
+        />
       </div>
 
       <div

@@ -1,0 +1,34 @@
+export interface PricePoint {
+  date: string;
+  price: number;
+}
+
+export interface YearlyReturn {
+  year: number;
+  months: [
+    jan: number | null,
+    feb: number | null,
+    mar: number | null,
+    apr: number | null,
+    may: number | null,
+    jun: number | null,
+    jul: number | null,
+    aug: number | null,
+    sep: number | null,
+    oct: number | null,
+    nov: number | null,
+    dec: number | null,
+  ];
+  overall: number | null;
+}
+
+export interface SecurityData {
+  prices: PricePoint[];
+  returns: YearlyReturn[];
+}
+
+export interface SecurityPerformance {
+  ITD: number | null;
+  YTD: number | null;
+  MTD: number | null;
+}

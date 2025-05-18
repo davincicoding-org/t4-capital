@@ -2,12 +2,17 @@
 
 import { revalidateTag } from "next/cache";
 
+import type { Security } from "@/database/types";
 import { db } from "@/database";
+import { fetchSecurityPrices } from "@/services/price-data";
+import { computeSecurityPerformance } from "@/utils/computeSecurityPerformance";
 
 import type { CacheTag } from "./cache";
 import { cachedRequest } from "./cache";
 
-// MARK request
+export const revalidateCache = async (tag: CacheTag) => revalidateTag(tag);
+
+// MARK: Requests
 
 export const fetchStrategies = cachedRequest(async () => {
   const strategies = await db.query.strategy.findMany({
@@ -23,4 +28,40 @@ export const fetchTeamMembers = cachedRequest(async () => {
   return teamMembers;
 }, ["cms", "team-members"]);
 
-export const revalidateCache = async (tag: CacheTag) => revalidateTag(tag);
+export const fetchSecurityByPassword = cachedRequest(
+  async (password: Security["password"]) => {
+    const [security] = await db.query.security.findMany({
+      where: (security, { eq }) => eq(security.password, password),
+      columns: {
+        isin: true,
+        name: true,
+      },
+      with: {
+        strategy: {
+          columns: {
+            title: true,
+            launchDate: true,
+            color: true,
+          },
+        },
+      },
+    });
+    return security;
+  },
+  ["cms", "securities"],
+);
+
+export const fetchSecurityData = cachedRequest(
+  async (security: Security["name"]) => {
+    const { prices, returns } = await fetchSecurityPrices(security);
+
+    const performance = computeSecurityPerformance(prices);
+
+    return {
+      prices,
+      returns,
+      performance,
+    };
+  },
+  // ["cms", "securities"],
+);

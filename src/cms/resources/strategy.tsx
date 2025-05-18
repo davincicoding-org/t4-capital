@@ -16,7 +16,7 @@ import { colorEnum } from "@/database/schema";
 
 export const StrategyList = () => (
   <List sort={{ field: "order", order: "ASC" }}>
-    <Datagrid>
+    <Datagrid bulkActionButtons={false}>
       <TextField source="title" />
       <TextField source="launch_date" />
     </Datagrid>
@@ -24,7 +24,7 @@ export const StrategyList = () => (
 );
 
 export const StrategyCreate = () => (
-  <Create>
+  <Create redirect="list">
     <SimpleForm>
       <TextInput
         source="title"
@@ -76,7 +76,7 @@ export const StrategyCreate = () => (
 );
 
 export const StrategyEdit = () => (
-  <Edit>
+  <Edit redirect="list">
     <SimpleForm>
       <TextInput
         source="title"

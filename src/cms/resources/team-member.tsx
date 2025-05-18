@@ -12,14 +12,14 @@ import {
 
 export const TeamMemberList = () => (
   <List sort={{ field: "order", order: "ASC" }}>
-    <Datagrid>
+    <Datagrid bulkActionButtons={false}>
       <TextField source="name" />
     </Datagrid>
   </List>
 );
 
 export const TeamMemberCreate = () => (
-  <Create>
+  <Create redirect="list">
     <SimpleForm>
       <TextInput
         source="name"
@@ -45,7 +45,7 @@ export const TeamMemberCreate = () => (
 );
 
 export const TeamMemberEdit = () => (
-  <Edit>
+  <Edit redirect="list">
     <SimpleForm>
       <TextInput
         source="name"
