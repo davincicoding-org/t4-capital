@@ -1,6 +1,7 @@
 "use client";
 
 import GroupsIcon from "@mui/icons-material/GroupsOutlined";
+import RequestQuote from "@mui/icons-material/RequestQuoteOutlined";
 import StarIcon from "@mui/icons-material/StarOutline";
 import {
   LoginPage,
@@ -22,6 +23,11 @@ import { fetchMessages, saveMessages } from "@/server/messages";
 import { supabaseClient } from "@/server/supabase";
 
 import { CustomLayout } from "./CustomLayout";
+import {
+  SecurityCreate,
+  SecurityEdit,
+  SecurityList,
+} from "./resources/security";
 import {
   StrategyCreate,
   StrategyEdit,
@@ -115,6 +121,15 @@ export default function AdminApp() {
         create={StrategyCreate}
         list={StrategyList}
         edit={StrategyEdit}
+      />
+      <Resource
+        name="security"
+        recordRepresentation="isin"
+        options={{ label: "Securities" }}
+        icon={RequestQuote}
+        create={SecurityCreate}
+        list={SecurityList}
+        edit={SecurityEdit}
       />
     </Admin>
   );

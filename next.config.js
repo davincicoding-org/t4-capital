@@ -3,6 +3,7 @@
  * for Docker builds.
  */
 import "./src/env.js";
+
 import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin();
@@ -15,6 +16,8 @@ const config = {
   experimental: {
     optimizePackageImports: [
       "@mantine/core",
+      "@mantine/notifications",
+      "@mantine/charts",
       "@mantine/hooks",
       "framer-motion",
       "googleapis",

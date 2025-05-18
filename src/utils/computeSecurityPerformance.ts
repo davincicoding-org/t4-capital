@@ -1,19 +1,19 @@
 import dayjs, { extend } from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-import type { PricePointType, ProductStatsType } from "../schema";
+import type { PricePoint, SecurityPerformance } from "@/ui/types";
 
 extend(relativeTime);
 
-export function calculatePriceStats(
-  prices: PricePointType[],
-): ProductStatsType {
+export function computeSecurityPerformance(
+  prices: PricePoint[],
+): SecurityPerformance {
   const firstPrice = prices[0];
   const lastPrice = prices[prices.length - 1];
 
   if (!prices.length || !firstPrice || !lastPrice) {
     return {
-      inception: null,
+      // inception: null,
       ITD: null,
       YTD: null,
       MTD: null,
@@ -23,7 +23,7 @@ export function calculatePriceStats(
   const lastPriceValue = lastPrice.price;
 
   // Calculate inception date
-  const inception = dayjs(firstPrice.date, "DD.MM.YYYY").fromNow(true);
+  // const inception = dayjs(firstPrice.date, "DD.MM.YYYY").fromNow(true);
 
   // Calculate ITD return
   const ITD = ((lastPriceValue - firstPrice.price) / firstPrice.price) * 100;
@@ -65,7 +65,7 @@ export function calculatePriceStats(
   })();
 
   return {
-    inception,
+    // inception,
     ITD,
     YTD,
     MTD,
