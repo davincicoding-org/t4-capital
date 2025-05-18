@@ -17,9 +17,11 @@ export type INewsletterSubscriptionOutput =
       error?: string;
     };
 
-export const subscribeToNewsletter = async (
+export type NewsletterHandler = (
   formData: INewsletterSubscriptionInput,
-): Promise<INewsletterSubscriptionOutput> => {
+) => Promise<INewsletterSubscriptionOutput>;
+
+export const subscribeToNewsletter: NewsletterHandler = async (formData) => {
   const apiKey = env.MAILCHIMP_APIKEY;
   const audienceId = env.NEWSLETTER_AUDIENCE_ID;
   const dataCenter = apiKey.split("-")[1]!;

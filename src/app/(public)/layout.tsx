@@ -12,6 +12,7 @@ import { domAnimation, LazyMotion } from "motion/react";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 
+import { subscribeToNewsletter } from "@/services/newsletter";
 import { cn } from "@/ui/utils";
 import { Footer } from "@/ui/views";
 
@@ -75,7 +76,7 @@ export default async function RootLayout({
             <NextIntlClientProvider messages={messages}>
               <QueryClientProvider>
                 {children}
-                <Footer />
+                <Footer newsletterHandler={subscribeToNewsletter} />
               </QueryClientProvider>
             </NextIntlClientProvider>
           </LazyMotion>

@@ -4,8 +4,10 @@ import { useForm } from "@tanstack/react-form";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
 
-import type { INewsletterSubscriptionOutput } from "@/services/mailchimp";
-import { subscribeToNewsletter } from "@/services/mailchimp";
+import type {
+  INewsletterSubscriptionOutput,
+  NewsletterHandler,
+} from "@/services/newsletter";
 import { cn } from "@/ui/utils";
 
 const formSchema = z.object({
@@ -15,11 +17,16 @@ const formSchema = z.object({
 });
 
 export interface INewsletterFormProps {
+  handler: NewsletterHandler;
   open: boolean;
   onClose: () => void;
 }
 
-export function NewsletterForm({ open, onClose }: INewsletterFormProps) {
+export function NewsletterForm({
+  handler,
+  open,
+  onClose,
+}: INewsletterFormProps) {
   const t = useTranslations("newsletter");
   const [submission, setSubmission] = useState<INewsletterSubscriptionOutput>();
   const form = useForm({
@@ -32,7 +39,7 @@ export function NewsletterForm({ open, onClose }: INewsletterFormProps) {
       onChange: formSchema,
     },
     onSubmit: async ({ value }) => {
-      const response = await subscribeToNewsletter(value);
+      const response = await handler(value);
       setSubmission(response);
     },
   });
@@ -60,7 +67,7 @@ export function NewsletterForm({ open, onClose }: INewsletterFormProps) {
           title={submission.error ?? t("error")}
         />
       )}
-      <p className="mb-4 text-balance text-center">{t("description")}</p>
+      <p className="mb-4 text-center text-balance">{t("description")}</p>
       <form
         onSubmit={(e) => {
           e.preventDefault();

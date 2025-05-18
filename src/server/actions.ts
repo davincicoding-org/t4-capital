@@ -4,7 +4,7 @@ import { revalidateTag } from "next/cache";
 
 import type { Security } from "@/database/types";
 import { db } from "@/database";
-import { fetchSecurityPrices } from "@/services/sheet";
+import { fetchSecurityPrices } from "@/services/price-data";
 import { computeSecurityPerformance } from "@/utils/computeSecurityPerformance";
 
 import type { CacheTag } from "./cache";

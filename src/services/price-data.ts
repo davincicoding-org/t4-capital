@@ -7,7 +7,7 @@ import { groupBy } from "lodash-es";
 import { z } from "zod";
 
 import type { SecurityData, YearlyReturn } from "@/ui/types";
-import { getGoogleClient } from "@/services/googleapi";
+import { env } from "@/env";
 
 extend(customParseFormat);
 
@@ -59,9 +59,21 @@ const ReturnsDataSchema = TableDataSchema.transform(
 export async function fetchSecurityPrices(
   securityId: string,
 ): Promise<SecurityData> {
+  const authClient = await google.auth.getClient({
+    credentials: {
+      type: "service_account",
+      project_id: env.GOOGLE_CLOUD_PROJECT_ID,
+      private_key_id: env.GOOGLE_CLOUD_PRIVATE_KEY_ID,
+      private_key: env.GOOGLE_CLOUD_PRIVATE_KEY,
+      client_email: env.GOOGLE_CLOUD_CLIENT_EMAIL,
+      client_id: env.GOOGLE_CLOUD_CLIENT_ID,
+      universe_domain: "googleapis.com",
+    },
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  });
   const glSheets = google.sheets({
     version: "v4",
-    auth: await getGoogleClient(),
+    auth: authClient,
   });
 
   const [pricesData, monthlyReturnsData, yearlyReturnsData] = await Promise.all(
