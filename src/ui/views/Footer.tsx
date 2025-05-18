@@ -24,101 +24,87 @@ export function Footer({
 }: IFooterProps & HTMLAttributes<HTMLElement>) {
   const t = useTranslations();
   const [isNewsletterOpen, newsletter] = useDisclosure();
+
   return (
     <footer
-      className={cn(
-        "bg-gradient relative bg-fixed text-black",
-        "grid grid-cols-[1fr_auto] gap-6 px-4 pt-8 pb-12",
-        "md:grid-cols-[120px_auto_1fr] md:gap-y-[120px] md:px-8 md:pt-20 md:pb-16",
-        "md:px-16 md:pb-16 lg:grid-cols-[220px_auto_1fr]",
-        "xl:grid-cols-[300px_auto_1fr]",
-        className,
-      )}
-      style={{
-        backgroundSize: "750px, cover",
-      }}
+      className={cn("bg-gradient border-t bg-cover p-4 sm:p-8", className)}
       {...attrs}
     >
-      <Link href="/" className={cn("md:order-1")}>
-        <Image width={60} height={30} alt="T4 Logo" src="/images/logo.svg" />
-      </Link>
-
-      <div
-        className={cn("grid content-start gap-2 justify-self-end md:order-3")}
-      >
-        <Button
-          classNames={{ inner: "justify-start" }}
-          color="black"
-          variant="outline"
-          radius="xl"
-          component={Link}
-          href="https://www.linkedin.com/company/t4-capital"
-          target="_blank"
-          leftSection={<IconBrandLinkedinFilled size={24} />}
-        >
-          {t("footer.cta.follow")}
-        </Button>
-        <Button
-          color="black"
-          variant="outline"
-          radius="xl"
-          onClick={newsletter.open}
-        >
-          {t("footer.cta.newsletter")}
-        </Button>
-
-        <NewsletterForm
-          handler={newsletterHandler}
-          open={isNewsletterOpen}
-          onClose={newsletter.close}
-        />
-      </div>
-
-      <div
-        className={cn(
-          "col-span-2 grid grid-cols-2 gap-10",
-          "md:order-2 md:col-span-1 md:w-full md:max-w-[1224px]",
-          "lg:gap-20",
-          "xl:gap-44",
-        )}
-      >
-        <div className={cn("grid h-fit gap-y-4")}>
-          <span className="text-gray-69">{t("footer.contact")}</span>
-          <div className={cn("grid gap-y-2")}>
-            <p>
-              T4 Capital AG
-              <br />
-              Stutzstrasse 7<br />
-              8834 Schindellegi
-            </p>
-            <Anchor
-              component={Link}
-              c="black"
-              href={`mailto:info@t4-capital.ch`}
-              target="_blank"
-            >
-              info@t4-capital.ch
-            </Anchor>
-          </div>
+      <div className="flex flex-wrap items-center gap-6 sm:basis-[180px]">
+        <div className="mr-auto grid gap-3">
+          <Link href="/">
+            <Image
+              width={80}
+              height={40}
+              alt="T4 Logo"
+              src="/images/logo.svg"
+            />
+          </Link>
+          <span className={cn("opacity-70")}>{t("footer.copyright")}</span>
         </div>
-        <div className={cn("grid h-fit gap-y-4")}>
-          <span className="text-gray-69" translate="no">
-            T4 Capital
-          </span>
-          <div className={cn("grid")}>
-            <Anchor c="black" component={Link} href="/imprint" target="_blank">
-              {t("imprint.title")}
-            </Anchor>
-            <Anchor c="black" component={Link} href="/privacy" target="_blank">
-              {t("privacy.title")}
-            </Anchor>
-          </div>
+
+        <div className="flex gap-x-4 text-right opacity-70 max-sm:flex-col">
+          <Anchor
+            component={Link}
+            fz={{ base: 16, sm: 20 }}
+            c="black"
+            href={`mailto:info@t4-capital.ch`}
+            target="_blank"
+          >
+            Contact
+          </Anchor>
+
+          <Anchor
+            component={Link}
+            fz={{ base: 16, sm: 20 }}
+            c="black"
+            href="/imprint"
+            target="_blank"
+          >
+            {t("imprint.title")}
+          </Anchor>
+          <Anchor
+            component={Link}
+            fz={{ base: 16, sm: 20 }}
+            c="black"
+            href="/privacy"
+            target="_blank"
+          >
+            {t("privacy.title")}
+          </Anchor>
+        </div>
+
+        <div className="ml-auto flex flex-wrap gap-2 max-sm:basis-full max-sm:justify-evenly sm:basis-[180px] sm:justify-end">
+          <Button
+            classNames={{
+              root: cn("pl-2"),
+            }}
+            color="black"
+            variant="outline"
+            radius="xl"
+            component={Link}
+            href="https://www.linkedin.com/company/t4-capital"
+            target="_blank"
+            leftSection={<IconBrandLinkedinFilled size={24} />}
+          >
+            {t("footer.cta.follow")}
+          </Button>
+          <Button
+            color="black"
+            variant="outline"
+            radius="xl"
+            onClick={newsletter.open}
+          >
+            {t("footer.cta.newsletter")}
+          </Button>
+
+          <NewsletterForm
+            handler={newsletterHandler}
+            open={isNewsletterOpen}
+            onClose={newsletter.close}
+          />
         </div>
       </div>
-
-      <span className={cn("text-gray-69 col-span-2 md:order-4 md:col-span-3")}>
-        {t("footer.copyright")}
-      </span>
     </footer>
   );
 }

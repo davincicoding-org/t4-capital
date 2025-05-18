@@ -75,13 +75,16 @@ export async function About({
                 variant="subtle"
                 radius="xl"
                 size="xl"
-                color="accent"
-                className={cn("aspect-square justify-center px-0")}
+                color="gray"
+                className={cn("group")}
                 component={Link}
                 href={member.linkedInUrl}
                 target="_blank"
               >
-                <IconBrandLinkedinFilled size={32} />
+                <IconBrandLinkedinFilled
+                  size={32}
+                  className="transition-colors group-hover:fill-[#0072b1]"
+                />
               </ActionIcon>
             </div>
           ))}
