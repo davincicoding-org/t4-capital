@@ -45,58 +45,50 @@ export async function About({
         </div>
       </div>
 
-      <div className="grid gap-6">
-        <span className="text-xl font-medium uppercase max-sm:text-lg">
-          {t("team")}
-        </span>
+      <div
+        className={cn(
+          "bg-noise mx-auto grid max-w-4xl overflow-clip rounded-2xl bg-black/5 shadow-sm",
+        )}
+      >
+        <Image
+          width="4032"
+          height="2688"
+          className={cn("h-auto w-full rounded-2xl shadow-sm")}
+          src="/images/team.webp"
+          alt="Team Photo"
+        />
         <div
           className={cn(
-            "bg-noise grid overflow-clip rounded-2xl bg-black/5 shadow-sm",
+            "flex justify-evenly gap-3 overflow-x-auto overscroll-x-contain px-3 pt-3 pb-1 md:p-6 md:pb-3",
           )}
-          style={{
-            backgroundSize: "750px, cover",
-          }}
         >
-          <Image
-            width="4032"
-            height="2688"
-            className={cn("h-auto w-full rounded-2xl shadow-lg")}
-            src="/images/team.webp"
-            alt="Team Photo"
-          />
-          <div
-            className={cn(
-              "flex justify-evenly gap-3 overflow-x-auto overscroll-x-contain px-3 pt-3 pb-1 md:p-6 md:pb-3",
-            )}
-          >
-            {teamMembers.map((member) => (
-              <div
-                key={member.name}
-                className={cn("grid justify-items-center text-center")}
+          {teamMembers.map((member) => (
+            <div
+              key={member.name}
+              className={cn("grid justify-items-center text-center")}
+            >
+              <span className={cn("text-lg max-sm:hidden md:text-2xl")}>
+                {member.name}
+              </span>
+              <ActionIcon
+                variant="subtle"
+                radius="xl"
+                size="xl"
+                color="accent"
+                className={cn("aspect-square justify-center px-0")}
+                component={Link}
+                href={member.linkedInUrl}
+                target="_blank"
               >
-                <span className={cn("text-lg max-sm:hidden md:text-2xl")}>
-                  {member.name}
-                </span>
-                <ActionIcon
-                  variant="subtle"
-                  radius="xl"
-                  size="xl"
-                  color="accent"
-                  className={cn("aspect-square justify-center px-0")}
-                  component={Link}
-                  href={member.linkedInUrl}
-                  target="_blank"
-                >
-                  <Image
-                    src="/images/linkedin-logo.svg"
-                    alt="LinkedIn logo"
-                    width={24}
-                    height={24}
-                  />
-                </ActionIcon>
-              </div>
-            ))}
-          </div>
+                <Image
+                  src="/images/linkedin-logo.svg"
+                  alt="LinkedIn logo"
+                  width={24}
+                  height={24}
+                />
+              </ActionIcon>
+            </div>
+          ))}
         </div>
       </div>
     </section>
