@@ -3,6 +3,7 @@
 import GroupsIcon from "@mui/icons-material/GroupsOutlined";
 import RequestQuote from "@mui/icons-material/RequestQuoteOutlined";
 import StarIcon from "@mui/icons-material/StarOutline";
+import { TranslationsRoute } from "ra-messages";
 import {
   LoginPage,
   supabaseAuthProvider,
@@ -38,7 +39,6 @@ import {
   TeamMemberEdit,
   TeamMemberList,
 } from "./resources/team-member";
-import { TranslationsRoute } from "./translations/TranslationsRoute";
 
 const authProvider = supabaseAuthProvider(supabaseClient, {});
 
@@ -98,10 +98,8 @@ export default function AdminApp() {
               schema={MESSAGES_SCHEMA}
               locales={SUPPORTED_LOCALES}
               fetchMessages={fetchMessages}
-              saveMessages={async (locale, messages) => {
-                await saveMessages(locale, messages);
-                await revalidateCache("messages");
-              }}
+              saveMessages={saveMessages}
+              onSaved={() => revalidateCache("messages")}
             />
           }
         />

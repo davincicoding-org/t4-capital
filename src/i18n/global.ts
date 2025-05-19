@@ -1,5 +1,6 @@
+import type { ResolvedMessagesSchema } from "ra-messages";
+
 import type { MESSAGES_SCHEMA, SUPPORTED_LOCALES } from "./config";
-import type { ResolvedMessagesSchema } from "./types";
 
 declare module "next-intl" {
   interface AppConfig {
