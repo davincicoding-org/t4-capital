@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from "react";
-import TranslateIcon from "@mui/icons-material/Translate";
 import { Divider, Typography } from "@mui/material";
+import { IconLanguage } from "@tabler/icons-react";
 import { Layout, Menu, useSidebarState } from "react-admin";
 
 const MenuDivider = ({ label }: { label?: string }) => {
@@ -21,7 +21,7 @@ const CustomMenu = () => (
     <Menu.Item
       to="/translations"
       primaryText="Translations"
-      leftIcon={<TranslateIcon />}
+      leftIcon={<IconLanguage />}
     />
     <MenuDivider label="Products" />
     <Menu.ResourceItem name="strategy" />

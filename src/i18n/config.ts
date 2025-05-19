@@ -1,8 +1,8 @@
-import { configureMessagesSchema } from "ra-messages";
+import type { MessagesSchema } from "ra-messages";
 
 export const SUPPORTED_LOCALES: [string, ...string[]] = ["en"];
 
-export const MESSAGES_SCHEMA = configureMessagesSchema({
+export const MESSAGES_SCHEMA = {
   meta: {
     title: "short",
     description: "long",
@@ -54,4 +54,4 @@ export const MESSAGES_SCHEMA = configureMessagesSchema({
     title: "short",
     content: "rich",
   },
-});
+} satisfies MessagesSchema;

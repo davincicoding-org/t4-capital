@@ -1,9 +1,7 @@
 "use client";
 
-import GroupsIcon from "@mui/icons-material/GroupsOutlined";
-import RequestQuote from "@mui/icons-material/RequestQuoteOutlined";
-import StarIcon from "@mui/icons-material/StarOutline";
-import { TranslationsRoute } from "ra-messages";
+import { IconCoin, IconStar, IconUsersGroup } from "@tabler/icons-react";
+import { TranslationsEditor } from "ra-messages";
 import {
   LoginPage,
   supabaseAuthProvider,
@@ -13,6 +11,8 @@ import {
   Admin,
   CustomRoutes,
   Resource,
+  Title,
+  useNotify,
   withLifecycleCallbacks,
 } from "react-admin";
 import { Route } from "react-router-dom";
@@ -83,6 +83,7 @@ const dataProvider = withLifecycleCallbacks(
 );
 
 export default function AdminApp() {
+  const notify = useNotify();
   return (
     <Admin
       dataProvider={dataProvider}
@@ -94,20 +95,26 @@ export default function AdminApp() {
         <Route
           path="/translations"
           element={
-            <TranslationsRoute
-              schema={MESSAGES_SCHEMA}
-              locales={SUPPORTED_LOCALES}
-              fetchMessages={fetchMessages}
-              saveMessages={saveMessages}
-              onSaved={() => revalidateCache("messages")}
-            />
+            <>
+              <Title title="Translations" />
+              <TranslationsEditor
+                schema={MESSAGES_SCHEMA}
+                locales={SUPPORTED_LOCALES}
+                fetchMessages={fetchMessages}
+                saveMessages={saveMessages}
+                onSaved={() => {
+                  notify("Translations saved", { type: "success" });
+                  void revalidateCache("messages");
+                }}
+              />
+            </>
           }
         />
       </CustomRoutes>
       <Resource
         name="team_member"
         options={{ label: "Team" }}
-        icon={GroupsIcon}
+        icon={IconUsersGroup}
         create={TeamMemberCreate}
         list={TeamMemberList}
         edit={TeamMemberEdit}
@@ -115,7 +122,7 @@ export default function AdminApp() {
       <Resource
         name="strategy"
         options={{ label: "Strategies" }}
-        icon={StarIcon}
+        icon={IconStar}
         create={StrategyCreate}
         list={StrategyList}
         edit={StrategyEdit}
@@ -124,7 +131,7 @@ export default function AdminApp() {
         name="security"
         recordRepresentation="isin"
         options={{ label: "Securities" }}
-        icon={RequestQuote}
+        icon={IconCoin}
         create={SecurityCreate}
         list={SecurityList}
         edit={SecurityEdit}
