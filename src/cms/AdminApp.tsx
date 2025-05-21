@@ -9,6 +9,7 @@ import {
 } from "ra-supabase";
 import {
   Admin,
+  Authenticated,
   CustomRoutes,
   Resource,
   Title,
@@ -95,7 +96,7 @@ export default function AdminApp() {
         <Route
           path="/translations"
           element={
-            <>
+            <Authenticated>
               <Title title="Translations" />
               <TranslationsEditor
                 schema={MESSAGES_SCHEMA}
@@ -107,7 +108,7 @@ export default function AdminApp() {
                   void revalidateCache("messages");
                 }}
               />
-            </>
+            </Authenticated>
           }
         />
       </CustomRoutes>
