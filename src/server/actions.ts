@@ -51,17 +51,14 @@ export const fetchSecurityByPassword = cachedRequest(
   ["cms", "securities"],
 );
 
-export const fetchSecurityData = cachedRequest(
-  async (security: Security["name"]) => {
-    const { prices, returns } = await fetchSecurityPrices(security);
+export const fetchSecurityData = async (security: Security["name"]) => {
+  const { prices, returns } = await fetchSecurityPrices(security);
 
-    const performance = computeSecurityPerformance(prices);
+  const performance = computeSecurityPerformance(prices);
 
-    return {
-      prices,
-      returns,
-      performance,
-    };
-  },
-  // ["cms", "securities"],
-);
+  return {
+    prices,
+    returns,
+    performance,
+  };
+};

@@ -19,7 +19,7 @@ const config = {
       "@mantine/notifications",
       "@mantine/charts",
       "@mantine/hooks",
-      "framer-motion",
+      "motion",
       "googleapis",
     ],
   },
