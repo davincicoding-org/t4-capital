@@ -1,4 +1,4 @@
-import type { ResolvedMessagesSchema } from "ra-messages";
+import type { ResolvedMessagesSchema } from "@davincicoding/cms/messages";
 
 import type { MESSAGES_SCHEMA, SUPPORTED_LOCALES } from "./config";
 

@@ -1,4 +1,4 @@
-import type { MessagesSchema } from "ra-messages";
+import type { MessagesSchema } from "@davincicoding/cms/messages";
 
 export const SUPPORTED_LOCALES: [string, ...string[]] = ["en"];
 

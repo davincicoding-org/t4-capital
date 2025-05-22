@@ -1,7 +1,7 @@
 "use client";
 
+import { MessagesEditor } from "@davincicoding/cms/messages";
 import { IconCoin, IconStar, IconUsersGroup } from "@tabler/icons-react";
-import { TranslationsEditor } from "ra-messages";
 import {
   ForgotPasswordPage,
   LoginPage,
@@ -108,7 +108,7 @@ export default function AdminApp() {
             element={
               <Authenticated>
                 <Title title="Translations" />
-                <TranslationsEditor
+                <MessagesEditor
                   schema={MESSAGES_SCHEMA}
                   locales={SUPPORTED_LOCALES}
                   fetchMessages={fetchMessages}
