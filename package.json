@@ -20,6 +20,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@davincicoding/cms": "^0.4.11",
     "@mantine/charts": "^8.0.1",
     "@mantine/core": "^8.0.1",
     "@mantine/hooks": "^8.0.1",
