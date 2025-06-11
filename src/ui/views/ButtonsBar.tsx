@@ -9,7 +9,7 @@ export function ButtonsBar() {
   const t = useTranslations("header");
   return (
     <m.div
-      className="sticky left-0 right-0 top-0 z-20 -mb-16 flex justify-center gap-3 p-3 md:justify-end"
+      className="sticky top-0 right-0 left-0 z-20 -mb-20 flex justify-center p-2 md:justify-end"
       initial={{
         y: "-100%",
       }}
@@ -22,22 +22,13 @@ export function ButtonsBar() {
       }}
     >
       <Button
-        color="accent"
-        variant="default"
+        color="white"
+        variant="subtle"
         radius="xl"
-        component={Link}
-        href="https://www.linkedin.com/build-relation/newsletter-follow?entityUrn=7084918813661560833"
-        target="_blank"
-      >
-        {t("newsletter")}
-      </Button>
-
-      <Button
-        color="accent"
-        variant="default"
-        radius="xl"
+        size="md"
         component={Link}
         href="/prices"
+        className="px-4 tracking-widest backdrop-blur-sm"
       >
         {t("login")}
       </Button>
