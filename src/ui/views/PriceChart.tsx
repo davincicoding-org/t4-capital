@@ -26,6 +26,10 @@ export function PriceChart({
       <LineChart
         onPointerLeave={() => setDisplayedData(currentPrice)}
         h={150}
+        lineProps={{
+          animationDuration: 800,
+          animationEasing: "ease-in-out",
+        }}
         data={prices}
         dataKey="date"
         series={[{ name: "price", color: `${color}.4` }]}

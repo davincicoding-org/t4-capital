@@ -6,7 +6,6 @@ import {
   Azeret_Mono as MonoFont,
 } from "next/font/google";
 import { createTheme, MantineProvider } from "@mantine/core";
-import { Notifications } from "@mantine/notifications";
 import { Analytics } from "@vercel/analytics/react";
 import { domAnimation, LazyMotion } from "motion/react";
 import { NextIntlClientProvider } from "next-intl";
@@ -80,7 +79,6 @@ export default async function RootLayout({
               </QueryClientProvider>
             </NextIntlClientProvider>
           </LazyMotion>
-          <Notifications />
         </MantineProvider>
       </body>
       <Analytics />
