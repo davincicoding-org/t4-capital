@@ -48,16 +48,13 @@ export function SecurityPrices({
   const datePickerRef = useClickOutside(() => setIsSelectingDate(false));
   const filteredPrices = useMemo(() => {
     if (startDate === null) return prices;
-    return prices.filter(({ date }) => {
-      const parsedDate = dayjs(date, "DD.MM.YYYY");
-      return parsedDate.isAfter(dayjs(startDate));
-    });
+    return prices.filter(({ date }) => dayjs(date).isAfter(dayjs(startDate)));
   }, [prices, startDate]);
 
   return (
     <Paper withBorder radius="md" className="mx-auto max-w-2xl overflow-clip">
       <Paper
-        className="flex items-center justify-between bg-cover px-3 py-2"
+        className="flex items-center justify-between rounded-b-none bg-cover px-3 py-2"
         style={{
           backgroundImage: `url("/gradients/${strategy.color}.webp")`,
         }}
@@ -68,7 +65,7 @@ export function SecurityPrices({
           <span className="text-xs text-neutral-800">{isin}</span>
         </div>
 
-        <ReturnsSummary data={returns} />
+        {/* <ReturnsSummary data={returns} /> */}
       </Paper>
       <PriceChart prices={filteredPrices} color={strategy.color} />
       <p className="mb-3 text-center text-sm text-neutral-600 uppercase">

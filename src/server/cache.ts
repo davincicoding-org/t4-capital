@@ -3,6 +3,7 @@ import { unstable_cache } from "next/cache";
 export type CacheTag =
   | "cms"
   | "messages"
+  | "prices"
   | "strategies"
   | "securities"
   | "team-members";

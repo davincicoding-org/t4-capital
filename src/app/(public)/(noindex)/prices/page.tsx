@@ -27,9 +27,8 @@ export default function PricesPage() {
       const security = await fetchSecurityByPassword(password);
       if (!security) throw new Error("Invalid password");
 
-      const { prices, returns, performance } = await fetchSecurityData(
-        security.name,
-      );
+      const { prices, returns, performance } =
+        await fetchSecurityData(security);
       return {
         isin: security.isin,
         strategy: security.strategy,

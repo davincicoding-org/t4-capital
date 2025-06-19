@@ -1,9 +1,6 @@
-import dayjs, { extend } from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
+import dayjs from "dayjs";
 
 import type { PricePoint, SecurityPerformance } from "@/ui/types";
-
-extend(relativeTime);
 
 export function computeSecurityPerformance(
   prices: PricePoint[],
@@ -22,16 +19,11 @@ export function computeSecurityPerformance(
 
   const lastPriceValue = lastPrice.price;
 
-  // Calculate inception date
-  // const inception = dayjs(firstPrice.date, "DD.MM.YYYY").fromNow(true);
-
-  // Calculate ITD return
   const ITD = ((lastPriceValue - firstPrice.price) / firstPrice.price) * 100;
 
-  // Find first price of current year or last available price from previous year
   const currentYear = dayjs().year();
   const firstPriceThisYear = prices.find(
-    (p) => dayjs(p.date, "DD.MM.YYYY").year() === currentYear,
+    (p) => dayjs(p.date).year() === currentYear,
   );
 
   const YTD = (() => {
@@ -44,10 +36,9 @@ export function computeSecurityPerformance(
     );
   })();
 
-  // Find first price of current month or last available price from previous month
   const currentDate = dayjs();
   const firstPriceThisMonth = prices.find((p) => {
-    const date = dayjs(p.date, "DD.MM.YYYY");
+    const date = dayjs(p.date);
     return (
       date.year() === currentDate.year() && date.month() === currentDate.month()
     );
@@ -65,7 +56,6 @@ export function computeSecurityPerformance(
   })();
 
   return {
-    // inception,
     ITD,
     YTD,
     MTD,

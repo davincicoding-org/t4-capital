@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { index, pgEnum, pgTable } from "drizzle-orm/pg-core";
+import { index, pgEnum, pgTable, unique } from "drizzle-orm/pg-core";
 
 export const colorEnum = pgEnum("color", ["blue", "pink", "yellow"]);
 
@@ -44,15 +44,19 @@ export const securityRelations = relations(security, ({ one }) => ({
   }),
 }));
 
-// export const securityPrice = pgTable(
-//   "security_price",
-//   (d) => ({
-//     securityId: d.text().references(() => security.isin, {}),
-//     date: d.date().notNull(),
-//     price: d.integer().notNull(),
-//   }),
-//   // (t) => [index("name_idx").on(t.name)],
-// );
+export const securityPrice = pgTable(
+  "security_price",
+  (d) => ({
+    id: d.serial().primaryKey(),
+    security: d.uuid().references(() => security.id, {}),
+    date: d.date().notNull(),
+    price: d.integer().notNull(),
+  }),
+  (t) => [
+    index("security_price_idx").on(t.security, t.date),
+    unique("security_price_unique").on(t.security, t.date),
+  ],
+);
 
 export const teamMember = pgTable(
   "team_member",

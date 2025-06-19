@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from "react";
 import { Divider, Typography } from "@mui/material";
-import { IconLanguage } from "@tabler/icons-react";
+import { IconChartLine, IconCoin, IconLanguage } from "@tabler/icons-react";
 import { Layout, Menu, useSidebarState } from "react-admin";
 
 const MenuDivider = ({ label }: { label?: string }) => {
@@ -26,6 +26,8 @@ const CustomMenu = () => (
     <MenuDivider label="Products" />
     <Menu.ResourceItem name="strategy" />
     <Menu.ResourceItem name="security" />
+
+    <Menu.Item to="/prices" primaryText="Prices" leftIcon={<IconChartLine />} />
     <MenuDivider />
     <Menu.ResourceItem name="team_member" />
   </Menu>

@@ -4,8 +4,8 @@ import { revalidateTag } from "next/cache";
 
 import type { Security } from "@/database/types";
 import { db } from "@/database";
-import { fetchSecurityPrices } from "@/services/price-data";
 import { computeSecurityPerformance } from "@/utils/computeSecurityPerformance";
+import { computeSecurityReturns } from "@/utils/computeSecurityReturns";
 
 import type { CacheTag } from "./cache";
 import { cachedRequest } from "./cache";
@@ -34,6 +34,7 @@ export const fetchSecurityByPassword = cachedRequest(
       where: (security, { eq }) => eq(security.password, password),
       columns: {
         isin: true,
+        id: true,
         name: true,
       },
       with: {
@@ -51,14 +52,26 @@ export const fetchSecurityByPassword = cachedRequest(
   ["cms", "securities"],
 );
 
-export const fetchSecurityData = async (security: Security["name"]) => {
-  const { prices, returns } = await fetchSecurityPrices(security);
+export const fetchSecurityData = cachedRequest(
+  async (security: Pick<Security, "id" | "name">) => {
+    const prices = await db.query.securityPrice.findMany({
+      columns: {
+        date: true,
+        price: true,
+      },
+      where: (securityPrice, { eq }) => eq(securityPrice.security, security.id),
+      orderBy: (securityPrice, { asc }) => [asc(securityPrice.date)],
+    });
 
-  const performance = computeSecurityPerformance(prices);
+    const returns = computeSecurityReturns(prices);
 
-  return {
-    prices,
-    returns,
-    performance,
-  };
-};
+    const performance = computeSecurityPerformance(prices);
+
+    return {
+      prices,
+      returns,
+      performance,
+    };
+  },
+  ["prices", "securities"],
+);

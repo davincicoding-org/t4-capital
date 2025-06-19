@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { LineChart } from "@mantine/charts";
+import dayjs from "dayjs";
 
 import { type PricePoint } from "../types";
 
@@ -20,7 +21,7 @@ export function PriceChart({
       {displayedData ? (
         <div className="flex justify-between px-3">
           <span className="text-medium text-xl">${displayedData.price}</span>
-          <span>{displayedData.date}</span>
+          <span>{dayjs(displayedData.date).format("DD.MM.YYYY")}</span>
         </div>
       ) : null}
       <LineChart

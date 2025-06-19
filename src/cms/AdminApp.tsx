@@ -27,6 +27,7 @@ import { fetchMessages, saveMessages } from "@/server/messages";
 import { supabaseClient } from "@/server/supabase";
 
 import { CustomLayout } from "./CustomLayout";
+import { PricesForm } from "./resources/prices";
 import {
   SecurityCreate,
   SecurityEdit,
@@ -118,6 +119,15 @@ export default function AdminApp() {
                     void revalidateCache("messages");
                   }}
                 />
+              </Authenticated>
+            }
+          />
+          <Route
+            path="/prices"
+            element={
+              <Authenticated>
+                <Title title="Prices" />
+                <PricesForm />
               </Authenticated>
             }
           />
