@@ -15,6 +15,9 @@ export function PriceChart({
 }) {
   const currentPrice = prices[prices.length - 1];
   const [displayedData, setDisplayedData] = useState(currentPrice);
+  const minPrice = Math.min(...prices.map(({ price }) => price));
+  const maxPrice = Math.max(...prices.map(({ price }) => price));
+  const priceDelta = maxPrice - minPrice;
 
   return (
     <div className="grid py-4">
@@ -34,7 +37,9 @@ export function PriceChart({
         data={prices}
         dataKey="date"
         series={[{ name: "price", color: `${color}.4` }]}
-        curveType="linear"
+        yAxisProps={{
+          domain: [minPrice - priceDelta * 0.1, maxPrice + priceDelta * 0.1],
+        }}
         tickLine="none"
         gridAxis="none"
         withXAxis={false}
