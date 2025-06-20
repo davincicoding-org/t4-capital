@@ -65,7 +65,7 @@ export function SecurityPrices({
           <span className="text-xs text-neutral-800">{isin}</span>
         </div>
 
-        {/* <ReturnsSummary data={returns} /> */}
+        <ReturnsSummary data={returns} />
       </Paper>
       <PriceChart prices={filteredPrices} color={strategy.color} />
       <p className="mb-3 text-center text-sm text-neutral-600 uppercase">

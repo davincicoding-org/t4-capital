@@ -1,5 +1,6 @@
 "use server";
 
+import { writeFileSync } from "fs";
 import { revalidateTag } from "next/cache";
 
 import type { Security } from "@/database/types";
@@ -62,7 +63,7 @@ export const fetchSecurityData = cachedRequest(
       where: (securityPrice, { eq }) => eq(securityPrice.security, security.id),
       orderBy: (securityPrice, { asc }) => [asc(securityPrice.date)],
     });
-
+    writeFileSync("src/database/prices.json", JSON.stringify(prices, null, 2));
     const returns = computeSecurityReturns(prices);
 
     const performance = computeSecurityPerformance(prices);

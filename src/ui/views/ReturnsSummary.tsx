@@ -31,8 +31,16 @@ export function ReturnsSummary({ data }: { data: Array<YearlyReturn> }) {
       <Button size="compact-sm" variant="outline" color="black" onClick={open}>
         RETURNS
       </Button>
-      <Modal opened={isOpen} centered size="auto" radius="md" onClose={close}>
-        <ScrollArea scrollbars="x">
+      <Modal
+        opened={isOpen}
+        centered
+        size="auto"
+        radius="md"
+        withCloseButton={false}
+        onClose={close}
+        classNames={{ body: "p-0" }}
+      >
+        <ScrollArea scrollbars="x" classNames={{ viewport: "pb-2" }}>
           <Table>
             <Table.Thead>
               <Table.Tr>
@@ -61,11 +69,13 @@ export function ReturnsSummary({ data }: { data: Array<YearlyReturn> }) {
                     {year}
                   </Table.Td>
                   {months.map((value, index) => (
-                    <Table.Td className="text-center" key={index}>
+                    <Table.Td className="text-right" key={index}>
                       {value !== null ? `${value.toFixed(1)}%` : ""}
                     </Table.Td>
                   ))}
-                  <Table.Td className="font-bold">{overall ?? ""}</Table.Td>
+                  <Table.Td className="text-right font-bold">
+                    {overall !== null ? `${overall.toFixed(1)}%` : ""}
+                  </Table.Td>
                 </Table.Tr>
               ))}
             </Table.Tbody>
