@@ -4,6 +4,7 @@ import { useCreate, useGetList, useNotify } from "react-admin";
 import { Controller, useForm } from "react-hook-form";
 
 import type { security, securityPrice } from "@/database/schema";
+import { revalidateCache } from "@/server/actions";
 
 export function PricesForm() {
   const notify = useNotify();
@@ -48,6 +49,7 @@ export function PricesForm() {
           prices: {},
         });
         notify("Prices saved", { type: "success" });
+        void revalidateCache("prices");
       })}
     >
       <Box
