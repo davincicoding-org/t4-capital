@@ -41,12 +41,10 @@ export function ReturnsSummary({ data }: { data: Array<YearlyReturn> }) {
         classNames={{ body: "p-0" }}
       >
         <ScrollArea scrollbars="x" classNames={{ viewport: "pb-2" }}>
-          <Table>
+          <Table highlightOnHover>
             <Table.Thead>
               <Table.Tr>
-                <Table.Th className="sticky left-0 backdrop-blur-sm">
-                  Year
-                </Table.Th>
+                <Table.Th className="sticky left-0 backdrop-blur-sm" />
                 <Table.Th className="text-center">JAN</Table.Th>
                 <Table.Th className="text-center">FEB</Table.Th>
                 <Table.Th className="text-center">MAR</Table.Th>
@@ -59,7 +57,7 @@ export function ReturnsSummary({ data }: { data: Array<YearlyReturn> }) {
                 <Table.Th className="text-center">OCT</Table.Th>
                 <Table.Th className="text-center">NOV</Table.Th>
                 <Table.Th className="text-center">DEC</Table.Th>
-                <Table.Th className="text-center">Overall</Table.Th>
+                <Table.Th className="text-center" />
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
