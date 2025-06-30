@@ -40,15 +40,15 @@ export const addProductPrice = async (
   });
 };
 
-export const fetchTeam = cachedRequest(
+export const fetchLandingPage = cachedRequest(
   async (locale: SupportedLocale) => {
     const payload = await getPayloadClient();
     return payload.findGlobal({
-      slug: "team",
+      slug: "landing-page",
       locale,
     });
   },
-  ["team"],
+  ["landing-page"],
 );
 
 export const fetchProductByPassword = cachedRequest(

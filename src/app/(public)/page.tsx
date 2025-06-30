@@ -1,12 +1,16 @@
-import { fetchStrategies, fetchTeam } from "@/server/actions";
+import { fetchLandingPage, fetchStrategies } from "@/server/actions";
 import { cn } from "@/ui/utils";
 import { About, Hero, Strategies } from "@/ui/views";
 import { ButtonsBar } from "@/ui/views/ButtonsBar";
 
+
+
+
+
 export default async function Home() {
-  const [strategies, team] = await Promise.all([
+  const [strategies, pageData] = await Promise.all([
     fetchStrategies("en"),
-    fetchTeam("en"),
+    fetchLandingPage("en"),
   ]);
 
   return (
@@ -16,7 +20,7 @@ export default async function Home() {
         <Hero />
       </header>
       <Strategies className="container" strategies={strategies} />
-      <About className="container" teamMembers={team.members} />
+      <About className="container" teamMembers={pageData.teamMembers} />
     </main>
   );
 }

@@ -2,6 +2,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { resendAdapter } from "@payloadcms/email-resend";
+import { seoPlugin } from "@payloadcms/plugin-seo";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { s3Storage } from "@payloadcms/storage-s3";
 import { buildConfig } from "payload";
@@ -10,13 +11,14 @@ import sharp from "sharp";
 
 import {
   Files,
+  LegalPages,
   Media,
   ProductPrices,
   Products,
   Strategies,
   Users,
 } from "@/cms/collections";
-import { PricesDisclaimer, Team } from "@/cms/globals";
+import { LandingPage, PricesPage } from "@/cms/globals";
 import { env } from "@/env";
 import { MESSAGES_SCHEMA, SUPPORTED_LOCALES } from "@/i18n/config";
 import { revalidateCache } from "@/server/actions";
@@ -37,8 +39,16 @@ export default buildConfig({
     locales: [...SUPPORTED_LOCALES],
     defaultLocale: SUPPORTED_LOCALES[0],
   },
-  globals: [PricesDisclaimer, Team],
-  collections: [Media, Files, Strategies, Products, ProductPrices, Users],
+  globals: [LandingPage, PricesPage],
+  collections: [
+    Media,
+    Files,
+    Strategies,
+    Products,
+    ProductPrices,
+    Users,
+    LegalPages,
+  ],
   editor: lexicalEditor(),
   secret: env.PAYLOAD_SECRET,
   typescript: {
@@ -74,6 +84,22 @@ export default buildConfig({
           afterUpdate: () => revalidateCache("messages"),
         },
       },
+    }),
+    seoPlugin({
+      globals: ["landing-page", "prices-page"],
+      collections: ["legal-pages"],
+      uploadsCollection: "media",
+      tabbedUI: true,
+      fields: ({ defaultFields }) =>
+        defaultFields.map((field) => {
+          if ("name" in field && field.name === "title") {
+            return {
+              ...field,
+              localized: true,
+            };
+          }
+          return field;
+        }),
     }),
     s3Storage({
       collections: {

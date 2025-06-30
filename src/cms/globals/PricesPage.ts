@@ -4,14 +4,15 @@ import { revalidateCache } from "@/server/actions";
 
 import { withAccess } from "../access";
 
-export const PricesDisclaimer: GlobalConfig = {
-  slug: "prices-disclaimer",
+export const PricesPage: GlobalConfig = {
+  slug: "prices-page",
+  admin: {
+    group: "Pages",
+  },
+  label: "Prices",
   access: {
     read: withAccess("content"),
     update: withAccess("content"),
-  },
-  admin: {
-    hidden: true,
   },
   fields: [
     {
@@ -23,6 +24,6 @@ export const PricesDisclaimer: GlobalConfig = {
     },
   ],
   hooks: {
-    afterChange: [() => revalidateCache("team")],
+    afterChange: [() => revalidateCache("prices-page")],
   },
 };

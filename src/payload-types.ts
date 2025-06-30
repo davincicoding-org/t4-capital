@@ -73,6 +73,7 @@ export interface Config {
     products: Product;
     'product-prices': ProductPrice;
     users: User;
+    'legal-pages': LegalPage;
     polyglot_messages: PolyglotMessage;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -86,6 +87,7 @@ export interface Config {
     products: ProductsSelect<false> | ProductsSelect<true>;
     'product-prices': ProductPricesSelect<false> | ProductPricesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'legal-pages': LegalPagesSelect<false> | LegalPagesSelect<true>;
     polyglot_messages: PolyglotMessagesSelect<false> | PolyglotMessagesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -95,12 +97,12 @@ export interface Config {
     defaultIDType: number;
   };
   globals: {
-    'prices-disclaimer': PricesDisclaimer;
-    team: Team;
+    'landing-page': LandingPage;
+    'prices-page': PricesPage;
   };
   globalsSelect: {
-    'prices-disclaimer': PricesDisclaimerSelect<false> | PricesDisclaimerSelect<true>;
-    team: TeamSelect<false> | TeamSelect<true>;
+    'landing-page': LandingPageSelect<false> | LandingPageSelect<true>;
+    'prices-page': PricesPageSelect<false> | PricesPageSelect<true>;
   };
   locale: 'en';
   user: User & {
@@ -258,6 +260,44 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-pages".
+ */
+export interface LegalPage {
+  id: number;
+  slug: string;
+  title: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  navigation: {
+    label?: string | null;
+    order?: number | null;
+  };
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "polyglot_messages".
  */
 export interface PolyglotMessage {
@@ -305,6 +345,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'legal-pages';
+        value: number | LegalPage;
       } | null)
     | ({
         relationTo: 'polyglot_messages';
@@ -482,6 +526,30 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "legal-pages_select".
+ */
+export interface LegalPagesSelect<T extends boolean = true> {
+  slug?: T;
+  title?: T;
+  content?: T;
+  navigation?:
+    | T
+    | {
+        label?: T;
+        order?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "polyglot_messages_select".
  */
 export interface PolyglotMessagesSelect<T extends boolean = true> {
@@ -524,9 +592,23 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "prices-disclaimer".
+ * via the `definition` "landing-page".
  */
-export interface PricesDisclaimer {
+export interface LandingPage {
+  id: number;
+  teamMembers: {
+    name: string;
+    linkedIn: string;
+    id?: string | null;
+  }[];
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prices-page".
+ */
+export interface PricesPage {
   id: number;
   content: {
     root: {
@@ -548,40 +630,26 @@ export interface PricesDisclaimer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "team".
+ * via the `definition` "landing-page_select".
  */
-export interface Team {
-  id: number;
-  members: {
-    name: string;
-    linkedIn: string;
-    id?: string | null;
-  }[];
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "prices-disclaimer_select".
- */
-export interface PricesDisclaimerSelect<T extends boolean = true> {
-  content?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "team_select".
- */
-export interface TeamSelect<T extends boolean = true> {
-  members?:
+export interface LandingPageSelect<T extends boolean = true> {
+  teamMembers?:
     | T
     | {
         name?: T;
         linkedIn?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prices-page_select".
+ */
+export interface PricesPageSelect<T extends boolean = true> {
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

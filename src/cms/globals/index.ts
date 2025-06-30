@@ -1,2 +1,2 @@
-export { Team } from "./Team";
-export { PricesDisclaimer } from "./PricesDisclaimer";
+export { LandingPage } from "./LandingPage";
+export { PricesPage } from "./PricesPage";

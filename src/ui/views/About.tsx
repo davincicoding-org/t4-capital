@@ -5,7 +5,7 @@ import { ActionIcon } from "@mantine/core";
 import { IconBrandLinkedinFilled } from "@tabler/icons-react";
 import { getTranslations } from "next-intl/server";
 
-import type { Team } from "@/payload-types";
+import type { LandingPage } from "@/payload-types";
 import { cn } from "@/ui/utils";
 
 function Logo() {
@@ -21,7 +21,7 @@ function Logo() {
 }
 
 export interface AboutProps {
-  teamMembers: Team["members"];
+  teamMembers: LandingPage["teamMembers"];
 }
 
 export async function About({
