@@ -28,8 +28,6 @@ export default function PricesPage() {
       const product = await fetchProductByPassword(password);
       if (!product) throw new Error("Invalid password");
 
-      console.log(product);
-
       const { prices, returns, performance } = await fetchProductData(
         product.id,
       );
