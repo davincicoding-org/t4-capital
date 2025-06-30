@@ -15,6 +15,7 @@ import { subscribeToNewsletter } from "@/services/newsletter";
 import { cn } from "@/ui/utils";
 import { Footer } from "@/ui/views";
 
+import Maintence from "./Maintence";
 import { QueryClientProvider } from "./query-client";
 
 // MARK: Metadata
@@ -70,16 +71,18 @@ export default async function RootLayout({
   return (
     <html lang="en" className={cn(font.variable, monoFont.variable)}>
       <body className="flex min-h-dvh flex-col overscroll-y-none">
-        <MantineProvider theme={theme}>
-          <LazyMotion features={domAnimation}>
-            <NextIntlClientProvider messages={messages}>
-              <QueryClientProvider>
-                {children}
-                <Footer newsletterHandler={subscribeToNewsletter} />
-              </QueryClientProvider>
-            </NextIntlClientProvider>
-          </LazyMotion>
-        </MantineProvider>
+        <Maintence>
+          <MantineProvider theme={theme}>
+            <LazyMotion features={domAnimation}>
+              <NextIntlClientProvider messages={messages}>
+                <QueryClientProvider>
+                  {children}
+                  <Footer newsletterHandler={subscribeToNewsletter} />
+                </QueryClientProvider>
+              </NextIntlClientProvider>
+            </LazyMotion>
+          </MantineProvider>
+        </Maintence>
       </body>
       <Analytics />
     </html>

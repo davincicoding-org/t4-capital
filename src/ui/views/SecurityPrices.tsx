@@ -9,7 +9,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useTranslations } from "next-intl";
 
-import type { Security, Strategy } from "@/database/types";
+import type { Product, Strategy } from "@/payload-types";
 
 import {
   type PricePoint,
@@ -23,7 +23,7 @@ dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
 
 export type ISecurityPricesProps = {
-  isin: Security["isin"];
+  isin: Product["isin"];
   strategy: Pick<Strategy, "title" | "color" | "launchDate">;
   prices: PricePoint[];
   returns: YearlyReturn[];

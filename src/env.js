@@ -3,51 +3,41 @@ import { z } from "zod";
 
 export const env = createEnv({
   server: {
-    AUTH_SECRET:
-      process.env.NODE_ENV === "production"
-        ? z.string()
-        : z.string().optional(),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
     POSTGRES_URL: z.string(),
+    PAYLOAD_SECRET: z.string(),
+    SUPABASE_URL: z.string(),
+    S3_BUCKET: z.string(),
+    S3_ACCESS_KEY_ID: z.string(),
+    S3_SECRET_ACCESS_KEY: z.string(),
+    S3_REGION: z.string(),
+    S3_ENDPOINT: z.string(),
+    RESEND_API_KEY: z.string(),
     MAILCHIMP_APIKEY: z.string(),
     NEWSLETTER_AUDIENCE_ID: z.string(),
-    // MARK: TO BE REMOVED
-    GOOGLE_CLOUD_PROJECT_ID: z.string(),
-    GOOGLE_CLOUD_PRIVATE_KEY_ID: z.string(),
-    GOOGLE_CLOUD_PRIVATE_KEY: z.string(),
-    GOOGLE_CLOUD_CLIENT_EMAIL: z.string(),
-    GOOGLE_CLOUD_CLIENT_ID: z.string(),
   },
-
-  client: {
-    NEXT_PUBLIC_SUPABASE_URL: z.string(),
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
-  },
-
+  client: {},
   runtimeEnv: {
-    AUTH_SECRET: process.env.AUTH_SECRET,
     NODE_ENV: process.env.NODE_ENV,
-    POSTGRES_URL: process.env.POSTGRES_URL,
-    GOOGLE_CLOUD_PROJECT_ID: process.env.GOOGLE_CLOUD_PROJECT_ID,
-    GOOGLE_CLOUD_PRIVATE_KEY_ID: process.env.GOOGLE_CLOUD_PRIVATE_KEY_ID,
-    GOOGLE_CLOUD_PRIVATE_KEY: process.env.GOOGLE_CLOUD_PRIVATE_KEY,
-    GOOGLE_CLOUD_CLIENT_EMAIL: process.env.GOOGLE_CLOUD_CLIENT_EMAIL,
-    GOOGLE_CLOUD_CLIENT_ID: process.env.GOOGLE_CLOUD_CLIENT_ID,
+    // UGLY FIX
+    POSTGRES_URL: process.env.POSTGRES_URL?.replace("sslmode=require&", ""),
+    PAYLOAD_SECRET: process.env.PAYLOAD_SECRET,
+    SUPABASE_URL: process.env.SUPABASE_URL,
+    S3_BUCKET: process.env.S3_BUCKET,
+    S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID,
+    S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY,
+    S3_REGION: process.env.S3_REGION,
+    S3_ENDPOINT: process.env.S3_ENDPOINT,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
     MAILCHIMP_APIKEY: process.env.MAILCHIMP_APIKEY,
     NEWSLETTER_AUDIENCE_ID: process.env.NEWSLETTER_AUDIENCE_ID,
-    NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
    * useful for Docker builds.
    */
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
-  /**
-   * Makes it so that empty strings are treated as undefined. `SOME_VAR: z.string()` and
-   * `SOME_VAR=''` will throw an error.
-   */
   emptyStringAsUndefined: true,
 });

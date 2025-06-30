@@ -1,8 +1,8 @@
 import type { HTMLAttributes } from "react";
 import { getTranslations } from "next-intl/server";
 
-import type { Strategy } from "@/database/types";
-import { cn } from "@/ui/utils";
+import type { Strategy } from "@/payload-types";
+import { cn, ensureResolved } from "@/ui/utils";
 
 import { StrategyTile } from "./StrategyTile";
 
@@ -38,11 +38,11 @@ export async function Strategies({
           <StrategyTile
             key={strategy.id}
             title={strategy.title}
-            subtitle={strategy.description.en}
+            subtitle={strategy.description}
             launchDate={strategy.launchDate}
             image={`/gradients/${strategy.color}.webp`}
-            presentationUrl={strategy.deck}
-            video={strategy.video}
+            presentationUrl={ensureResolved(strategy.deck)!.url!}
+            video={ensureResolved(strategy.video)?.url}
           />
         ))}
       </div>

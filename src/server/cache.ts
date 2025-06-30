@@ -5,8 +5,9 @@ export type CacheTag =
   | "messages"
   | "prices"
   | "strategies"
-  | "securities"
-  | "team-members";
+  | "products"
+  | "team"
+  | "prices-disclaimer";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const cachedRequest = <T extends (...args: any[]) => Promise<any>>(

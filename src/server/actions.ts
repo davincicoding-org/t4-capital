@@ -2,66 +2,117 @@
 
 import { revalidateTag } from "next/cache";
 
-import type { Security } from "@/database/types";
-import { db } from "@/database";
+import type { SupportedLocale } from "@/i18n/config";
+import type { Product, ProductPrice } from "@/payload-types";
 import { computeSecurityPerformance } from "@/utils/computeSecurityPerformance";
 import { computeSecurityReturns } from "@/utils/computeSecurityReturns";
 
 import type { CacheTag } from "./cache";
 import { cachedRequest } from "./cache";
+import { getPayloadClient } from "./payload";
 
 export const revalidateCache = async (tag: CacheTag) => revalidateTag(tag);
 
 // MARK: Requests
 
-export const fetchStrategies = cachedRequest(async () => {
-  const strategies = await db.query.strategy.findMany({
-    orderBy: (strategy, { asc }) => [asc(strategy.order)],
-  });
-  return strategies;
-}, ["cms", "strategies"]);
+export const fetchStrategies = cachedRequest(
+  async (locale: SupportedLocale) => {
+    const payload = await getPayloadClient();
+    const { docs } = await payload.find({
+      collection: "strategies",
+      sort: "order",
+      locale,
+    });
+    return docs;
+  },
+  ["cms", "strategies"],
+);
 
-export const fetchTeamMembers = cachedRequest(async () => {
-  const teamMembers = await db.query.teamMember.findMany({
-    orderBy: (teamMember, { asc }) => [asc(teamMember.order)],
+export const addProductPrice = async (
+  prices: Pick<ProductPrice, "product" | "date" | "price">,
+) => {
+  // TODO secure this endpoint
+  const payload = await getPayloadClient();
+  await payload.create({
+    collection: "product-prices",
+    data: prices,
   });
-  return teamMembers;
-}, ["cms", "team-members"]);
+};
 
-export const fetchSecurityByPassword = cachedRequest(
-  async (password: Security["password"]) => {
-    const [security] = await db.query.security.findMany({
-      where: (security, { eq }) => eq(security.password, password),
-      columns: {
+export const fetchTeam = cachedRequest(
+  async (locale: SupportedLocale) => {
+    const payload = await getPayloadClient();
+    return payload.findGlobal({
+      slug: "team",
+      locale,
+    });
+  },
+  ["team"],
+);
+
+export const fetchProductByPassword = cachedRequest(
+  async (password: Product["password"]) => {
+    const payload = await getPayloadClient();
+    const {
+      docs: [product],
+    } = await payload.find({
+      collection: "products",
+      select: {
         isin: true,
         id: true,
-        name: true,
+        strategy: true,
       },
-      with: {
-        strategy: {
-          columns: {
-            title: true,
-            launchDate: true,
-            color: true,
-          },
+      where: {
+        password: {
+          equals: password,
         },
       },
     });
-    return security;
+    return product;
+    // const [security] = await db.query.security.findMany({
+    //   where: (security, { eq }) => eq(security.password, password),
+    //   columns: {
+    //     isin: true,
+    //     id: true,
+    //     name: true,
+    //   },
+    //   with: {
+    //     strategy: {
+    //       columns: {
+    //         title: true,
+    //         launchDate: true,
+    //         color: true,
+    //       },
+    //     },
+    //   },
+    // });
   },
-  ["cms", "securities"],
+  ["cms", "products"],
 );
 
-export const fetchSecurityData = cachedRequest(
-  async (security: Pick<Security, "id" | "name">) => {
-    const prices = await db.query.securityPrice.findMany({
-      columns: {
+export const fetchProductPrices = cachedRequest(
+  async (productId: Product["id"]) => {
+    const payload = await getPayloadClient();
+    return payload.find({
+      collection: "product-prices",
+      select: {
         date: true,
         price: true,
       },
-      where: (securityPrice, { eq }) => eq(securityPrice.security, security.id),
-      orderBy: (securityPrice, { asc }) => [asc(securityPrice.date)],
+      where: {
+        product: {
+          equals: productId,
+        },
+      },
+      sort: "date",
     });
+  },
+  ["prices"],
+);
+
+export const fetchProductData = cachedRequest(
+  async (productId: Product["id"]) => {
+    const { docs: prices } = await fetchProductPrices(productId);
     const returns = computeSecurityReturns(prices);
 
     const performance = computeSecurityPerformance(prices);
@@ -72,5 +123,5 @@ export const fetchSecurityData = cachedRequest(
       performance,
     };
   },
-  ["prices", "securities"],
+  ["prices", "products"],
 );

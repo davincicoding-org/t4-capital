@@ -1,6 +1,8 @@
-import type { MessagesSchema } from "@davincicoding/cms/messages";
+import type { MessagesSchema } from "payload-polyglot";
 
-export const SUPPORTED_LOCALES: [string, ...string[]] = ["en"];
+export const SUPPORTED_LOCALES = ["en"] as const;
+
+export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 
 export const MESSAGES_SCHEMA = {
   meta: {

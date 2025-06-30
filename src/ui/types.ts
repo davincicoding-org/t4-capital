@@ -1,7 +1,6 @@
-export interface PricePoint {
-  date: string;
-  price: number;
-}
+import type { ProductPrice } from "@/payload-types";
+
+export type PricePoint = Pick<ProductPrice, "date" | "price">;
 
 export interface YearlyReturn {
   year: number;

@@ -2,12 +2,13 @@
 
 import "./globals.css";
 
-import { Loader, Modal, PasswordInput, Tooltip } from "@mantine/core";
+import { Alert, Loader, Modal, PasswordInput, Tooltip } from "@mantine/core";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 
+import type { Strategy } from "@/payload-types";
 import type { ISecurityPricesProps } from "@/ui/views";
-import { fetchSecurityByPassword, fetchSecurityData } from "@/server/actions";
+import { fetchProductByPassword, fetchProductData } from "@/server/actions";
 import { SecurityPrices } from "@/ui/views";
 
 export default function PricesPage() {
@@ -24,14 +25,17 @@ export default function PricesPage() {
     string
   >({
     mutationFn: async (password: string) => {
-      const security = await fetchSecurityByPassword(password);
-      if (!security) throw new Error("Invalid password");
+      const product = await fetchProductByPassword(password);
+      if (!product) throw new Error("Invalid password");
 
-      const { prices, returns, performance } =
-        await fetchSecurityData(security);
+      console.log(product);
+
+      const { prices, returns, performance } = await fetchProductData(
+        product.id,
+      );
       return {
-        isin: security.isin,
-        strategy: security.strategy,
+        isin: product.isin,
+        strategy: product.strategy as Strategy,
         prices,
         returns,
         performance,
@@ -41,7 +45,11 @@ export default function PricesPage() {
 
   return (
     <main className="container grid min-h-screen py-8 max-sm:px-4">
-      <div className="m-auto grid w-full gap-6">
+      <Alert title="We are running some Updates" className="m-auto" radius="md">
+        The prices will be accessible again in a few minutes.
+      </Alert>
+
+      {/* <div className="m-auto grid w-full gap-6">
         <Modal
           opened={data === undefined}
           onClose={() => void 0}
@@ -94,7 +102,7 @@ export default function PricesPage() {
             performance={data.performance}
           />
         )}
-      </div>
+      </div> */}
     </main>
   );
 }

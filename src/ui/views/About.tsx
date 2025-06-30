@@ -5,7 +5,7 @@ import { ActionIcon } from "@mantine/core";
 import { IconBrandLinkedinFilled } from "@tabler/icons-react";
 import { getTranslations } from "next-intl/server";
 
-import type { TeamMember } from "@/database/types";
+import type { Team } from "@/payload-types";
 import { cn } from "@/ui/utils";
 
 function Logo() {
@@ -21,7 +21,7 @@ function Logo() {
 }
 
 export interface AboutProps {
-  teamMembers: TeamMember[];
+  teamMembers: Team["members"];
 }
 
 export async function About({
@@ -78,7 +78,7 @@ export async function About({
                 color="gray"
                 className={cn("group")}
                 component={Link}
-                href={member.linkedInUrl}
+                href={member.linkedIn}
                 target="_blank"
               >
                 <IconBrandLinkedinFilled
