@@ -7,15 +7,14 @@ import {
 } from "next/font/google";
 import { createTheme, MantineProvider } from "@mantine/core";
 import { Analytics } from "@vercel/analytics/react";
-import { domAnimation, LazyMotion } from "motion/react";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 
 import { subscribeToNewsletter } from "@/services/newsletter";
+import { MotionProvider } from "@/ui/motion";
 import { cn } from "@/ui/utils";
 import { Footer } from "@/ui/views";
 
-import Maintence from "./Maintence";
 import { QueryClientProvider } from "./query-client";
 
 // MARK: Metadata
@@ -71,18 +70,16 @@ export default async function RootLayout({
   return (
     <html lang="en" className={cn(font.variable, monoFont.variable)}>
       <body className="flex min-h-dvh flex-col overscroll-y-none">
-        <Maintence>
-          <MantineProvider theme={theme}>
-            <LazyMotion features={domAnimation}>
-              <NextIntlClientProvider messages={messages}>
-                <QueryClientProvider>
-                  {children}
-                  <Footer newsletterHandler={subscribeToNewsletter} />
-                </QueryClientProvider>
-              </NextIntlClientProvider>
-            </LazyMotion>
-          </MantineProvider>
-        </Maintence>
+        <MantineProvider theme={theme}>
+          <MotionProvider>
+            <NextIntlClientProvider messages={messages}>
+              <QueryClientProvider>
+                {children}
+                <Footer newsletterHandler={subscribeToNewsletter} />
+              </QueryClientProvider>
+            </NextIntlClientProvider>
+          </MotionProvider>
+        </MantineProvider>
       </body>
       <Analytics />
     </html>

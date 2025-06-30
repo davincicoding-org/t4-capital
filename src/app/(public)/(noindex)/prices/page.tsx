@@ -2,7 +2,7 @@
 
 import "./globals.css";
 
-import { Alert, Loader, Modal, PasswordInput, Tooltip } from "@mantine/core";
+import { Loader, Modal, PasswordInput, Tooltip } from "@mantine/core";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 
@@ -45,11 +45,7 @@ export default function PricesPage() {
 
   return (
     <main className="container grid min-h-screen py-8 max-sm:px-4">
-      <Alert title="We are running some Updates" className="m-auto" radius="md">
-        The prices will be accessible again in a few minutes.
-      </Alert>
-
-      {/* <div className="m-auto grid w-full gap-6">
+      <div className="m-auto grid w-full gap-6">
         <Modal
           opened={data === undefined}
           onClose={() => void 0}
@@ -102,7 +98,7 @@ export default function PricesPage() {
             performance={data.performance}
           />
         )}
-      </div> */}
+      </div>
     </main>
   );
 }

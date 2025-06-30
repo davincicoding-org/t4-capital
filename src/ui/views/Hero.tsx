@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo } from "react";
-import * as m from "motion/react-m";
 import { useTranslations } from "next-intl";
 
+import { MotionDiv, MotionSvg } from "@/ui/motion";
 import { cn } from "@/ui/utils";
 
 import { BackgroundGradientAnimation } from "../components/BackgroundGradientAnimation";
@@ -28,7 +28,7 @@ export function Hero({ className }: { className?: string }) {
         )}
       >
         <div className="relative flex items-end justify-center">
-          <m.svg
+          <MotionSvg
             initial={{
               x: "-50vw",
             }}
@@ -46,8 +46,8 @@ export function Hero({ className }: { className?: string }) {
               d="M100 150L100 50H150V0H0V50H50L50 150H100Z"
               fill="#08202D"
             />
-          </m.svg>
-          <m.svg
+          </MotionSvg>
+          <MotionSvg
             className="absolute bottom-0 left-1/2"
             initial={{
               y: "-50vh",
@@ -63,8 +63,8 @@ export function Hero({ className }: { className?: string }) {
             xmlns="http://www.w3.org/2000/svg"
           >
             <rect x="4" width="46" height="46" fill="#08202D" />
-          </m.svg>
-          <m.svg
+          </MotionSvg>
+          <MotionSvg
             initial={{
               x: "50vw",
             }}
@@ -83,9 +83,9 @@ export function Hero({ className }: { className?: string }) {
               fill="#08202D"
             />
             <path d="M0 50H150V100H0V50Z" fill="#08202D" />
-          </m.svg>
+          </MotionSvg>
         </div>
-        <m.div
+        <MotionDiv
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
@@ -98,7 +98,7 @@ export function Hero({ className }: { className?: string }) {
           {headline.map((content) => (
             <ScrambleText key={content} delay={500} content={content} />
           ))}
-        </m.div>
+        </MotionDiv>
       </div>
     </BackgroundGradientAnimation>
   );

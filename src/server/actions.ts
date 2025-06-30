@@ -22,6 +22,7 @@ export const fetchStrategies = cachedRequest(
       collection: "strategies",
       sort: "order",
       locale,
+      pagination: false,
     });
     return docs;
   },
@@ -69,23 +70,6 @@ export const fetchProductByPassword = cachedRequest(
       },
     });
     return product;
-    // const [security] = await db.query.security.findMany({
-    //   where: (security, { eq }) => eq(security.password, password),
-    //   columns: {
-    //     isin: true,
-    //     id: true,
-    //     name: true,
-    //   },
-    //   with: {
-    //     strategy: {
-    //       columns: {
-    //         title: true,
-    //         launchDate: true,
-    //         color: true,
-    //       },
-    //     },
-    //   },
-    // });
   },
   ["cms", "products"],
 );
@@ -99,6 +83,7 @@ export const fetchProductPrices = cachedRequest(
         date: true,
         price: true,
       },
+      pagination: false,
       where: {
         product: {
           equals: productId,

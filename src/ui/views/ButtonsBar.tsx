@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { Button } from "@mantine/core";
-import * as m from "motion/react-m";
 import { useTranslations } from "next-intl";
+
+import { MotionDiv } from "@/ui/motion";
 
 export function ButtonsBar() {
   const t = useTranslations("header");
   return (
-    <m.div
+    <MotionDiv
       className="sticky top-0 right-0 left-0 z-20 -mb-20 flex justify-center p-2 md:justify-end"
       initial={{
         y: "-100%",
@@ -32,6 +33,6 @@ export function ButtonsBar() {
       >
         {t("login")}
       </Button>
-    </m.div>
+    </MotionDiv>
   );
 }

@@ -6,9 +6,9 @@ import { ActionIcon, Button } from "@mantine/core";
 import { useDisclosure, useOs } from "@mantine/hooks";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useReducedMotion } from "motion/react";
 import { useTranslations } from "next-intl";
 
+import { useReducedMotion } from "@/ui/motion";
 import { cn } from "@/ui/utils";
 
 import { CardBody, CardContainer, CardItem } from "../components/3d-card";

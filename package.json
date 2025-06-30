@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "check": "next lint && tsc --noEmit",
     "create-migration": "payload migrate:create",
     "generate-types": "payload generate:types",
@@ -43,7 +43,7 @@
     "googleapis": "^148.0.0",
     "graphql": "^16.8.1",
     "lodash-es": "^4.17.21",
-    "motion": "^12.11.0",
+    "motion": "^12.20.1",
     "next": "^15.2.3",
     "next-intl": "^4.1.0",
     "payload": "^3.44.0",
