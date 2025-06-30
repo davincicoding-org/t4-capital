@@ -16,26 +16,36 @@ export const LandingPage: GlobalConfig = {
   },
   fields: [
     {
-      type: "group",
-      label: "Team",
-      fields: [
+      type: "tabs",
+      tabs: [
         {
-          name: "teamMembers",
-          label: "Members",
-          type: "array",
-          dbName: "team_members",
-          required: true,
+          label: "Team",
           fields: [
             {
-              name: "name",
-              type: "text",
-              required: true,
+              name: "teamImage",
+              type: "upload",
+              relationTo: "media",
+              // required: true,
             },
             {
-              name: "linkedIn",
-              type: "text",
-              label: "LinkedIn",
+              name: "teamMembers",
+              label: "Members",
+              type: "array",
+              dbName: "team_members",
               required: true,
+              fields: [
+                {
+                  name: "name",
+                  type: "text",
+                  required: true,
+                },
+                {
+                  name: "linkedIn",
+                  type: "text",
+                  label: "LinkedIn",
+                  required: true,
+                },
+              ],
             },
           ],
         },
