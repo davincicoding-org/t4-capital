@@ -5,10 +5,6 @@ export const SUPPORTED_LOCALES = ["en"] as const;
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 
 export const MESSAGES_SCHEMA = {
-  meta: {
-    title: "short",
-    description: "long",
-  },
   header: {
     login: "short",
     newsletter: "short",
@@ -45,15 +41,8 @@ export const MESSAGES_SCHEMA = {
     success: "short",
     error: "short",
   },
+  // TODO Remove
   prices: {
     disclaimer: "rich",
-  },
-  imprint: {
-    title: "short",
-    content: "rich",
-  },
-  privacy: {
-    title: "short",
-    content: "rich",
   },
 } satisfies MessagesSchema;

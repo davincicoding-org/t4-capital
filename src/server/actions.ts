@@ -3,7 +3,7 @@
 import { revalidateTag } from "next/cache";
 
 import type { SupportedLocale } from "@/i18n/config";
-import type { Product, ProductPrice } from "@/payload-types";
+import type { LegalPage, Product, ProductPrice } from "@/payload-types";
 import { computeSecurityPerformance } from "@/utils/computeSecurityPerformance";
 import { computeSecurityReturns } from "@/utils/computeSecurityReturns";
 
@@ -49,6 +49,48 @@ export const fetchLandingPage = cachedRequest(
     });
   },
   ["landing-page"],
+);
+
+export const fetchLegalPage = cachedRequest(
+  async (slug: LegalPage["slug"], locale: SupportedLocale) => {
+    const payload = await getPayloadClient();
+    const {
+      docs: [data],
+    } = await payload.find({
+      collection: "legal-pages",
+      where: {
+        slug: {
+          equals: slug,
+        },
+      },
+      locale,
+    });
+
+    return data;
+  },
+  ["legal-pages"],
+);
+
+export const fetchLegalPagesLinks = cachedRequest(
+  async (locale: SupportedLocale) => {
+    const payload = await getPayloadClient();
+    const { docs } = await payload.find({
+      collection: "legal-pages",
+      sort: "navigation.order",
+      locale,
+      select: {
+        title: true,
+        slug: true,
+        navigation: true,
+      },
+    });
+
+    return docs.map(({ title, slug, navigation }) => ({
+      label: navigation.label ?? title,
+      slug,
+    }));
+  },
+  ["legal-pages"],
 );
 
 export const fetchProductByPassword = cachedRequest(

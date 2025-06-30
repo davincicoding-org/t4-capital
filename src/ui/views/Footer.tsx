@@ -14,10 +14,15 @@ import { cn } from "@/ui/utils";
 import { NewsletterForm } from "./NewsletterForm";
 
 interface IFooterProps {
+  legalPages: {
+    label: string;
+    slug: string;
+  }[];
   newsletterHandler: NewsletterHandler;
 }
 
 export function Footer({
+  legalPages,
   newsletterHandler,
   className,
   ...attrs
@@ -54,24 +59,18 @@ export function Footer({
             Contact
           </Anchor>
 
-          <Anchor
-            component={Link}
-            fz={{ base: 16, sm: 20 }}
-            c="black"
-            href="/imprint"
-            target="_blank"
-          >
-            {t("imprint.title")}
-          </Anchor>
-          <Anchor
-            component={Link}
-            fz={{ base: 16, sm: 20 }}
-            c="black"
-            href="/privacy"
-            target="_blank"
-          >
-            {t("privacy.title")}
-          </Anchor>
+          {legalPages.map(({ label, slug }) => (
+            <Anchor
+              key={slug}
+              component={Link}
+              fz={{ base: 16, sm: 20 }}
+              c="black"
+              href={`/${slug}`}
+              target="_blank"
+            >
+              {label}
+            </Anchor>
+          ))}
         </div>
 
         <div className="ml-auto flex flex-wrap gap-2 max-sm:basis-full max-sm:justify-evenly sm:basis-[180px] sm:justify-end">

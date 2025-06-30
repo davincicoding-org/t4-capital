@@ -1,12 +1,28 @@
-import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getLocale } from "next-intl/server";
+
+import { fetchLegalPage } from "@/server/actions";
+import RichText from "@/ui/components/RichText";
+import { resolveMetadata } from "@/utils/resolveMetadata";
+
+export const generateMetadata = async (): Promise<Metadata> => {
+  const locale = await getLocale();
+  const data = await fetchLegalPage("privacy", locale);
+  return resolveMetadata(data?.meta);
+};
 
 export default async function PrivacyPage() {
-  const t = await getTranslations("privacy");
+  const locale = await getLocale();
+  const data = await fetchLegalPage("privacy", locale);
+  if (!data) {
+    notFound();
+  }
 
   return (
-    <main className="prose container flex-1 px-4 py-16">
-      <h1>{t("title")}</h1>
-      <div dangerouslySetInnerHTML={{ __html: t.raw("content") as string }} />
+    <main className="container flex-1 px-4 py-16">
+      <h1 className="text-2xl font-medium">{data.title}</h1>
+      <RichText data={data.content} />
     </main>
   );
 }

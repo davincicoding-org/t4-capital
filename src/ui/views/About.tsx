@@ -6,7 +6,7 @@ import { IconBrandLinkedinFilled } from "@tabler/icons-react";
 import { getTranslations } from "next-intl/server";
 
 import type { LandingPage } from "@/payload-types";
-import { cn } from "@/ui/utils";
+import { cn, ensureResolved } from "@/ui/utils";
 
 function Logo() {
   return (
@@ -21,15 +21,19 @@ function Logo() {
 }
 
 export interface AboutProps {
+  teamImage: LandingPage["teamImage"];
   teamMembers: LandingPage["teamMembers"];
 }
 
 export async function About({
+  teamImage,
   teamMembers,
   className,
   ...attrs
 }: AboutProps & HTMLAttributes<HTMLElement>) {
   const t = await getTranslations("about");
+  const image = ensureResolved(teamImage);
+
   return (
     <section className={cn("grid gap-20 md:gap-20", className)} {...attrs}>
       <div className={cn("grid gap-6 md:grid-cols-[auto_1fr] md:gap-32")}>
@@ -51,13 +55,15 @@ export async function About({
           "bg-noise mx-auto grid max-w-4xl overflow-clip rounded-2xl bg-black/5 shadow-sm",
         )}
       >
-        <Image
-          width="4032"
-          height="2688"
-          className={cn("h-auto w-full rounded-2xl shadow-sm")}
-          src="/images/team.webp"
-          alt="Team Photo"
-        />
+        {image?.url && (
+          <Image
+            src={image.url}
+            width={image.width ?? undefined}
+            height={image.height ?? undefined}
+            alt={image.description ?? ""}
+            className={cn("h-auto w-full rounded-2xl shadow-sm")}
+          />
+        )}
         <div
           className={cn(
             "flex justify-evenly gap-3 overflow-x-auto overscroll-x-contain px-3 pt-3 pb-1 md:p-6 md:pb-3",

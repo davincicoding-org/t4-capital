@@ -596,11 +596,20 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface LandingPage {
   id: number;
+  teamImage?: (number | null) | Media;
   teamMembers: {
     name: string;
     linkedIn: string;
     id?: string | null;
   }[];
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -610,7 +619,7 @@ export interface LandingPage {
  */
 export interface PricesPage {
   id: number;
-  content: {
+  disclaimer: {
     root: {
       type: string;
       children: {
@@ -625,6 +634,14 @@ export interface PricesPage {
     };
     [k: string]: unknown;
   };
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -633,12 +650,20 @@ export interface PricesPage {
  * via the `definition` "landing-page_select".
  */
 export interface LandingPageSelect<T extends boolean = true> {
+  teamImage?: T;
   teamMembers?:
     | T
     | {
         name?: T;
         linkedIn?: T;
         id?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -649,7 +674,14 @@ export interface LandingPageSelect<T extends boolean = true> {
  * via the `definition` "prices-page_select".
  */
 export interface PricesPageSelect<T extends boolean = true> {
-  content?: T;
+  disclaimer?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

@@ -3,7 +3,23 @@ import { fileURLToPath } from "url";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { resendAdapter } from "@payloadcms/email-resend";
 import { seoPlugin } from "@payloadcms/plugin-seo";
-import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import {
+  AlignFeature,
+  BlockquoteFeature,
+  BoldFeature,
+  ChecklistFeature,
+  HeadingFeature,
+  HorizontalRuleFeature,
+  IndentFeature,
+  InlineToolbarFeature,
+  ItalicFeature,
+  lexicalEditor,
+  LinkFeature,
+  OrderedListFeature,
+  ParagraphFeature,
+  UnderlineFeature,
+  UnorderedListFeature,
+} from "@payloadcms/richtext-lexical";
 import { s3Storage } from "@payloadcms/storage-s3";
 import { buildConfig } from "payload";
 import { polyglotPlugin } from "payload-polyglot";
@@ -49,7 +65,24 @@ export default buildConfig({
     Users,
     LegalPages,
   ],
-  editor: lexicalEditor(),
+  editor: lexicalEditor({
+    features: [
+      BoldFeature(),
+      ItalicFeature(),
+      UnderlineFeature(),
+      ParagraphFeature(),
+      HeadingFeature(),
+      AlignFeature(),
+      IndentFeature(),
+      UnorderedListFeature(),
+      OrderedListFeature(),
+      ChecklistFeature(),
+      LinkFeature(),
+      BlockquoteFeature(),
+      HorizontalRuleFeature(),
+      InlineToolbarFeature(),
+    ],
+  }),
   secret: env.PAYLOAD_SECRET,
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
@@ -90,16 +123,6 @@ export default buildConfig({
       collections: ["legal-pages"],
       uploadsCollection: "media",
       tabbedUI: true,
-      fields: ({ defaultFields }) =>
-        defaultFields.map((field) => {
-          if ("name" in field && field.name === "title") {
-            return {
-              ...field,
-              localized: true,
-            };
-          }
-          return field;
-        }),
     }),
     s3Storage({
       collections: {

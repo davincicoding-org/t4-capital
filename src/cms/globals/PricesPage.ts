@@ -16,11 +16,21 @@ export const PricesPage: GlobalConfig = {
   },
   fields: [
     {
-      name: "content",
-      label: false,
-      type: "richText",
-      localized: true,
-      required: true,
+      type: "tabs",
+      tabs: [
+        {
+          label: "Disclaimer",
+          fields: [
+            {
+              name: "disclaimer",
+              label: false,
+              type: "richText",
+              localized: true,
+              required: true,
+            },
+          ],
+        },
+      ],
     },
   ],
   hooks: {

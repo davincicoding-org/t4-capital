@@ -6,6 +6,7 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
+    BASE_URL: z.string(),
     POSTGRES_URL: z.string(),
     PAYLOAD_SECRET: z.string(),
     SUPABASE_URL: z.string(),
@@ -21,6 +22,19 @@ export const env = createEnv({
   client: {},
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
+    BASE_URL: (() => {
+      const isVercel = process.env.VERCEL === "1";
+      if (isVercel) {
+        const vercelEnv = process.env.VERCEL_ENV;
+        const vercelPreviewUrl = process.env.VERCEL_BRANCH_URL;
+        const vercelProductionUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+
+        if (vercelEnv === "preview") return `https://${vercelPreviewUrl}`;
+        if (vercelEnv === "production") return `https://${vercelProductionUrl}`;
+      }
+
+      return process.env.__NEXT_PRIVATE_ORIGIN ?? "https://localhost:3000";
+    })(),
     // UGLY FIX
     POSTGRES_URL: process.env.POSTGRES_URL?.replace("sslmode=require&", ""),
     PAYLOAD_SECRET: process.env.PAYLOAD_SECRET,

@@ -1,6 +1,5 @@
 import "./globals.css";
 
-import { type Metadata } from "next";
 import {
   Host_Grotesk as Font,
   Azeret_Mono as MonoFont,
@@ -8,25 +7,15 @@ import {
 import { createTheme, MantineProvider } from "@mantine/core";
 import { Analytics } from "@vercel/analytics/react";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, getTranslations } from "next-intl/server";
+import { getMessages } from "next-intl/server";
 
+import { fetchLegalPagesLinks } from "@/server/actions";
 import { subscribeToNewsletter } from "@/services/newsletter";
 import { MotionProvider } from "@/ui/motion";
 import { cn } from "@/ui/utils";
 import { Footer } from "@/ui/views";
 
 import { QueryClientProvider } from "./query-client";
-
-// MARK: Metadata
-export const generateMetadata = async (): Promise<Metadata> => {
-  const t = await getTranslations();
-
-  return {
-    metadataBase: new URL("https://t4-capital.ch"),
-    title: t("meta.title"),
-    description: t("meta.description"),
-  };
-};
 
 // MARK: Theme
 
@@ -67,6 +56,8 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const messages = await getMessages();
+  const legalPages = await fetchLegalPagesLinks("en");
+
   return (
     <html lang="en" className={cn(font.variable, monoFont.variable)}>
       <body className="flex min-h-dvh flex-col overscroll-y-none">
@@ -75,7 +66,10 @@ export default async function RootLayout({
             <NextIntlClientProvider messages={messages}>
               <QueryClientProvider>
                 {children}
-                <Footer newsletterHandler={subscribeToNewsletter} />
+                <Footer
+                  legalPages={legalPages}
+                  newsletterHandler={subscribeToNewsletter}
+                />
               </QueryClientProvider>
             </NextIntlClientProvider>
           </MotionProvider>
