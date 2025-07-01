@@ -49,6 +49,30 @@ export const LandingPage: GlobalConfig = {
             },
           ],
         },
+        {
+          label: "Advisors",
+          fields: [
+            {
+              name: "advisors",
+              label: "Members",
+              type: "array",
+              dbName: "advisors",
+              required: true,
+              fields: [
+                {
+                  name: "name",
+                  type: "text",
+                  required: true,
+                },
+                {
+                  name: "description",
+                  type: "textarea",
+                  required: true,
+                },
+              ],
+            },
+          ],
+        },
       ],
     },
   ],
