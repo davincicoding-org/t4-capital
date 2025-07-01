@@ -3,10 +3,16 @@
 import { type HTMLAttributes } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Anchor, Button } from "@mantine/core";
+import { ActionIcon, Anchor, Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconBrandLinkedinFilled } from "@tabler/icons-react";
+import {
+  IconBrandLinkedinFilled,
+  IconMailOpened,
+  IconMailOpenedFilled,
+  IconSpeakerphone,
+} from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
+import { Action } from "payload";
 
 import type { NewsletterHandler } from "@/services/newsletter";
 import { cn } from "@/ui/utils";
@@ -74,34 +80,27 @@ export function Footer({
         </div>
 
         <div className="ml-auto flex flex-wrap gap-2 max-sm:basis-full max-sm:justify-evenly sm:basis-[180px] sm:justify-end">
-          <Button
-            classNames={{
-              root: cn("pl-2"),
-            }}
+          <ActionIcon
+            component="a"
+            variant="subtle"
             color="black"
-            variant="outline"
-            radius="xl"
-            component={Link}
+            size="xl"
+            radius="lg"
             href="https://www.linkedin.com/company/t4-capital"
-            target="_blank"
-            leftSection={<IconBrandLinkedinFilled size={24} />}
+            aria-label={t("footer.cta.follow")}
           >
-            {t("footer.cta.follow")}
-          </Button>
-          <Button
+            <IconBrandLinkedinFilled size={32} />
+          </ActionIcon>
+          <ActionIcon
+            variant="subtle"
             color="black"
-            variant="outline"
-            radius="xl"
+            size="xl"
+            radius="lg"
             onClick={newsletter.open}
+            aria-label={t("footer.cta.newsletter")}
           >
-            {t("footer.cta.newsletter")}
-          </Button>
-
-          <NewsletterForm
-            handler={newsletterHandler}
-            open={isNewsletterOpen}
-            onClose={newsletter.close}
-          />
+            <IconSpeakerphone stroke={1.5} size={32} />
+          </ActionIcon>
         </div>
       </div>
     </footer>

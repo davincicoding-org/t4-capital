@@ -1,4 +1,4 @@
-import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
+import { MigrateDownArgs, MigrateUpArgs, sql } from "@payloadcms/db-postgres";
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
@@ -12,10 +12,14 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   
   ALTER TABLE "advisors" ADD CONSTRAINT "advisors_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."landing_page"("id") ON DELETE cascade ON UPDATE no action;
   CREATE INDEX "advisors_order_idx" ON "advisors" USING btree ("_order");
-  CREATE INDEX "advisors_parent_id_idx" ON "advisors" USING btree ("_parent_id");`)
+  CREATE INDEX "advisors_parent_id_idx" ON "advisors" USING btree ("_parent_id");`);
 }
 
-export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
+export async function down({
+  db,
+  payload,
+  req,
+}: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
-   DROP TABLE "advisors" CASCADE;`)
+   DROP TABLE "advisors" CASCADE;`);
 }

@@ -1,9 +1,19 @@
+"use client";
+
 import type { HTMLAttributes } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ActionIcon } from "@mantine/core";
+import {
+  ActionIcon,
+  Blockquote,
+  Button,
+  Collapse,
+  Paper,
+  ScrollArea,
+} from "@mantine/core";
 import { IconBrandLinkedinFilled } from "@tabler/icons-react";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 
 import type { LandingPage } from "@/payload-types";
 import { cn, ensureResolved } from "@/ui/utils";
@@ -23,29 +33,35 @@ function Logo() {
 export interface AboutProps {
   teamImage: LandingPage["teamImage"];
   teamMembers: LandingPage["teamMembers"];
+  advisors: LandingPage["advisors"];
 }
 
-export async function About({
+export function About({
   teamImage,
   teamMembers,
   className,
+  advisors,
   ...attrs
 }: AboutProps & HTMLAttributes<HTMLElement>) {
-  const t = await getTranslations("about");
+  const t = useTranslations();
   const image = ensureResolved(teamImage);
+  const [activeAdvisorIndex, setActiveAdvisorIndex] = useState<string | null>();
+  const advistorDescriptionRef = useRef<HTMLDivElement>(null);
 
   return (
     <section className={cn("grid gap-20 md:gap-20", className)} {...attrs}>
       <div className={cn("grid gap-6 md:grid-cols-[auto_1fr] md:gap-32")}>
-        <span className="text-xl font-medium max-sm:text-lg">{t("title")}</span>
+        <span className="text-xl font-medium max-sm:text-lg">
+          {t("about.title")}
+        </span>
         <div className={cn("grid gap-10 md:gap-16")}>
           <p className={cn("max-w-4xl text-3xl md:text-5xl")}>
-            {t.rich("content", {
+            {t.rich("about.content", {
               Logo,
             })}
           </p>
           <p className={cn("text-gray-69 max-w-2xl text-2xl")}>
-            {t("founders")}
+            {t("about.founders")}
           </p>
         </div>
       </div>
@@ -95,6 +111,66 @@ export async function About({
               </ActionIcon>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div className="grid gap-8">
+        <div className="">
+          <h3 className="mb-4 text-4xl font-medium">{t("advisors.title")}</h3>
+          <p className="text-gray-69 text-xl">{t("advisors.description")}</p>
+        </div>
+
+        <div
+          className="grid gap-4"
+          onMouseLeave={() => setActiveAdvisorIndex(null)}
+        >
+          <ScrollArea className="overscroll-x-contain" scrollbars="x">
+            <div className="flex flex-nowrap gap-2 sm:gap-4">
+              {advisors.map((advisor) => (
+                <Button
+                  key={advisor.name}
+                  className="shrink-0 cursor-pointer transition-colors max-sm:grow-1"
+                  size="lg"
+                  radius="md"
+                  px="sm"
+                  variant={
+                    activeAdvisorIndex === advisor.id ? "outline" : "default"
+                  }
+                  onMouseEnter={() => {
+                    setActiveAdvisorIndex(advisor.id);
+                    setTimeout(() => {
+                      advistorDescriptionRef.current?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "nearest",
+                      });
+                    }, 500);
+                  }}
+                >
+                  {advisor.name}
+                </Button>
+              ))}
+            </div>
+          </ScrollArea>
+          <div ref={advistorDescriptionRef} className="scroll-mb-8">
+            {advisors.map((advisor) => (
+              <Collapse
+                key={advisor.name}
+                in={activeAdvisorIndex === advisor.id}
+                transitionDuration={500}
+              >
+                <Paper
+                  radius="md"
+                  color="gray"
+                  p="md"
+                  bg="gray.0"
+                  withBorder
+                  className="text-lg text-pretty"
+                >
+                  {advisor.description}
+                </Paper>
+              </Collapse>
+            ))}
+          </div>
         </div>
       </div>
     </section>

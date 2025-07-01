@@ -602,6 +602,11 @@ export interface LandingPage {
     linkedIn: string;
     id?: string | null;
   }[];
+  advisors: {
+    name: string;
+    description: string;
+    id?: string | null;
+  }[];
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -656,6 +661,13 @@ export interface LandingPageSelect<T extends boolean = true> {
     | {
         name?: T;
         linkedIn?: T;
+        id?: T;
+      };
+  advisors?:
+    | T
+    | {
+        name?: T;
+        description?: T;
         id?: T;
       };
   meta?:

@@ -29,6 +29,7 @@ export default async function Home() {
         className="container"
         teamImage={pageData.teamImage}
         teamMembers={pageData.teamMembers}
+        advisors={pageData.advisors}
       />
     </main>
   );
