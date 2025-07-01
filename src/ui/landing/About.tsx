@@ -34,8 +34,6 @@ export async function About({
   const t = await getTranslations("about");
   const image = ensureResolved(teamImage);
 
-  console.log(image);
-
   return (
     <section className={cn("grid gap-20 md:gap-20", className)} {...attrs}>
       <div className={cn("grid gap-6 md:grid-cols-[auto_1fr] md:gap-32")}>
