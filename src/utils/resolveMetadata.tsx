@@ -24,14 +24,14 @@ export const resolveMetadata = (
     openGraph: {
       title: meta.title ?? undefined,
       description: meta.description ?? undefined,
+      url: new URL(env.BASE_URL),
+      type: "website",
       images: image?.sizes?.og?.url
-        ? [
-            {
-              url: image.sizes.og.url,
-              width: image.sizes.og.width ?? undefined,
-              height: image.sizes.og.height ?? undefined,
-            },
-          ]
+        ? {
+            url: image.sizes.og.url,
+            width: image.sizes.og.width ?? undefined,
+            height: image.sizes.og.height ?? undefined,
+          }
         : undefined,
     },
   };
