@@ -34,6 +34,8 @@ export async function About({
   const t = await getTranslations("about");
   const image = ensureResolved(teamImage);
 
+  console.log(image);
+
   return (
     <section className={cn("grid gap-20 md:gap-20", className)} {...attrs}>
       <div className={cn("grid gap-6 md:grid-cols-[auto_1fr] md:gap-32")}>
@@ -52,7 +54,7 @@ export async function About({
 
       <div
         className={cn(
-          "bg-noise mx-auto grid max-w-4xl overflow-clip rounded-2xl bg-black/5 shadow-sm",
+          "bg-noise mx-auto grid w-full max-w-4xl overflow-clip rounded-2xl bg-black/5 shadow-sm",
         )}
       >
         {image?.url && (
@@ -84,6 +86,7 @@ export async function About({
                 color="gray"
                 className={cn("group")}
                 component={Link}
+                aria-label={`${member.name} LinkedIn`}
                 href={member.linkedIn}
                 target="_blank"
               >

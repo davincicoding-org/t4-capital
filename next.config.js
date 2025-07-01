@@ -1,12 +1,7 @@
 import { withPayload } from "@payloadcms/next/withPayload";
-
-/**
- * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
- * for Docker builds.
- */
-import "./src/env.js";
-
 import createNextIntlPlugin from "next-intl/plugin";
+
+import { env } from "./src/env.js";
 
 const withNextIntl = createNextIntlPlugin();
 
@@ -14,6 +9,13 @@ const withNextIntl = createNextIntlPlugin();
 const config = {
   eslint: {
     dirs: ["src"],
+  },
+  images: {
+    remotePatterns: [
+      {
+        hostname: new URL(env.SUPABASE_URL).hostname,
+      },
+    ],
   },
   experimental: {
     optimizePackageImports: [

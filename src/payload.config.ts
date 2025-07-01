@@ -52,7 +52,7 @@ export default buildConfig({
     },
     components: {
       graphics: {
-        Logo: "@/cms/components/AdminLogo.tsx",
+        Logo: "@/cms/components/AdminLogo",
       },
     },
   },
