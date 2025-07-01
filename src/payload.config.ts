@@ -50,6 +50,11 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      graphics: {
+        Logo: "@/cms/components/AdminLogo.tsx",
+      },
+    },
   },
   localization: {
     locales: [...SUPPORTED_LOCALES],

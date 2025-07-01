@@ -22,6 +22,7 @@ import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea
 import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MessagesEditor as MessagesEditor_c6c0778e90db7bb0cd65291aef6aa70f } from 'payload-polyglot/rsc'
+import { default as default_04d0cb37680100fe46bcb4b228151439 } from '@/cms/components/AdminLogo.tsx'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 
 export const importMap = {
@@ -49,5 +50,6 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "payload-polyglot/rsc#MessagesEditor": MessagesEditor_c6c0778e90db7bb0cd65291aef6aa70f,
+  "@/cms/components/AdminLogo.tsx#default": default_04d0cb37680100fe46bcb4b228151439,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24
 }
