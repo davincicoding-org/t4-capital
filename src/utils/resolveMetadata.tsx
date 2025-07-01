@@ -24,12 +24,12 @@ export const resolveMetadata = (
     openGraph: {
       title: meta.title ?? undefined,
       description: meta.description ?? undefined,
-      images: image?.url
+      images: image?.sizes?.og?.url
         ? [
             {
-              url: image.url,
-              width: image.width ?? undefined,
-              height: image.height ?? undefined,
+              url: image.sizes.og.url,
+              width: image.sizes.og.width ?? undefined,
+              height: image.sizes.og.height ?? undefined,
             },
           ]
         : undefined,
