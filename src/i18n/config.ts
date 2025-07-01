@@ -21,6 +21,10 @@ export const MESSAGES_SCHEMA = {
     content: ["long", "<Logo></Logo>"],
     founders: "long",
   },
+  advisors: {
+    title: "short",
+    description: "long",
+  },
   footer: {
     contact: "short",
     copyright: "short",
