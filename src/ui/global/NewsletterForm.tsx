@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Alert, Button, Modal, TextInput } from "@mantine/core";
+import { Alert, Button, FocusTrap, Modal, TextInput } from "@mantine/core";
 import { useForm } from "@tanstack/react-form";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
@@ -57,6 +57,7 @@ export function NewsletterForm({
       centered
       radius="lg"
     >
+      <FocusTrap.InitialFocus />
       {submission?.success === true && (
         <Alert color="green" className="mb-3" title={t("success")} />
       )}
