@@ -18,7 +18,7 @@ export default function RichText({
       className={cn(
         "payload-richtext",
         {
-          "prose md:prose-md dark:prose-invert mx-auto": enableProse,
+          "prose md:prose-md mx-auto": enableProse,
         },
         className,
       )}

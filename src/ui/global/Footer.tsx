@@ -13,7 +13,7 @@ import { cn } from "@/ui/utils";
 
 import { NewsletterForm } from "./NewsletterForm";
 
-interface IFooterProps {
+interface FooterProps {
   legalPages: {
     label: string;
     slug: string;
@@ -26,7 +26,7 @@ export function Footer({
   newsletterHandler,
   className,
   ...attrs
-}: IFooterProps & HTMLAttributes<HTMLElement>) {
+}: FooterProps & HTMLAttributes<HTMLElement>) {
   const t = useTranslations();
   const [isNewsletterOpen, newsletter] = useDisclosure();
 

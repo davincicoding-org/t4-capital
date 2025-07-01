@@ -41,8 +41,4 @@ export const MESSAGES_SCHEMA = {
     success: "short",
     error: "short",
   },
-  // TODO Remove
-  prices: {
-    disclaimer: "rich",
-  },
 } satisfies MessagesSchema;

@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
 
-export interface IScrambleTextProps {
+export interface ScrambleTextProps {
   content: string;
   delay?: number;
   className?: string;
 }
 
-export function ScrambleText({
-  content,
-  delay,
-  className,
-}: IScrambleTextProps) {
+export function ScrambleText({ content, delay, className }: ScrambleTextProps) {
   const [chars, setChars] = useState<
     Array<{
       key: string;

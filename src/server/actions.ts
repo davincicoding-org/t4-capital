@@ -1,11 +1,15 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
+import { cookies } from "next/headers";
 
 import type { SupportedLocale } from "@/i18n/config";
 import type { LegalPage, Product, ProductPrice } from "@/payload-types";
-import { computeSecurityPerformance } from "@/utils/computeSecurityPerformance";
-import { computeSecurityReturns } from "@/utils/computeSecurityReturns";
+import { ensureResolved } from "@/ui/utils";
+import {
+  computeSecurityPerformance,
+  computeSecurityReturns,
+} from "@/utils/prices";
 
 import type { CacheTag } from "./cache";
 import { cachedRequest } from "./cache";
@@ -51,6 +55,17 @@ export const fetchLandingPage = cachedRequest(
   ["landing-page"],
 );
 
+export const fetchPricesPage = cachedRequest(
+  async (locale: SupportedLocale) => {
+    const payload = await getPayloadClient();
+    return payload.findGlobal({
+      slug: "prices-page",
+      locale,
+    });
+  },
+  ["prices-page"],
+);
+
 export const fetchLegalPage = cachedRequest(
   async (slug: LegalPage["slug"], locale: SupportedLocale) => {
     const payload = await getPayloadClient();
@@ -93,27 +108,61 @@ export const fetchLegalPagesLinks = cachedRequest(
   ["legal-pages"],
 );
 
-export const fetchProductByPassword = cachedRequest(
+export const fetchProductIdByPassword = cachedRequest(
   async (password: Product["password"]) => {
     const payload = await getPayloadClient();
     const {
       docs: [product],
     } = await payload.find({
       collection: "products",
-      select: {
-        isin: true,
-        id: true,
-        strategy: true,
-      },
+      select: {},
       where: {
         password: {
           equals: password,
         },
       },
     });
-    return product;
+
+    return product?.id;
   },
-  ["cms", "products"],
+  ["products"],
+);
+
+export const unlockProductData = async (password: Product["password"]) => {
+  const productId = await fetchProductIdByPassword(password);
+
+  if (!productId)
+    return {
+      success: false,
+    };
+
+  const cookieStore = await cookies();
+
+  cookieStore.set("product-id", productId.toString(), {
+    httpOnly: true,
+    maxAge: 10,
+    sameSite: "lax",
+    path: "/prices",
+  });
+
+  return {
+    success: true,
+  };
+};
+
+export const fetchProductMetadata = cachedRequest(
+  async (productId: Product["id"]) => {
+    const payload = await getPayloadClient();
+    return await payload.findByID({
+      collection: "products",
+      select: {
+        strategy: true,
+        isin: true,
+      },
+      id: productId,
+    });
+  },
+  ["products"],
 );
 
 export const fetchProductPrices = cachedRequest(
@@ -139,16 +188,18 @@ export const fetchProductPrices = cachedRequest(
 
 export const fetchProductData = cachedRequest(
   async (productId: Product["id"]) => {
+    const { isin, strategy } = await fetchProductMetadata(productId);
     const { docs: prices } = await fetchProductPrices(productId);
     const returns = computeSecurityReturns(prices);
-
     const performance = computeSecurityPerformance(prices);
 
     return {
+      isin,
+      strategy: ensureResolved(strategy)!,
       prices,
       returns,
       performance,
     };
   },
-  ["prices", "products"],
+  ["prices"],
 );

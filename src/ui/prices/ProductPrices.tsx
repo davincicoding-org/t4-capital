@@ -1,5 +1,6 @@
 "use client";
 
+import type { DefaultTypedEditorState } from "@payloadcms/richtext-lexical";
 import { useMemo, useState } from "react";
 import { Button, Divider, Flex, Paper, Popover } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
@@ -7,38 +8,41 @@ import { useClickOutside } from "@mantine/hooks";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useTranslations } from "next-intl";
 
 import type { Product, Strategy } from "@/payload-types";
 
+import RichText from "../components/RichText";
 import {
   type PricePoint,
-  type SecurityPerformance,
+  type ProductPerformance,
   type YearlyReturn,
 } from "../types";
+import { cn } from "../utils";
 import { PriceChart } from "./PriceChart";
 import { ReturnsSummary } from "./ReturnsSummary";
 
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
 
-export type ISecurityPricesProps = {
+export type ProductPricesProps = {
   isin: Product["isin"];
   strategy: Pick<Strategy, "title" | "color" | "launchDate">;
   prices: PricePoint[];
   returns: YearlyReturn[];
-  performance: SecurityPerformance;
+  performance: ProductPerformance;
+  disclaimer: DefaultTypedEditorState;
+  className?: string;
 };
 
-export function SecurityPrices({
+export function ProductPrices({
   isin,
   strategy,
   performance,
   prices,
   returns,
-}: ISecurityPricesProps) {
-  const t = useTranslations();
-
+  disclaimer,
+  className,
+}: ProductPricesProps) {
   const [dateRange, setDateRange] = useState<
     "ALL" | "1M" | "3M" | "1Y" | "DATE"
   >("ALL");
@@ -52,7 +56,11 @@ export function SecurityPrices({
   }, [prices, startDate]);
 
   return (
-    <Paper withBorder radius="md" className="mx-auto max-w-2xl overflow-clip">
+    <Paper
+      withBorder
+      radius="md"
+      className={cn("max-w-2xl overflow-clip", className)}
+    >
       <Paper
         className="flex items-center justify-between rounded-b-none bg-cover px-3 py-2"
         style={{
@@ -169,13 +177,7 @@ export function SecurityPrices({
         </Paper>
       </Flex>
       <Divider />
-      <div
-        className="prose prose-sm max-w-none p-4 opacity-70"
-        // className=" text-center text-xs "
-        dangerouslySetInnerHTML={{
-          __html: t.raw("prices.disclaimer") as string,
-        }}
-      />
+      <RichText className="p-4" data={disclaimer} />
     </Paper>
   );
 }

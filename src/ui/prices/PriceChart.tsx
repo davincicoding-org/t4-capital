@@ -6,13 +6,12 @@ import dayjs from "dayjs";
 
 import { type PricePoint } from "../types";
 
-export function PriceChart({
-  prices,
-  color,
-}: {
+export interface PriceChartProps {
   prices: Array<PricePoint>;
   color: string;
-}) {
+}
+
+export function PriceChart({ prices, color }: PriceChartProps) {
   const currentPrice = prices[prices.length - 1];
   const [displayedData, setDisplayedData] = useState(currentPrice);
   const minPrice = Math.min(...prices.map(({ price }) => price));

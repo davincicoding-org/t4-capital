@@ -21,12 +21,12 @@ export interface YearlyReturn {
   overall: number | null;
 }
 
-export interface SecurityData {
+export interface ProductData {
   prices: PricePoint[];
   returns: YearlyReturn[];
 }
 
-export interface SecurityPerformance {
+export interface ProductPerformance {
   ITD: number | null;
   YTD: number | null;
   MTD: number | null;

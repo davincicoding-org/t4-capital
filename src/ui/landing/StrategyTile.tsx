@@ -15,7 +15,7 @@ import { CardBody, CardContainer, CardItem } from "../components/3d-card";
 
 dayjs.extend(relativeTime);
 
-export interface IStrategyTileProps {
+export interface StrategyTileProps {
   title: string;
   subtitle: string;
   launchDate: string;
@@ -32,7 +32,7 @@ export function StrategyTile({
   video,
   presentationUrl,
   className,
-}: IStrategyTileProps) {
+}: StrategyTileProps) {
   const t = useTranslations("strategies");
   const shouldReduceMotion = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement | null>(null);

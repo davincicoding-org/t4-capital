@@ -5,8 +5,8 @@ import { useTranslations } from "next-intl";
 import { z } from "zod";
 
 import type {
-  INewsletterSubscriptionOutput,
   NewsletterHandler,
+  NewsletterSubscriptionOutput,
 } from "@/services/newsletter";
 import { cn } from "@/ui/utils";
 
@@ -16,7 +16,7 @@ const formSchema = z.object({
   email: z.string().email(),
 });
 
-export interface INewsletterFormProps {
+export interface NewsletterFormProps {
   handler: NewsletterHandler;
   open: boolean;
   onClose: () => void;
@@ -26,9 +26,9 @@ export function NewsletterForm({
   handler,
   open,
   onClose,
-}: INewsletterFormProps) {
+}: NewsletterFormProps) {
   const t = useTranslations("newsletter");
-  const [submission, setSubmission] = useState<INewsletterSubscriptionOutput>();
+  const [submission, setSubmission] = useState<NewsletterSubscriptionOutput>();
   const form = useForm({
     defaultValues: {
       firstname: "",

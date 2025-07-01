@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 
 import { fetchLandingPage, fetchStrategies } from "@/server/actions";
+import { About, ButtonsBar, Hero, Strategies } from "@/ui/landing";
 import { cn } from "@/ui/utils";
-import { About, Hero, Strategies } from "@/ui/views";
-import { ButtonsBar } from "@/ui/views/ButtonsBar";
 import { resolveMetadata } from "@/utils/resolveMetadata";
 
 export const generateMetadata = async (): Promise<Metadata> => {

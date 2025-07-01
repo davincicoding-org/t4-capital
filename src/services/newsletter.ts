@@ -4,13 +4,13 @@ import { z } from "zod";
 
 import { env } from "@/env";
 
-export interface INewsletterSubscriptionInput {
+export interface NewsletterSubscriptionInput {
   firstname: string;
   lastname: string;
   email: string;
 }
 
-export type INewsletterSubscriptionOutput =
+export type NewsletterSubscriptionOutput =
   | { success: true }
   | {
       success: false;
@@ -18,8 +18,8 @@ export type INewsletterSubscriptionOutput =
     };
 
 export type NewsletterHandler = (
-  formData: INewsletterSubscriptionInput,
-) => Promise<INewsletterSubscriptionOutput>;
+  formData: NewsletterSubscriptionInput,
+) => Promise<NewsletterSubscriptionOutput>;
 
 export const subscribeToNewsletter: NewsletterHandler = async (formData) => {
   const apiKey = env.MAILCHIMP_APIKEY;

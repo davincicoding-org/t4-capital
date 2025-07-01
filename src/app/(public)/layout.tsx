@@ -11,11 +11,9 @@ import { getMessages } from "next-intl/server";
 
 import { fetchLegalPagesLinks } from "@/server/actions";
 import { subscribeToNewsletter } from "@/services/newsletter";
+import { Footer } from "@/ui/global";
 import { MotionProvider } from "@/ui/motion";
 import { cn } from "@/ui/utils";
-import { Footer } from "@/ui/views";
-
-import { QueryClientProvider } from "./query-client";
 
 // MARK: Theme
 
@@ -62,17 +60,15 @@ export default async function RootLayout({
     <html lang="en" className={cn(font.variable, monoFont.variable)}>
       <body className="flex min-h-dvh flex-col overscroll-y-none">
         <MantineProvider theme={theme}>
-          <MotionProvider>
-            <NextIntlClientProvider messages={messages}>
-              <QueryClientProvider>
-                {children}
-                <Footer
-                  legalPages={legalPages}
-                  newsletterHandler={subscribeToNewsletter}
-                />
-              </QueryClientProvider>
-            </NextIntlClientProvider>
-          </MotionProvider>
+          <NextIntlClientProvider messages={messages}>
+            <MotionProvider>
+              {children}
+              <Footer
+                legalPages={legalPages}
+                newsletterHandler={subscribeToNewsletter}
+              />
+            </MotionProvider>
+          </NextIntlClientProvider>
         </MantineProvider>
       </body>
       <Analytics />

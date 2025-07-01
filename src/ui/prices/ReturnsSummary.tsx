@@ -9,19 +9,19 @@ import type { Product, Strategy } from "@/payload-types";
 
 import {
   type PricePoint,
-  type SecurityPerformance,
+  type ProductPerformance,
   type YearlyReturn,
 } from "../types";
 
 dayjs.extend(relativeTime);
 
-export type IProductSummaryProps = {
+export interface ProductSummaryProps {
   isin: Product["isin"];
   strategy: Pick<Strategy, "title" | "color" | "launchDate">;
   prices: PricePoint[];
   returns: YearlyReturn[];
-  performance: SecurityPerformance;
-};
+  performance: ProductPerformance;
+}
 
 export function ReturnsSummary({ data }: { data: Array<YearlyReturn> }) {
   const [isOpen, { open, close }] = useDisclosure();
