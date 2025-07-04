@@ -34,7 +34,7 @@ import {
   Strategies,
   Users,
 } from "@/cms/collections";
-import { LandingPage, PricesPage } from "@/cms/globals";
+import { LandingPage } from "@/cms/globals";
 import { env } from "@/env";
 import { MESSAGES_SCHEMA, SUPPORTED_LOCALES } from "@/i18n/config";
 import { revalidateCache } from "@/server/actions";
@@ -60,7 +60,7 @@ export default buildConfig({
     locales: [...SUPPORTED_LOCALES],
     defaultLocale: SUPPORTED_LOCALES[0],
   },
-  globals: [LandingPage, PricesPage],
+  globals: [LandingPage],
   collections: [
     Media,
     Files,

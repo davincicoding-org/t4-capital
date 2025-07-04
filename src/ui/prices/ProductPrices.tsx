@@ -26,11 +26,13 @@ dayjs.extend(customParseFormat);
 
 export type ProductPricesProps = {
   isin: Product["isin"];
-  strategy: Pick<Strategy, "title" | "color" | "launchDate">;
+  strategy: Pick<
+    Strategy,
+    "title" | "color" | "launchDate" | "pricesDisclaimer"
+  >;
   prices: PricePoint[];
   returns: YearlyReturn[];
   performance: ProductPerformance;
-  disclaimer: DefaultTypedEditorState;
   className?: string;
 };
 
@@ -40,7 +42,6 @@ export function ProductPrices({
   performance,
   prices,
   returns,
-  disclaimer,
   className,
 }: ProductPricesProps) {
   const [dateRange, setDateRange] = useState<
@@ -177,7 +178,7 @@ export function ProductPrices({
         </Paper>
       </Flex>
       <Divider />
-      <RichText className="p-4" data={disclaimer} />
+      <RichText className="p-4" data={strategy.pricesDisclaimer} />
     </Paper>
   );
 }

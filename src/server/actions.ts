@@ -60,17 +60,6 @@ export const fetchLandingPage = cachedRequest(
   ["landing-page"],
 );
 
-export const fetchPricesPage = cachedRequest(
-  async (locale: SupportedLocale) => {
-    const payload = await getPayloadClient();
-    return payload.findGlobal({
-      slug: "prices-page",
-      locale,
-    });
-  },
-  ["prices-page"],
-);
-
 export const fetchLegalPage = cachedRequest(
   async (slug: LegalPage["slug"], locale: SupportedLocale) => {
     const payload = await getPayloadClient();
@@ -156,7 +145,7 @@ export const unlockProductData = async (password: Product["password"]) => {
 };
 
 export const fetchProductMetadata = cachedRequest(
-  async (productId: Product["id"]) => {
+  async (productId: Product["id"], locale: SupportedLocale) => {
     const payload = await getPayloadClient();
     return await payload.findByID({
       collection: "products",
@@ -165,15 +154,16 @@ export const fetchProductMetadata = cachedRequest(
         isin: true,
       },
       id: productId,
+      locale,
     });
   },
-  ["products"],
+  ["products", "strategies"],
 );
 
-export const fetchProductPrices = cachedRequest(
+export const fetchProductPriceData = cachedRequest(
   async (productId: Product["id"]) => {
     const payload = await getPayloadClient();
-    return payload.find({
+    const { docs: prices } = await payload.find({
       collection: "product-prices",
       select: {
         date: true,
@@ -187,20 +177,11 @@ export const fetchProductPrices = cachedRequest(
       },
       sort: "date",
     });
-  },
-  ["prices"],
-);
 
-export const fetchProductData = cachedRequest(
-  async (productId: Product["id"]) => {
-    const { isin, strategy } = await fetchProductMetadata(productId);
-    const { docs: prices } = await fetchProductPrices(productId);
     const returns = computeSecurityReturns(prices);
     const performance = computeSecurityPerformance(prices);
 
     return {
-      isin,
-      strategy: ensureResolved(strategy)!,
       prices,
       returns,
       performance,

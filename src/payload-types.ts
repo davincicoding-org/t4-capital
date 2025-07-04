@@ -98,11 +98,9 @@ export interface Config {
   };
   globals: {
     'landing-page': LandingPage;
-    'prices-page': PricesPage;
   };
   globalsSelect: {
     'landing-page': LandingPageSelect<false> | LandingPageSelect<true>;
-    'prices-page': PricesPageSelect<false> | PricesPageSelect<true>;
   };
   locale: 'en';
   user: User & {
@@ -201,6 +199,21 @@ export interface Strategy {
   order: number;
   color: 'blue' | 'pink' | 'yellow';
   video?: (number | null) | Media;
+  pricesDisclaimer: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -469,6 +482,7 @@ export interface StrategiesSelect<T extends boolean = true> {
   order?: T;
   color?: T;
   video?: T;
+  pricesDisclaimer?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -620,38 +634,6 @@ export interface LandingPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "prices-page".
- */
-export interface PricesPage {
-  id: number;
-  disclaimer: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
-  };
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "landing-page_select".
  */
 export interface LandingPageSelect<T extends boolean = true> {
@@ -670,23 +652,6 @@ export interface LandingPageSelect<T extends boolean = true> {
         description?: T;
         id?: T;
       };
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "prices-page_select".
- */
-export interface PricesPageSelect<T extends boolean = true> {
-  disclaimer?: T;
   meta?:
     | T
     | {

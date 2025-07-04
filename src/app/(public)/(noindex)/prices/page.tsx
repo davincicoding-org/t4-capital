@@ -1,16 +1,9 @@
-import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { getLocale } from "next-intl/server";
 
-import { fetchPricesPage, fetchProductData } from "@/server/actions";
+import { fetchProductMetadata, fetchProductPriceData } from "@/server/actions";
 import { ProductLogin, ProductPrices } from "@/ui/prices";
-import { resolveMetadata } from "@/utils/resolveMetadata";
-
-export const generateMetadata = async (): Promise<Metadata> => {
-  const locale = await getLocale();
-  const { meta } = await fetchPricesPage(locale);
-  return resolveMetadata(meta);
-};
+import { ensureResolved } from "@/ui/utils";
 
 export default async function PricesPage() {
   const cookieStore = await cookies();
@@ -23,21 +16,25 @@ export default async function PricesPage() {
       </main>
     );
 
-  const data = await fetchProductData(Number(productCookie.value));
+  const productId = Number(productCookie.value);
 
   const locale = await getLocale();
-  const { disclaimer } = await fetchPricesPage(locale);
+  const { isin, strategy } = await fetchProductMetadata(productId, locale);
+  const strategyData = ensureResolved(strategy);
+  if (!strategyData) throw new Error("Strategy data is missing");
+
+  const { prices, returns, performance } =
+    await fetchProductPriceData(productId);
 
   return (
     <main className="grid min-h-screen p-8 max-sm:p-4">
       <ProductPrices
-        isin={data.isin}
-        strategy={data.strategy}
-        prices={data.prices}
-        returns={data.returns}
-        performance={data.performance}
+        isin={isin}
+        strategy={strategyData}
+        prices={prices}
+        returns={returns}
+        performance={performance}
         className="m-auto"
-        disclaimer={disclaimer}
       />
     </main>
   );

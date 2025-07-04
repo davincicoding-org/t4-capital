@@ -1,5 +1,6 @@
 import "./globals.css";
 
+import type { Metadata } from "next";
 import {
   Host_Grotesk as Font,
   Azeret_Mono as MonoFont,
@@ -7,13 +8,14 @@ import {
 import { createTheme, MantineProvider } from "@mantine/core";
 import { Analytics } from "@vercel/analytics/react";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getLocale, getMessages } from "next-intl/server";
 
-import { fetchLegalPagesLinks } from "@/server/actions";
+import { fetchLandingPage, fetchLegalPagesLinks } from "@/server/actions";
 import { subscribeToNewsletter } from "@/services/newsletter";
 import { Footer } from "@/ui/global";
 import { MotionProvider } from "@/ui/motion";
 import { cn } from "@/ui/utils";
+import { resolveMetadata } from "@/utils/resolveMetadata";
 
 // MARK: Theme
 
@@ -47,6 +49,12 @@ const theme = createTheme({
     ],
   },
 });
+
+export const generateMetadata = async (): Promise<Metadata> => {
+  const locale = await getLocale();
+  const { meta } = await fetchLandingPage(locale);
+  return resolveMetadata(meta);
+};
 
 // MARK: Layout
 

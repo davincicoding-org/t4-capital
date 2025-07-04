@@ -6,12 +6,6 @@ import { About, ButtonsBar, Hero, Strategies } from "@/ui/landing";
 import { cn } from "@/ui/utils";
 import { resolveMetadata } from "@/utils/resolveMetadata";
 
-export const generateMetadata = async (): Promise<Metadata> => {
-  const locale = await getLocale();
-  const { meta } = await fetchLandingPage(locale);
-  return resolveMetadata(meta);
-};
-
 export default async function Home() {
   const [strategies, pageData] = await Promise.all([
     fetchStrategies("en"),
