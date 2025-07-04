@@ -1,9 +1,16 @@
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { getLocale } from "next-intl/server";
 
 import { fetchProductMetadata, fetchProductPriceData } from "@/server/actions";
 import { ProductLogin, ProductPrices } from "@/ui/prices";
 import { ensureResolved } from "@/ui/utils";
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+  },
+};
 
 export default async function PricesPage() {
   const cookieStore = await cookies();

@@ -8,13 +8,18 @@ import { resolveMetadata } from "@/utils/resolveMetadata";
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const locale = await getLocale();
-  const data = await fetchLegalPage("privacy", locale);
-  return resolveMetadata(data?.meta);
+  const data = await fetchLegalPage("imprint", locale);
+  return {
+    ...resolveMetadata(data?.meta),
+    robots: {
+      index: false,
+    },
+  };
 };
 
-export default async function PrivacyPage() {
+export default async function ImprintPage() {
   const locale = await getLocale();
-  const data = await fetchLegalPage("privacy", locale);
+  const data = await fetchLegalPage("imprint", locale);
   if (!data) {
     notFound();
   }
