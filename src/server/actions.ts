@@ -4,7 +4,7 @@ import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
 import type { SupportedLocale } from "@/i18n/config";
-import type { LegalPage, Product } from "@/payload-types";
+import type { LegalPage, Product, Strategy } from "@/payload-types";
 import {
   computeSecurityPerformance,
   computeSecurityReturns,
@@ -157,6 +157,30 @@ export const fetchProductMetadata = cachedRequest(
     });
   },
   ["products", "strategies"],
+);
+
+export const fetchDisclaimer = cachedRequest(
+  async (strategyId: Strategy["id"], locale: SupportedLocale) => {
+    const payload = await getPayloadClient();
+    const {
+      docs: [disclaimer],
+    } = await payload.find({
+      collection: "disclaimers",
+      select: {
+        content: true,
+        updatedAt: true,
+      },
+      where: {
+        strategy: {
+          equals: strategyId,
+        },
+      },
+      locale,
+    });
+
+    return disclaimer ?? null;
+  },
+  ["disclaimers"],
 );
 
 export const fetchProductPriceData = cachedRequest(

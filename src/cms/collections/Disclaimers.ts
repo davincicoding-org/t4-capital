@@ -22,18 +22,13 @@ export const Disclaimers: CollectionConfig = {
       type: "relationship",
       relationTo: "strategies",
       required: true,
+      unique: true,
     },
     {
       name: "content",
       type: "richText",
       required: true,
       localized: true,
-    },
-  ],
-  indexes: [
-    {
-      fields: ["strategy"],
-      unique: true,
     },
   ],
   hooks: {

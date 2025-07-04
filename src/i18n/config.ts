@@ -33,6 +33,20 @@ export const MESSAGES_SCHEMA = {
       follow: "short",
     },
   },
+  prices: {
+    liveFor: ["short", "{time}"],
+    rangeLabels: {
+      all: "short",
+      "1M": "short",
+      "3M": "short",
+      "1Y": "short",
+      custom: "short",
+    },
+    disclaimer: {
+      title: "short",
+      updatedAt: ["short", "{time}"],
+    },
+  },
   newsletter: {
     title: "short",
     description: "long",

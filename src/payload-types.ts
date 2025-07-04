@@ -201,21 +201,6 @@ export interface Strategy {
   order: number;
   color: 'blue' | 'pink' | 'yellow';
   video?: (number | null) | Media;
-  pricesDisclaimer: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
   updatedAt: string;
   createdAt: string;
 }
@@ -513,7 +498,6 @@ export interface StrategiesSelect<T extends boolean = true> {
   order?: T;
   color?: T;
   video?: T;
-  pricesDisclaimer?: T;
   updatedAt?: T;
   createdAt?: T;
 }

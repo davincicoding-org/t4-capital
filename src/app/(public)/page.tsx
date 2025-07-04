@@ -1,10 +1,6 @@
-import type { Metadata } from "next";
-import { getLocale } from "next-intl/server";
-
 import { fetchLandingPage, fetchStrategies } from "@/server/actions";
 import { About, ButtonsBar, Hero, Strategies } from "@/ui/landing";
 import { cn } from "@/ui/utils";
-import { resolveMetadata } from "@/utils/resolveMetadata";
 
 export default async function Home() {
   const [strategies, pageData] = await Promise.all([

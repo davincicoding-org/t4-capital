@@ -2,9 +2,13 @@ import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { getLocale } from "next-intl/server";
 
-import { fetchProductMetadata, fetchProductPriceData } from "@/server/actions";
+import {
+  fetchDisclaimer,
+  fetchProductMetadata,
+  fetchProductPriceData,
+} from "@/server/actions";
 import { ProductLogin, ProductPrices } from "@/ui/prices";
-import { ensureResolved } from "@/ui/utils";
+import { isResolved } from "@/ui/utils";
 
 export const metadata: Metadata = {
   robots: {
@@ -27,8 +31,8 @@ export default async function PricesPage() {
 
   const locale = await getLocale();
   const { isin, strategy } = await fetchProductMetadata(productId, locale);
-  const strategyData = ensureResolved(strategy);
-  if (!strategyData) throw new Error("Strategy data is missing");
+  if (!isResolved(strategy)) throw new Error("Strategy is missing");
+  const disclaimer = await fetchDisclaimer(strategy.id, locale);
 
   const { prices, returns, performance } =
     await fetchProductPriceData(productId);
@@ -37,10 +41,11 @@ export default async function PricesPage() {
     <main className="grid min-h-screen p-8 max-sm:p-4">
       <ProductPrices
         isin={isin}
-        strategy={strategyData}
+        strategy={strategy}
         prices={prices}
         returns={returns}
         performance={performance}
+        disclaimer={disclaimer}
         className="m-auto"
       />
     </main>

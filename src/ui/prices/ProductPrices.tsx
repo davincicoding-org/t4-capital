@@ -1,15 +1,23 @@
 "use client";
 
-import type { DefaultTypedEditorState } from "@payloadcms/richtext-lexical";
 import { useMemo, useState } from "react";
-import { Button, Divider, Flex, Paper, Popover } from "@mantine/core";
+import {
+  Badge,
+  Button,
+  Divider,
+  Flex,
+  Paper,
+  Popover,
+  Tooltip,
+} from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
 import { useClickOutside } from "@mantine/hooks";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useTranslations } from "next-intl";
 
-import type { Product, Strategy } from "@/payload-types";
+import type { Disclaimer, Product, Strategy } from "@/payload-types";
 
 import RichText from "../components/RichText";
 import {
@@ -26,13 +34,11 @@ dayjs.extend(customParseFormat);
 
 export type ProductPricesProps = {
   isin: Product["isin"];
-  strategy: Pick<
-    Strategy,
-    "title" | "color" | "launchDate" | "pricesDisclaimer"
-  >;
+  strategy: Pick<Strategy, "title" | "color" | "launchDate">;
   prices: PricePoint[];
   returns: YearlyReturn[];
   performance: ProductPerformance;
+  disclaimer: Pick<Disclaimer, "content" | "updatedAt"> | null;
   className?: string;
 };
 
@@ -42,8 +48,10 @@ export function ProductPrices({
   performance,
   prices,
   returns,
+  disclaimer,
   className,
 }: ProductPricesProps) {
+  const t = useTranslations("prices");
   const [dateRange, setDateRange] = useState<
     "ALL" | "1M" | "3M" | "1Y" | "DATE"
   >("ALL");
@@ -78,7 +86,7 @@ export function ProductPrices({
       </Paper>
       <PriceChart prices={filteredPrices} color={strategy.color} />
       <p className="mb-3 text-center text-sm text-neutral-600 uppercase">
-        live for {dayjs(strategy.launchDate).fromNow(true)}
+        {t("liveFor", { time: dayjs(strategy.launchDate).fromNow(true) })}
       </p>
       <Divider
         label={
@@ -91,7 +99,7 @@ export function ProductPrices({
                 setStartDate(null);
               }}
             >
-              All
+              {t("rangeLabels.all")}
             </Button>
             <Button
               variant={dateRange === "1M" ? "filled" : "default"}
@@ -101,7 +109,7 @@ export function ProductPrices({
                 setStartDate(dayjs().subtract(1, "month").toDate());
               }}
             >
-              1M
+              {t("rangeLabels.1M")}
             </Button>
             <Button
               variant={dateRange === "3M" ? "filled" : "default"}
@@ -111,7 +119,7 @@ export function ProductPrices({
                 setStartDate(dayjs().subtract(3, "month").toDate());
               }}
             >
-              3M
+              {t("rangeLabels.3M")}
             </Button>
             <Button
               variant={dateRange === "1Y" ? "filled" : "default"}
@@ -121,7 +129,7 @@ export function ProductPrices({
                 setStartDate(dayjs().subtract(1, "year").toDate());
               }}
             >
-              1Y
+              {t("rangeLabels.1Y")}
             </Button>
             <Popover
               opened={isSelectingDate}
@@ -135,7 +143,7 @@ export function ProductPrices({
                 >
                   {dateRange === "DATE"
                     ? dayjs(startDate).format("DD/MM/YY")
-                    : "Custom"}
+                    : t("rangeLabels.custom")}
                 </Button>
               </Popover.Target>
               <Popover.Dropdown p={4}>
@@ -177,8 +185,28 @@ export function ProductPrices({
           </span>
         </Paper>
       </Flex>
-      <Divider />
-      <RichText className="p-4" data={strategy.pricesDisclaimer} />
+      {disclaimer && (
+        <>
+          <Divider />
+          <div className="p-4">
+            <div className="mb-3 flex items-center justify-between">
+              <span className="text-lg font-medium">
+                {t("disclaimer.title")}
+              </span>
+              <Tooltip
+                label={dayjs(disclaimer.updatedAt).format("DD/MM/YYYY HH:mm")}
+              >
+                <Badge size="md" variant="default">
+                  {t("disclaimer.updatedAt", {
+                    time: dayjs(disclaimer.updatedAt).fromNow(true),
+                  })}
+                </Badge>
+              </Tooltip>
+            </div>
+            <RichText data={disclaimer.content} />
+          </div>
+        </>
+      )}
     </Paper>
   );
 }

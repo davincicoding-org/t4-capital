@@ -6,8 +6,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const isResolved = <T>(value: T | number): value is T =>
+  typeof value !== "number";
+
 export const ensureResolved = <T>(value: T | number): T | undefined =>
-  typeof value === "number" ? undefined : value;
+  isResolved(value) ? value : undefined;
 
 export const ensureResolvedArray = <T>(
   values: (T | number)[] | undefined | null,

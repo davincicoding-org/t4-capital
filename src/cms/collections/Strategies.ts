@@ -69,12 +69,6 @@ export const Strategies: CollectionConfig = {
         },
       ],
     },
-    {
-      name: "pricesDisclaimer",
-      type: "richText",
-      localized: true,
-      required: true,
-    },
   ],
   hooks: {
     afterChange: [() => revalidateCache("strategies")],
