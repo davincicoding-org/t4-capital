@@ -4,14 +4,7 @@ import type { HTMLAttributes } from "react";
 import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ActionIcon,
-  Blockquote,
-  Button,
-  Collapse,
-  Paper,
-  ScrollArea,
-} from "@mantine/core";
+import { ActionIcon, Button, Collapse, Paper, ScrollArea } from "@mantine/core";
 import { IconBrandLinkedinFilled } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 

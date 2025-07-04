@@ -2,19 +2,17 @@
 
 import { DateTimeField, Form, FormSubmit, NumberField } from "@payloadcms/ui";
 
-import type { Product, ProductPrice } from "@/payload-types";
-
-type ProductPriceInsert = Pick<ProductPrice, "product" | "date" | "price">;
+import type { Product } from "@/payload-types";
 
 export interface DailyPriceFormProps {
   products: Pick<Product, "id" | "name" | "isin">[];
-  onAddPrice: (price: ProductPriceInsert) => void;
+  onAddPrice: (data: { date: string; price: number; product: number }) => void;
 }
 
 export function DailyPriceForm({ products, onAddPrice }: DailyPriceFormProps) {
   return (
     <Form
-      onSubmit={({ date: dateField, ...rest }) => {
+      onSubmit={async ({ date: dateField, ...rest }) => {
         const { value: date } = dateField as { value: string };
 
         const priceFields = rest as Record<
@@ -25,13 +23,13 @@ export function DailyPriceForm({ products, onAddPrice }: DailyPriceFormProps) {
         for (const [key, { value }] of Object.entries(priceFields)) {
           if (value === undefined) continue;
           const [, productId] = key.split(".");
-          onAddPrice({
+          void onAddPrice({
             date,
             price: value,
             product: Number(productId),
           });
         }
-        alert("Prices added");
+        alert("Saved");
       }}
     >
       <div style={{ display: "grid", gap: "1rem" }}>

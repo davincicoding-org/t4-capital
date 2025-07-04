@@ -4,7 +4,7 @@ import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
 import type { SupportedLocale } from "@/i18n/config";
-import type { LegalPage, Product, ProductPrice } from "@/payload-types";
+import type { LegalPage, Product } from "@/payload-types";
 import { ensureResolved } from "@/ui/utils";
 import {
   computeSecurityPerformance,
@@ -33,14 +33,19 @@ export const fetchStrategies = cachedRequest(
   ["cms", "strategies"],
 );
 
-export const addProductPrice = async (
-  prices: Pick<ProductPrice, "product" | "date" | "price">,
-) => {
+export const addProductPrice = async (data: {
+  date: string;
+  price: number;
+  product: number;
+}) => {
   // TODO secure this endpoint
+  // TODO prevent duplicate prices
+
   const payload = await getPayloadClient();
-  await payload.create({
+
+  return payload.create({
     collection: "product-prices",
-    data: prices,
+    data,
   });
 };
 

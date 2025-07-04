@@ -24,10 +24,9 @@ export default async function PricesPage() {
     );
 
   const data = await fetchProductData(Number(productCookie.value));
+
   const locale = await getLocale();
   const { disclaimer } = await fetchPricesPage(locale);
-
-  if (!data) throw new Error("Product not found");
 
   return (
     <main className="grid min-h-screen p-8 max-sm:p-4">

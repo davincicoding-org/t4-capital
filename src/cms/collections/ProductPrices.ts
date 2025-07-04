@@ -47,10 +47,10 @@ export const ProductPrices: CollectionConfig = {
     {
       fields: ["product"],
     },
-    {
-      fields: ["date", "product"],
-      unique: true,
-    },
+    // {
+    //   fields: ["date", "product"],
+    //   unique: true,
+    // },
   ],
 
   hooks: {
