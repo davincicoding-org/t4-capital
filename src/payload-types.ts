@@ -71,6 +71,7 @@ export interface Config {
     files: UploadedFile;
     strategies: Strategy;
     products: Product;
+    disclaimers: Disclaimer;
     'product-prices': ProductPrice;
     users: User;
     'legal-pages': LegalPage;
@@ -85,6 +86,7 @@ export interface Config {
     files: FilesSelect<false> | FilesSelect<true>;
     strategies: StrategiesSelect<false> | StrategiesSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
+    disclaimers: DisclaimersSelect<false> | DisclaimersSelect<true>;
     'product-prices': ProductPricesSelect<false> | ProductPricesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'legal-pages': LegalPagesSelect<false> | LegalPagesSelect<true>;
@@ -232,6 +234,31 @@ export interface Product {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "disclaimers".
+ */
+export interface Disclaimer {
+  id: number;
+  strategy: number | Strategy;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "product-prices".
  */
 export interface ProductPrice {
@@ -350,6 +377,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'products';
         value: number | Product;
+      } | null)
+    | ({
+        relationTo: 'disclaimers';
+        value: number | Disclaimer;
       } | null)
     | ({
         relationTo: 'product-prices';
@@ -495,6 +526,16 @@ export interface ProductsSelect<T extends boolean = true> {
   isin?: T;
   password?: T;
   strategy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "disclaimers_select".
+ */
+export interface DisclaimersSelect<T extends boolean = true> {
+  strategy?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -5,7 +5,6 @@ import { cookies } from "next/headers";
 
 import type { SupportedLocale } from "@/i18n/config";
 import type { LegalPage, Product } from "@/payload-types";
-import { ensureResolved } from "@/ui/utils";
 import {
   computeSecurityPerformance,
   computeSecurityReturns,

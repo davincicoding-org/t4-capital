@@ -5,9 +5,9 @@ export type CacheTag =
   | "messages"
   | "prices"
   | "strategies"
+  | "disclaimers"
   | "products"
   | "landing-page"
-  | "prices-page"
   | "legal-pages";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

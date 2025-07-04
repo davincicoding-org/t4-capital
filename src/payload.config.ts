@@ -26,6 +26,7 @@ import { polyglotPlugin } from "payload-polyglot";
 import sharp from "sharp";
 
 import {
+  Disclaimers,
   Files,
   LegalPages,
   Media,
@@ -66,6 +67,7 @@ export default buildConfig({
     Files,
     Strategies,
     Products,
+    Disclaimers,
     ProductPrices,
     Users,
     LegalPages,
