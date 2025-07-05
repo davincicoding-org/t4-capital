@@ -2,14 +2,14 @@ import type { CollectionConfig } from "payload";
 
 import { revalidateCache } from "@/server/actions";
 
-import { authenticated, withAccess } from "../access";
+import { withAccess } from "../access";
 
 export const LegalPages: CollectionConfig = {
   slug: "legal-pages",
   access: {
-    read: authenticated,
+    read: withAccess("content"),
     create: withAccess("users"),
-    update: authenticated,
+    update: withAccess("content"),
     delete: withAccess("users"),
   },
   admin: {

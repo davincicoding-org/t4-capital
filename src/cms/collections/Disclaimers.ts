@@ -2,12 +2,12 @@ import type { CollectionConfig } from "payload";
 
 import { revalidateCache } from "@/server/actions";
 
-import { authenticated, withAccess } from "../access";
+import { withAccess } from "../access";
 
 export const Disclaimers: CollectionConfig = {
   slug: "disclaimers",
   access: {
-    read: authenticated,
+    read: withAccess("content"),
     create: withAccess("content"),
     update: withAccess("content"),
     delete: withAccess("content"),
