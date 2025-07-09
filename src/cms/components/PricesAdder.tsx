@@ -1,7 +1,7 @@
 import type { ListViewServerProps } from "payload";
 import { Gutter } from "@payloadcms/ui";
 
-import { addProductPrice } from "@/server/actions";
+import { addProductPrice, deleteProductPrices } from "@/server/actions";
 
 import { DailyPriceForm } from "./DailyPriceForm";
 
@@ -16,10 +16,33 @@ export default async function PricesAdder({ payload }: ListViewServerProps) {
     },
   });
 
+  const { docs: savedPrices } = await payload.find({
+    collection: "product-prices",
+    limit: 3 * docs.length,
+    where: {
+      product: {
+        in: docs.map((doc) => doc.id),
+      },
+    },
+    select: {
+      id: true,
+      date: true,
+      price: true,
+      product: true,
+    },
+    depth: 0,
+    sort: "-date",
+  });
+
   return (
     <Gutter>
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <DailyPriceForm products={docs} onAddPrice={addProductPrice} />
+        <DailyPriceForm
+          products={docs}
+          savedPrices={savedPrices}
+          onAddPrice={addProductPrice}
+          onDeletePrices={deleteProductPrices}
+        />
       </div>
     </Gutter>
   );
