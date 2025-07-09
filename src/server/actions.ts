@@ -4,7 +4,12 @@ import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
 import type { SupportedLocale } from "@/i18n/config";
-import type { LegalPage, Product, Strategy } from "@/payload-types";
+import type {
+  LegalPage,
+  Product,
+  ProductPrice,
+  Strategy,
+} from "@/payload-types";
 import {
   computeSecurityPerformance,
   computeSecurityReturns,
@@ -45,6 +50,20 @@ export const addProductPrice = async (data: {
   return payload.create({
     collection: "product-prices",
     data,
+  });
+};
+
+export const deleteProductPrices = async (ids: ProductPrice["id"][]) => {
+  // TODO secure this endpoint
+  // TODO prevent duplicate prices
+
+  const payload = await getPayloadClient();
+
+  await payload.delete({
+    collection: "product-prices",
+    where: {
+      id: { in: ids },
+    },
   });
 };
 
