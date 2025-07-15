@@ -1,6 +1,7 @@
+import type { Media } from "@/payload-types";
 import { fetchLandingPage, fetchStrategies } from "@/server/actions";
-import { About, ButtonsBar, Hero, Strategies } from "@/ui/landing";
-import { cn } from "@/ui/utils";
+import { About, ButtonsBar, Hero, Press, Strategies } from "@/ui/landing";
+import { cn, ensureResolved } from "@/ui/utils";
 
 export default async function Home() {
   const [strategies, pageData] = await Promise.all([
@@ -8,13 +9,25 @@ export default async function Home() {
     fetchLandingPage("en"),
   ]);
 
+  const articles = (pageData.articles ?? []).filter(
+    (article): article is { url: string; logo: Media } =>
+      ensureResolved(article.logo) !== undefined,
+  );
+
   return (
-    <main className={cn("grid gap-32 pb-48 md:gap-48 md:pb-72")}>
+    <main className={cn("pb-48 md:pb-72")}>
       <header className="grid shadow-lg">
         <ButtonsBar />
         <Hero />
       </header>
-      <Strategies className="container" strategies={strategies} />
+      {articles.length && (
+        <Press className="container mb-32 py-16 md:mb-48" articles={articles} />
+      )}
+
+      <Strategies
+        className="container mb-32 md:mb-48"
+        strategies={strategies}
+      />
       <About
         className="container"
         teamImage={pageData.teamImage}

@@ -54,11 +54,12 @@ export const Media: CollectionConfig = {
     },
     withMetadata: true,
     imageSizes: [
-      { name: "thubmnail", width: 300 },
+      { name: "thumbnail", width: 300 },
       {
         name: "og",
         width: 1200,
         height: 630,
+        withoutEnlargement: true,
       },
     ],
   },

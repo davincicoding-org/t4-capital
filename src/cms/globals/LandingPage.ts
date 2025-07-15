@@ -19,6 +19,29 @@ export const LandingPage: GlobalConfig = {
       type: "tabs",
       tabs: [
         {
+          label: "Articles",
+          fields: [
+            {
+              name: "articles",
+              type: "array",
+              label: false,
+              fields: [
+                {
+                  name: "url",
+                  type: "text",
+                  required: true,
+                },
+                {
+                  name: "logo",
+                  type: "upload",
+                  relationTo: "media",
+                  required: true,
+                },
+              ],
+            },
+          ],
+        },
+        {
           label: "Team",
           fields: [
             {
