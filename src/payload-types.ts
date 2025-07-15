@@ -151,7 +151,7 @@ export interface Media {
   focalX?: number | null;
   focalY?: number | null;
   sizes?: {
-    thubmnail?: {
+    thumbnail?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -446,7 +446,7 @@ export interface MediaSelect<T extends boolean = true> {
   sizes?:
     | T
     | {
-        thubmnail?:
+        thumbnail?:
           | T
           | {
               url?: T;
@@ -635,6 +635,13 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface LandingPage {
   id: number;
+  articles?:
+    | {
+        url: string;
+        logo: number | Media;
+        id?: string | null;
+      }[]
+    | null;
   teamImage?: (number | null) | Media;
   teamMembers: {
     name: string;
@@ -662,6 +669,13 @@ export interface LandingPage {
  * via the `definition` "landing-page_select".
  */
 export interface LandingPageSelect<T extends boolean = true> {
+  articles?:
+    | T
+    | {
+        url?: T;
+        logo?: T;
+        id?: T;
+      };
   teamImage?: T;
   teamMembers?:
     | T
