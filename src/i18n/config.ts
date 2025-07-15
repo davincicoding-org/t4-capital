@@ -16,6 +16,9 @@ export const MESSAGES_SCHEMA = {
     "attachment-button": "short",
     "video-button": "short",
   },
+  press: {
+    title: "short",
+  },
   about: {
     title: "short",
     content: ["long", "<Logo></Logo>"],
