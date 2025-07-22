@@ -34,7 +34,7 @@ dayjs.extend(customParseFormat);
 
 export type ProductPricesProps = {
   isin: Product["isin"];
-  strategy: Pick<Strategy, "title" | "color" | "launchDate">;
+  strategy: Pick<Strategy, "title" | "color">;
   prices: PricePoint[];
   returns: YearlyReturn[];
   performance: ProductPerformance;
@@ -64,6 +64,12 @@ export function ProductPrices({
     return prices.filter(({ date }) => dayjs(date).isAfter(dayjs(startDate)));
   }, [prices, startDate]);
 
+  const launchDate = useMemo(() => {
+    const [firstPrice] = prices;
+    if (!firstPrice) return null;
+    return dayjs(firstPrice.date);
+  }, [prices]);
+
   return (
     <Paper
       withBorder
@@ -85,9 +91,11 @@ export function ProductPrices({
         <ReturnsSummary data={returns} />
       </Paper>
       <PriceChart prices={filteredPrices} color={strategy.color} />
-      <p className="mb-3 text-center text-sm text-neutral-600 uppercase">
-        {t("liveFor", { time: dayjs(strategy.launchDate).fromNow(true) })}
-      </p>
+      {launchDate && (
+        <p className="mb-3 text-center text-sm text-neutral-600 uppercase">
+          {t("liveFor", { time: launchDate.fromNow(true) })}
+        </p>
+      )}
       <Divider
         label={
           <Flex gap={8}>
@@ -157,7 +165,7 @@ export function ProductPrices({
                     setStartDate(new Date(value));
                     setIsSelectingDate(false);
                   }}
-                  minDate={dayjs(strategy.launchDate).toDate()}
+                  minDate={launchDate?.toDate()}
                   maxDate={new Date()}
                 />
               </Popover.Dropdown>
