@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { groupBy } from "lodash-es";
 
-import type { PricePoint, ProductPerformance, YearlyReturn } from "@/ui/types";
+import type { PricePoint, ProductPerformance, YearlyReturn } from "@/types";
 
 export function computeSecurityPerformance(
   prices: PricePoint[],

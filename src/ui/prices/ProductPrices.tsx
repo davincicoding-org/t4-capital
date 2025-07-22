@@ -19,12 +19,12 @@ import { useTranslations } from "next-intl";
 
 import type { Disclaimer, Product, Strategy } from "@/payload-types";
 
-import RichText from "../components/RichText";
 import {
   type PricePoint,
   type ProductPerformance,
   type YearlyReturn,
-} from "../types";
+} from "../../types";
+import RichText from "../components/RichText";
 import { cn } from "../utils";
 import { PriceChart } from "./PriceChart";
 import { ReturnsSummary } from "./ReturnsSummary";

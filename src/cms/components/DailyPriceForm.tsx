@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { DateTimeField, Form, FormSubmit, NumberField } from "@payloadcms/ui";
+import { Button, DateTimeField, Form, NumberField } from "@payloadcms/ui";
 import dayjs from "dayjs";
 import { groupBy } from "lodash-es";
 
@@ -41,7 +41,7 @@ export function DailyPriceForm({
   });
 
   return (
-    <div>
+    <div style={{ display: "grid", gap: "3rem", paddingBlock: "4rem" }}>
       <Form
         onSubmit={async ({ date: dateField, ...rest }) => {
           const { value: date } = dateField as { value: string };
@@ -65,37 +65,43 @@ export function DailyPriceForm({
           window.location.reload();
         }}
       >
-        <div style={{ display: "grid", gap: "1rem" }}>
-          <DateTimeField
-            path="date"
-            field={{
-              name: "date",
-              label: "Date",
-              type: "date",
-              required: true,
-              admin: {
-                placeholder: "Select Date",
-                date: {
-                  displayFormat: "dd.MM.yyyy",
-                  pickerAppearance: "dayOnly",
-                  maxDate: new Date(),
-                },
-              },
-            }}
-            validate={(value) => {
-              if (!value) return "Date is required";
-              return true;
-            }}
-          />
-
-          <fieldset
+        <div
+          style={{
+            display: "grid",
+            gap: "2rem",
+            borderRadius: "0.5rem",
+            padding: "1rem",
+            border: "1px solid threedface",
+          }}
+        >
+          <div
             style={{
               display: "grid",
               gap: "1rem",
-              borderRadius: "0.5rem",
-              padding: "1rem",
             }}
           >
+            <DateTimeField
+              path="date"
+              field={{
+                name: "date",
+                label: "Date",
+                type: "date",
+                required: true,
+                admin: {
+                  placeholder: "Select Date",
+                  date: {
+                    displayFormat: "dd.MM.yyyy",
+                    pickerAppearance: "dayOnly",
+                    maxDate: new Date(),
+                  },
+                },
+              }}
+              validate={(value) => {
+                if (!value) return "Date is required";
+                return true;
+              }}
+            />
+
             {products.map((product) => (
               <NumberField
                 key={product.id}
@@ -117,63 +123,74 @@ export function DailyPriceForm({
                 }}
               />
             ))}
-          </fieldset>
+          </div>
+          <Button disabled={isLoading} type="submit" className="my-0">
+            Save
+          </Button>
         </div>
-        <FormSubmit disabled={isLoading}>Save</FormSubmit>
       </Form>
 
-      <table>
-        <thead>
-          <tr>
-            <th style={{ textAlign: "left", paddingInline: "0.5rem" }}>Date</th>
-            {products.map((product) => (
-              <th
-                key={product.id}
-                style={{
-                  paddingInline: "0.5rem",
-                  textAlign: "right",
-                }}
-              >
-                {product.name}
+      <div
+        style={{
+          borderRadius: "0.5rem",
+          padding: "0.5rem",
+          border: "1px solid threedface",
+        }}
+      >
+        <table>
+          <thead>
+            <tr>
+              <th style={{ textAlign: "left", paddingInline: "0.5rem" }}>
+                Date
               </th>
-            ))}
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          {dateRows.map((row) => (
-            <tr key={row.date}>
-              <td style={{ paddingInline: "0.5rem" }}>
-                {dayjs(row.date).format("DD.MM.YYYY")}
-              </td>
               {products.map((product) => (
-                <td
+                <th
                   key={product.id}
                   style={{
                     paddingInline: "0.5rem",
                     textAlign: "right",
                   }}
                 >
-                  {row.prices[product.id]?.toFixed(0)}
-                </td>
+                  {product.name}
+                </th>
               ))}
-              <td>
-                <button
-                  style={{
-                    cursor: "pointer",
-                  }}
-                  onClick={async () => {
-                    await onDeletePrices(row.ids);
-                    window.location.reload();
-                  }}
-                >
-                  Delete
-                </button>
-              </td>
+              <th />
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {dateRows.map((row) => (
+              <tr key={row.date}>
+                <td style={{ paddingInline: "0.5rem" }}>
+                  {dayjs(row.date).format("DD.MM.YYYY")}
+                </td>
+                {products.map((product) => (
+                  <td
+                    key={product.id}
+                    style={{
+                      paddingInline: "0.5rem",
+                      textAlign: "right",
+                    }}
+                  >
+                    {row.prices[product.id]?.toFixed(0)}
+                  </td>
+                ))}
+                <td>
+                  <Button
+                    size="xsmall"
+                    className="my-0"
+                    onClick={async () => {
+                      await onDeletePrices(row.ids);
+                      window.location.reload();
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

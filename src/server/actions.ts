@@ -2,6 +2,7 @@
 
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
+import { groupBy } from "lodash-es";
 
 import type { SupportedLocale } from "@/i18n/config";
 import type {
@@ -10,6 +11,7 @@ import type {
   ProductPrice,
   Strategy,
 } from "@/payload-types";
+import type { ExportedProductPrices } from "@/types";
 import {
   computeSecurityPerformance,
   computeSecurityReturns,
@@ -231,3 +233,22 @@ export const fetchProductPriceData = cachedRequest(
   },
   ["prices"],
 );
+
+export const exportPrices = async (): Promise<ExportedProductPrices[]> => {
+  const payload = await getPayloadClient();
+  const { docs: prices } = await payload.find({
+    collection: "product-prices",
+    pagination: false,
+    sort: "date",
+  });
+
+  return Object.entries(
+    groupBy(prices, ({ product }) => (product as Product).isin),
+  ).map(([isin, prices]) => ({
+    isin,
+    prices: prices.map((price) => ({
+      date: price.date.substring(0, 10),
+      price: price.price,
+    })),
+  }));
+};

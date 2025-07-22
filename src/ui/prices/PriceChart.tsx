@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { LineChart } from "@mantine/charts";
 import dayjs from "dayjs";
 
-import { type PricePoint } from "../types";
+import { type PricePoint } from "../../types";
 
 export interface PriceChartProps {
   prices: Array<PricePoint>;

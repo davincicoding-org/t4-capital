@@ -1,7 +1,7 @@
 import type { CollectionConfig } from "payload";
 
 import { withAccess } from "@/cms/access";
-import { revalidateCache } from "@/server/actions";
+import { exportPrices, revalidateCache } from "@/server/actions";
 
 export const ProductPrices: CollectionConfig = {
   slug: "product-prices",
@@ -16,6 +16,14 @@ export const ProductPrices: CollectionConfig = {
       views: {
         list: {
           Component: "@/cms/components/PricesAdder",
+          actions: [
+            {
+              path: "@/cms/components/PricesExport",
+              clientProps: {
+                exportGenerator: exportPrices,
+              },
+            },
+          ],
         },
       },
     },

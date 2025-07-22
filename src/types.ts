@@ -31,3 +31,11 @@ export interface ProductPerformance {
   YTD: number | null;
   MTD: number | null;
 }
+
+export interface ExportedProductPrices {
+  isin: string;
+  prices: {
+    date: string;
+    price: number;
+  }[];
+}

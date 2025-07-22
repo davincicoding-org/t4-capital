@@ -11,7 +11,7 @@ import {
   type PricePoint,
   type ProductPerformance,
   type YearlyReturn,
-} from "../types";
+} from "../../types";
 
 dayjs.extend(relativeTime);
 
