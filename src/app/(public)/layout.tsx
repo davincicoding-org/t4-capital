@@ -22,6 +22,7 @@ import { resolveMetadata } from "@/utils/resolveMetadata";
 const font = Font({
   subsets: ["latin"],
   variable: "--font-sans",
+  preload: false,
 });
 
 const monoFont = MonoFont({

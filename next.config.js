@@ -22,11 +22,9 @@ const config = {
   experimental: {
     optimizePackageImports: [
       "@mantine/core",
-      "@mantine/notifications",
       "@mantine/charts",
       "@mantine/hooks",
       "motion",
-      "googleapis",
     ],
   },
 };

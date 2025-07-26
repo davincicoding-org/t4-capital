@@ -38,7 +38,7 @@ export default async function PricesPage() {
     await fetchProductPriceData(productId);
 
   return (
-    <main className="grid min-h-screen p-8 max-sm:p-4">
+    <main className="grid h-screen p-4 sm:p-8 md:p-12">
       <ProductPrices
         isin={isin}
         strategy={strategy}
@@ -46,7 +46,7 @@ export default async function PricesPage() {
         returns={returns}
         performance={performance}
         disclaimer={disclaimer}
-        className="m-auto"
+        className="m-auto h-full min-h-0"
       />
     </main>
   );

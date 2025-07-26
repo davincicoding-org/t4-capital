@@ -36,7 +36,11 @@ export function ProductLogin() {
       onClose={() => void 0}
       centered
       withCloseButton={false}
-      classNames={{ body: "space-y-4 p-0" }}
+      withOverlay={false}
+      classNames={{
+        body: "space-y-4 p-0",
+        content: "bg-transparent",
+      }}
     >
       <form
         onSubmit={async (event) => {
@@ -59,6 +63,10 @@ export function ProductLogin() {
             >
               <PasswordInput
                 size="xl"
+                radius="md"
+                classNames={{
+                  input: "border-2",
+                }}
                 placeholder="Enter Password"
                 type="password"
                 disabled={loading}

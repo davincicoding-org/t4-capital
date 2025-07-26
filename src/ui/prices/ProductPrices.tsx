@@ -5,9 +5,9 @@ import {
   Badge,
   Button,
   Divider,
-  Flex,
   Paper,
   Popover,
+  ScrollArea,
   Tooltip,
 } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
@@ -73,11 +73,14 @@ export function ProductPrices({
   return (
     <Paper
       withBorder
-      radius="md"
-      className={cn("max-w-2xl overflow-clip", className)}
+      radius="lg"
+      className={cn(
+        "flex max-w-2xl flex-col overflow-clip border-2",
+        className,
+      )}
     >
       <Paper
-        className="flex items-center justify-between rounded-b-none bg-cover px-3 py-2"
+        className="flex items-center justify-between rounded-b-none bg-cover px-5 py-3"
         style={{
           backgroundImage: `url("/gradients/${strategy.color}.webp")`,
         }}
@@ -98,7 +101,7 @@ export function ProductPrices({
       )}
       <Divider
         label={
-          <Flex gap={8}>
+          <div className="flex gap-2">
             <Button
               variant={dateRange === "ALL" ? "filled" : "default"}
               size="compact-sm"
@@ -170,10 +173,10 @@ export function ProductPrices({
                 />
               </Popover.Dropdown>
             </Popover>
-          </Flex>
+          </div>
         }
       />
-      <Flex gap="sm" p="md" wrap="wrap">
+      <div className="flex flex-wrap gap-4 p-5">
         <Paper className="grid flex-1" withBorder radius="md" p="sm">
           <span>MTD</span>
           <span className="text-lg font-medium sm:text-2xl">
@@ -192,27 +195,30 @@ export function ProductPrices({
             {performance.ITD === null ? "-" : `${performance.ITD.toFixed(1)}%`}
           </span>
         </Paper>
-      </Flex>
+      </div>
       {disclaimer && (
         <>
-          <Divider />
-          <div className="p-4">
-            <div className="mb-3 flex items-center justify-between">
-              <span className="text-lg font-medium">
-                {t("disclaimer.title")}
-              </span>
-              <Tooltip
-                label={dayjs(disclaimer.updatedAt).format("DD/MM/YYYY HH:mm")}
-              >
-                <Badge size="md" variant="default">
-                  {t("disclaimer.updatedAt", {
-                    time: dayjs(disclaimer.updatedAt).fromNow(true),
-                  })}
-                </Badge>
-              </Tooltip>
+          <Divider size="sm" />
+          <ScrollArea>
+            <div className="p-6">
+              <div className="mb-3 flex items-center justify-between">
+                <span className="text-xl font-medium">
+                  {t("disclaimer.title")}
+                </span>
+                <Tooltip
+                  label={dayjs(disclaimer.updatedAt).format("DD/MM/YYYY HH:mm")}
+                >
+                  <Badge size="md" variant="default">
+                    {t("disclaimer.updatedAt", {
+                      time: dayjs(disclaimer.updatedAt).fromNow(true),
+                    })}
+                  </Badge>
+                </Tooltip>
+              </div>
+
+              <RichText data={disclaimer.content} />
             </div>
-            <RichText data={disclaimer.content} />
-          </div>
+          </ScrollArea>
         </>
       )}
     </Paper>

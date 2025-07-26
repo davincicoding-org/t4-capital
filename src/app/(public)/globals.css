@@ -1,4 +1,23 @@
-@import "@mantine/core/styles.css" layer(base);
+@import "@mantine/core/styles/baseline.css" layer(base);
+@import "@mantine/core/styles/default-css-variables.css" layer(base);
+@import "@mantine/core/styles/global.css" layer(base);
+
+@import "@mantine/core/styles/UnstyledButton.css" layer(base);
+@import "@mantine/core/styles/Button.css" layer(base);
+@import "@mantine/core/styles/ActionIcon.css" layer(base);
+@import "@mantine/core/styles/Input.css" layer(base);
+@import "@mantine/core/styles/PasswordInput.css" layer(base);
+@import "@mantine/core/styles/Tooltip.css" layer(base);
+@import "@mantine/core/styles/ScrollArea.css" layer(base);
+@import "@mantine/core/styles/Anchor.css" layer(base);
+@import "@mantine/core/styles/Overlay.css" layer(base);
+@import "@mantine/core/styles/ModalBase.css" layer(base);
+@import "@mantine/core/styles/Modal.css" layer(base);
+@import "@mantine/core/styles/Alert.css" layer(base);
+@import "@mantine/core/styles/Paper.css" layer(base);
+@import "@mantine/core/styles/Popover.css" layer(base);
+@import "@mantine/core/styles/Divider.css" layer(base);
+@import "@mantine/core/styles/Table.css" layer(base);
 
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";

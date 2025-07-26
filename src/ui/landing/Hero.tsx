@@ -27,6 +27,14 @@ export function Hero({ className }: { className?: string }) {
           className,
         )}
       >
+        <p
+          className="fixed top-4 left-4 z-50 text-4xl text-white"
+          style={{
+            opacity: 0.01,
+          }}
+        >
+          T4 CAPITAL
+        </p>
         <div className="relative flex items-end justify-center">
           <MotionSvg
             initial={{
