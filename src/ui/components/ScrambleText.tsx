@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 
 export interface ScrambleTextProps {
@@ -6,41 +8,39 @@ export interface ScrambleTextProps {
   className?: string;
 }
 
-export function ScrambleText({ content, delay, className }: ScrambleTextProps) {
-  const [chars, setChars] = useState<
-    Array<{
-      key: string;
-      char: string;
-      placeholder?: string;
-    }>
-  >([]);
+type Char = {
+  char: string;
+  placeholder?: string;
+};
 
-  const initChars = () =>
-    setChars(
-      content.split("").map((char, index) => ({
-        key: content.substring(0, index + 1),
+const SCRAMBLE_SPEED = 70;
+const SCRAMBLE_CHARS = "!<>\\/[]{}@=+*^?#________".split("");
+
+export function ScrambleText(props: ScrambleTextProps) {
+  const [chars, setChars] = useState<Char[]>([]);
+
+  const initChars = (content: string) =>
+    setChars(() =>
+      content.split("").map<Char>((char) => ({
         char,
         placeholder: getRandomChar(),
       })),
     );
+
   const scrambleChars = () =>
     setChars((current) =>
-      current.map((item) => {
-        if (item.placeholder)
-          return {
-            ...item,
-            placeholder: getRandomChar(),
-          };
-        return item;
+      current.map((char) => {
+        if (!char.placeholder) return char;
+        return { ...char, placeholder: getRandomChar() };
       }),
     );
 
-  const revealChars = (indexes: Array<number>) =>
+  const revealChars = (keys: Set<number>) =>
     setChars((current) =>
-      current.map((item, index) => {
-        if (!indexes.includes(index)) return item;
+      current.map((char, index) => {
+        if (!keys.has(index)) return char;
         return {
-          ...item,
+          ...char,
           placeholder: undefined,
         };
       }),
@@ -48,48 +48,42 @@ export function ScrambleText({ content, delay, className }: ScrambleTextProps) {
 
   useEffect(() => {
     void (async () => {
-      if (delay) await wait(delay);
-      initChars();
+      if (props.delay) await wait(props.delay);
+      initChars(props.content);
       for (let iterations = 5; iterations > 0; iterations--) {
         scrambleChars();
-        await wait(70);
+        await wait(SCRAMBLE_SPEED);
       }
 
-      let indexesToReveal = content.split("").map((_, index) => index);
+      const keysToReveal = props.content.split("").map((_, index) => index);
 
-      while (indexesToReveal.length > 0) {
+      while (keysToReveal.length > 0) {
         for (let i = 0; i < 4; i++) {
           scrambleChars();
-          await wait(70);
+          await wait(SCRAMBLE_SPEED);
         }
 
-        const nextIndexes: Array<number> = [];
+        const nextKeys = new Set<number>();
         for (
-          let iterations = (indexesToReveal.length % 2) + 1;
+          let iterations = (keysToReveal.length % 2) + 1;
           iterations > 0;
           iterations--
         ) {
-          const indexToReveal = getRandomItem(indexesToReveal);
-          indexesToReveal = indexesToReveal.filter((i) => i !== indexToReveal);
-          nextIndexes.push(indexToReveal);
+          const keyToReveal = getRandomItem(keysToReveal);
+          if (keyToReveal === undefined) continue;
+          keysToReveal.splice(keyToReveal.index, 1);
+          nextKeys.add(keyToReveal.item);
         }
 
-        revealChars(nextIndexes);
+        revealChars(nextKeys);
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [delay, content]);
+  }, [props.delay, props.content]);
 
   return (
-    <span className={className}>
-      {chars.map(({ char, placeholder, key }) => (
-        <span
-          style={{
-            opacity: placeholder ? 0.3 : undefined,
-            transition: "all 300ms",
-          }}
-          key={key}
-        >
+    <span className={props.className}>
+      {chars.map(({ char, placeholder }, index) => (
+        <span className={placeholder ? "opacity-30" : undefined} key={index}>
           {placeholder ?? char}
         </span>
       ))}
@@ -102,10 +96,14 @@ const wait = (ms: number) =>
     setTimeout(resolve, ms);
   });
 
-function getRandomItem<G>(arr: Array<G>): G {
-  const randomIndex = Math.floor(Math.random() * arr.length);
-  return arr[randomIndex]!;
+function getRandomItem<G>(
+  arrOrSet: Array<G> | Set<G>,
+): { item: G; index: number } | undefined {
+  const values = Array.isArray(arrOrSet) ? arrOrSet : Array.from(arrOrSet);
+  const randomIndex = Math.floor(Math.random() * values.length);
+  const item = values[randomIndex];
+  if (item === undefined) return undefined;
+  return { item, index: randomIndex };
 }
 
-const getRandomChar = (): string =>
-  getRandomItem("!<>-_\\/[]{}—=+*^?#________".split(""));
+const getRandomChar = (): string => getRandomItem(SCRAMBLE_CHARS)?.item ?? "_";

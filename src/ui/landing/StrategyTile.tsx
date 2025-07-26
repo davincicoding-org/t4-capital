@@ -6,6 +6,7 @@ import { ActionIcon, Button } from "@mantine/core";
 import { useDisclosure, useOs } from "@mantine/hooks";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useInView } from "motion/react";
 import { useTranslations } from "next-intl";
 
 import { useReducedMotion } from "@/ui/motion";
@@ -35,6 +36,11 @@ export function StrategyTile({
 }: StrategyTileProps) {
   const t = useTranslations("strategies");
   const shouldReduceMotion = useReducedMotion();
+  const tileRef = useRef<HTMLDivElement | null>(null);
+  const inView = useInView(tileRef, {
+    once: true,
+    amount: "some",
+  });
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const os = useOs();
   const isMobile = os === "ios" || os === "android";
@@ -56,6 +62,7 @@ export function StrategyTile({
     <CardContainer
       className="inter-var items-stretch"
       disabled={(shouldReduceMotion ?? isMobile) || isVideoPlaying}
+      ref={tileRef}
     >
       <CardBody
         className={cn(
@@ -122,21 +129,18 @@ export function StrategyTile({
             {subtitle}
           </CardItem>
 
-          <CardItem className="mt-auto flex w-full gap-2" translateZ={30}>
-            <Button
-              color="black"
-              variant="outline"
-              disabled={presentationUrl === undefined}
-              size="sm"
-              radius="xl"
-              component={Link}
-              href={presentationUrl ?? ""}
-              target="_blank"
-              fullWidth
-            >
-              {t("attachment-button")}
-            </Button>
-          </CardItem>
+          <Button
+            color="black"
+            variant="outline"
+            className="mx-auto mt-auto tracking-widest uppercase"
+            disabled={presentationUrl === undefined}
+            radius="md"
+            component={Link}
+            href={presentationUrl ?? ""}
+            target="_blank"
+          >
+            {t("attachment-button")}
+          </Button>
         </div>
       </CardBody>
       {video ? (
@@ -157,7 +161,7 @@ export function StrategyTile({
           )}
           ref={videoRef}
           src={video}
-          poster={image}
+          preload={inView ? "auto" : "none"}
           onClick={toggleVideo}
           onPause={pauseVideo}
         />

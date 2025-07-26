@@ -13,6 +13,7 @@ const config = {
     dirs: ["src"],
   },
   images: {
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
         hostname: new URL(env.SUPABASE_URL).hostname,

@@ -1,3 +1,5 @@
+import "./globals.css";
+
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { getLocale } from "next-intl/server";

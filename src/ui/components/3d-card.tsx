@@ -1,12 +1,12 @@
 "use client";
 
+import type { CSSProperties, Ref } from "react";
 import React, {
   createContext,
-  useState,
   useContext,
-  useRef,
   useEffect,
-  type CSSProperties,
+  useRef,
+  useState,
 } from "react";
 
 import { cn } from "@/ui/utils";
@@ -20,11 +20,13 @@ export function CardContainer({
   className,
   disabled,
   containerClassName,
+  ref,
 }: {
   children?: React.ReactNode;
   className?: string;
   disabled?: boolean;
   containerClassName?: string;
+  ref?: Ref<HTMLDivElement>;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMouseEntered, setIsMouseEntered] = useState(false);
@@ -64,6 +66,7 @@ export function CardContainer({
         style={{
           perspective: "1000px",
         }}
+        ref={ref}
       >
         <div
           ref={containerRef}
@@ -93,12 +96,7 @@ export function CardBody({
   className?: string;
 }) {
   return (
-    <div
-      className={cn(
-        "transform-3d *:transform-3d",
-        className,
-      )}
-    >
+    <div className={cn("transform-3d *:transform-3d", className)}>
       {children}
     </div>
   );

@@ -36,9 +36,6 @@
 
   --background-image-noise: url(/images/noise.svg);
 
-  --background-image-gradient:
-    var(--background-image-noise), url("/gradients/default.webp");
-
   --radius-lg: 0.5rem;
   --radius-md: calc(0.5rem - 2px);
   --radius-sm: calc(0.5rem - 4px);
@@ -47,6 +44,26 @@
 }
 
 @theme inline {
+  --animate-logo: logo 0.5s linear 2s forwards;
+  @keyframes logo {
+    0% {
+      transform: initial;
+    }
+    100% {
+      translate: 0 0;
+    }
+  }
+
+  --animate-headline: headline 0.5s ease-in-out 2s;
+  @keyframes headline {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
   --animate-first: moveVertical 30s ease infinite;
   --animate-second: moveInCircle 20s reverse infinite;
   --animate-third: moveInCircle 40s linear infinite;
@@ -132,6 +149,10 @@
   body {
     @apply bg-white text-black;
   }
+}
+
+:root {
+  font-variant-ligatures: none;
 }
 
 .hero {

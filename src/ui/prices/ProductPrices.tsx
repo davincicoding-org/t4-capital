@@ -87,8 +87,10 @@ export function ProductPrices({
         shadow="xs"
       >
         <div className="grid">
-          <span className="text-xl font-bold">{strategy.title}</span>
-          <span className="text-xs text-neutral-800">{isin}</span>
+          <span className="mb-1 text-xl leading-tight font-bold text-pretty">
+            {strategy.title}
+          </span>
+          <span className="text-sm text-neutral-800">{isin}</span>
         </div>
 
         <ReturnsSummary data={returns} />
@@ -101,6 +103,7 @@ export function ProductPrices({
       )}
       <Divider
         label={
+          // TODO turn into segmeented control with a dropdown
           <div className="flex gap-2">
             <Button
               variant={dateRange === "ALL" ? "filled" : "default"}

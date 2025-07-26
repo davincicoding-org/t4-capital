@@ -1,9 +1,7 @@
-"use client";
-
 import { useMemo } from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 
-import { MotionDiv, MotionSvg } from "@/ui/motion";
 import { cn } from "@/ui/utils";
 
 import { BackgroundGradientAnimation } from "../components/BackgroundGradientAnimation";
@@ -27,23 +25,20 @@ export function Hero({ className }: { className?: string }) {
           className,
         )}
       >
-        <p
-          className="fixed top-4 left-4 z-50 text-4xl text-white"
-          style={{
-            opacity: 0.01,
-          }}
-        >
-          T4 CAPITAL
-        </p>
         <div className="relative flex items-end justify-center">
-          <MotionSvg
-            initial={{
-              x: "-50vw",
-            }}
-            animate={{
-              x: 0,
-            }}
-            transition={{ duration: 0.5 }}
+          <div className="absolute inset-x-0 bottom-0 flex">
+            <Image
+              priority
+              src="/images/logo-placeholder.png"
+              className="mx-auto h-auto"
+              alt="T4 Capital Logo"
+              width={260}
+              height={130}
+            />
+          </div>
+
+          <svg
+            className="animate-logo relative z-10 translate-x-[-50vw]"
             width="130"
             height="130"
             viewBox="0 0 150 150"
@@ -54,16 +49,9 @@ export function Hero({ className }: { className?: string }) {
               d="M100 150L100 50H150V0H0V50H50L50 150H100Z"
               fill="#08202D"
             />
-          </MotionSvg>
-          <MotionSvg
-            className="absolute bottom-0 left-1/2"
-            initial={{
-              y: "-50vh",
-            }}
-            animate={{
-              y: 0,
-            }}
-            transition={{ duration: 0.5 }}
+          </svg>
+          <svg
+            className="animate-logo absolute bottom-0 left-1/2 z-10 translate-y-[-50vh]"
             width="130"
             height="130"
             viewBox="0 0 150 150"
@@ -71,15 +59,9 @@ export function Hero({ className }: { className?: string }) {
             xmlns="http://www.w3.org/2000/svg"
           >
             <rect x="4" width="46" height="46" fill="#08202D" />
-          </MotionSvg>
-          <MotionSvg
-            initial={{
-              x: "50vw",
-            }}
-            animate={{
-              x: 0,
-            }}
-            transition={{ duration: 0.5 }}
+          </svg>
+          <svg
+            className="animate-logo relative z-10 translate-x-[50vw]"
             width="130"
             height="130"
             viewBox="0 0 150 150"
@@ -91,22 +73,22 @@ export function Hero({ className }: { className?: string }) {
               fill="#08202D"
             />
             <path d="M0 50H150V100H0V50Z" fill="#08202D" />
-          </MotionSvg>
+          </svg>
         </div>
-        <MotionDiv
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
+        <div
           className={cn(
-            "text-brand container my-auto grid gap-1 font-mono text-3xl font-light max-sm:justify-center max-sm:justify-items-start",
-            "sm:flex sm:flex-wrap sm:justify-center sm:gap-4",
-            "text-center md:gap-6 md:text-left md:text-4xl",
+            "animate-headline text-brand container my-auto min-w-0 text-center font-mono text-3xl font-light text-balance md:text-4xl",
           )}
         >
           {headline.map((content) => (
-            <ScrambleText key={content} delay={500} content={content} />
+            <ScrambleText
+              key={content}
+              delay={2000}
+              content={content}
+              className="mx-2 my-1 inline-block"
+            />
           ))}
-        </MotionDiv>
+        </div>
       </div>
     </BackgroundGradientAnimation>
   );

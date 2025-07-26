@@ -34,15 +34,20 @@ export function ProductLogin() {
     <Modal
       opened
       onClose={() => void 0}
-      centered
+      fullScreen
       withCloseButton={false}
       withOverlay={false}
+      transitionProps={{
+        transition: "fade",
+        duration: 500,
+      }}
       classNames={{
-        body: "space-y-4 p-0",
-        content: "bg-transparent",
+        body: "space-y-4 p-0 !container flex flex-col h-full",
+        content: "bg-white",
       }}
     >
       <form
+        className="my-auto"
         onSubmit={async (event) => {
           event.preventDefault();
           return authForm.handleSubmit(event);
@@ -65,6 +70,7 @@ export function ProductLogin() {
                 size="xl"
                 radius="md"
                 classNames={{
+                  root: "max-w-xs mx-auto",
                   input: "border-2",
                 }}
                 placeholder="Enter Password"

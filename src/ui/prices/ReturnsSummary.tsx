@@ -28,7 +28,13 @@ export function ReturnsSummary({ data }: { data: Array<YearlyReturn> }) {
 
   return (
     <>
-      <Button size="compact-sm" variant="outline" color="black" onClick={open}>
+      <Button
+        size="compact-md"
+        variant="outline"
+        className="shrink-0"
+        color="black"
+        onClick={open}
+      >
         RETURNS
       </Button>
       <Modal
