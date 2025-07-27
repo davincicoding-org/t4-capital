@@ -6,18 +6,13 @@
 @import "@mantine/core/styles/Button.css" layer(base);
 @import "@mantine/core/styles/ActionIcon.css" layer(base);
 @import "@mantine/core/styles/Input.css" layer(base);
-@import "@mantine/core/styles/PasswordInput.css" layer(base);
 @import "@mantine/core/styles/Tooltip.css" layer(base);
 @import "@mantine/core/styles/ScrollArea.css" layer(base);
 @import "@mantine/core/styles/Anchor.css" layer(base);
-@import "@mantine/core/styles/Overlay.css" layer(base);
-@import "@mantine/core/styles/ModalBase.css" layer(base);
-@import "@mantine/core/styles/Modal.css" layer(base);
+
 @import "@mantine/core/styles/Alert.css" layer(base);
 @import "@mantine/core/styles/Paper.css" layer(base);
-@import "@mantine/core/styles/Popover.css" layer(base);
 @import "@mantine/core/styles/Divider.css" layer(base);
-@import "@mantine/core/styles/Table.css" layer(base);
 
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
@@ -43,8 +38,83 @@
   --width-max: 1224px;
 }
 
+.bg-gradient {
+  background-image:
+    radial-gradient(
+      circle at 69% 3%,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.04) 8%,
+      transparent 8%,
+      transparent 92%
+    ),
+    radial-gradient(
+      circle at 85% 72%,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.04) 8%,
+      transparent 8%,
+      transparent 92%
+    ),
+    radial-gradient(
+      circle at 43% 49%,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0.03) 6%,
+      transparent 6%,
+      transparent 94%
+    ),
+    radial-gradient(
+      circle at 12% 98%,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0.03) 6%,
+      transparent 6%,
+      transparent 94%
+    ),
+    radial-gradient(
+      circle at 37% 52%,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0.03) 6%,
+      transparent 6%,
+      transparent 94%
+    ),
+    radial-gradient(
+      circle at 22% 59%,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0.03) 6%,
+      transparent 6%,
+      transparent 94%
+    ),
+    radial-gradient(
+      circle at 25% 56%,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.04) 4%,
+      transparent 4%,
+      transparent 96%
+    ),
+    radial-gradient(
+      circle at 22% 79%,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.04) 4%,
+      transparent 4%,
+      transparent 96%
+    ),
+    radial-gradient(
+      circle at 80% 81%,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.04) 4%,
+      transparent 4%,
+      transparent 96%
+    ),
+    radial-gradient(
+      circle at 52% 16%,
+      rgba(255, 255, 255, 0.04) 0%,
+      rgba(255, 255, 255, 0.04) 4%,
+      transparent 4%,
+      transparent 96%
+    ),
+    linear-gradient(419deg, rgb(218, 241, 241), rgb(195, 204, 235));
+}
+
 @theme inline {
-  --animate-logo: logo 0.5s linear 2s forwards;
+  --animate-logo: logo 0.5s linear 0.5s forwards;
   @keyframes logo {
     0% {
       transform: initial;
@@ -54,7 +124,7 @@
     }
   }
 
-  --animate-headline: headline 0.5s ease-in-out 2s;
+  --animate-headline: headline 0.5s ease-in-out 1.5s;
   @keyframes headline {
     0% {
       opacity: 0;

@@ -22,13 +22,13 @@ import { resolveMetadata } from "@/utils/resolveMetadata";
 const font = Font({
   subsets: ["latin"],
   variable: "--font-sans",
-  preload: false,
 });
 
 const monoFont = MonoFont({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-mono",
+  preload: false,
 });
 
 const theme = createTheme({
@@ -67,16 +67,14 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={cn(font.variable, monoFont.variable)}>
-      <body className="flex min-h-dvh flex-col overscroll-y-none">
+      <body>
         <MantineProvider theme={theme}>
           <NextIntlClientProvider messages={messages}>
-            <MotionProvider>
-              {children}
-              <Footer
-                legalPages={legalPages}
-                newsletterHandler={subscribeToNewsletter}
-              />
-            </MotionProvider>
+            {children}
+            <Footer
+              legalPages={legalPages}
+              newsletterHandler={subscribeToNewsletter}
+            />
           </NextIntlClientProvider>
         </MantineProvider>
       </body>

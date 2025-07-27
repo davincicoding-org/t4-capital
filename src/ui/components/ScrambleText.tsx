@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export interface ScrambleTextProps {
   content: string;
@@ -18,67 +18,151 @@ const SCRAMBLE_CHARS = "!<>\\/[]{}@=+*^?#________".split("");
 
 export function ScrambleText(props: ScrambleTextProps) {
   const [chars, setChars] = useState<Char[]>([]);
+  const animationRef = useRef<number | undefined>(undefined);
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const isMountedRef = useRef(true);
 
-  const initChars = (content: string) =>
-    setChars(() =>
-      content.split("").map<Char>((char) => ({
+  const getRandomChar = useCallback((): string => {
+    return (
+      SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)] ?? "_"
+    );
+  }, []);
+
+  const initChars = useCallback(
+    (content: string) => {
+      return content.split("").map<Char>((char) => ({
         char,
         placeholder: getRandomChar(),
-      })),
-    );
+      }));
+    },
+    [getRandomChar],
+  );
 
-  const scrambleChars = () =>
-    setChars((current) =>
-      current.map((char) => {
-        if (!char.placeholder) return char;
-        return { ...char, placeholder: getRandomChar() };
-      }),
-    );
+  const wait = useCallback((ms: number): Promise<void> => {
+    return new Promise((resolve) => {
+      if (!isMountedRef.current) {
+        resolve();
+        return;
+      }
+      timeoutRef.current = setTimeout(resolve, ms);
+    });
+  }, []);
 
-  const revealChars = (keys: Set<number>) =>
-    setChars((current) =>
-      current.map((char, index) => {
-        if (!keys.has(index)) return char;
-        return {
-          ...char,
-          placeholder: undefined,
-        };
-      }),
-    );
+  const animateScramble = useCallback(async () => {
+    if (!isMountedRef.current) return;
 
-  useEffect(() => {
-    void (async () => {
-      if (props.delay) await wait(props.delay);
-      initChars(props.content);
-      for (let iterations = 5; iterations > 0; iterations--) {
-        scrambleChars();
+    // Initial delay
+    if (props.delay) {
+      await wait(props.delay);
+    }
+
+    if (!isMountedRef.current) return;
+
+    // Initialize with scrambled characters
+    const initialChars = initChars(props.content);
+    setChars(initialChars);
+
+    // Initial scrambling phase
+    for (let i = 0; i < 5; i++) {
+      if (!isMountedRef.current) return;
+
+      // Use requestAnimationFrame for smoother updates
+      await new Promise<void>((resolve) => {
+        animationRef.current = requestAnimationFrame(() => {
+          if (!isMountedRef.current) {
+            resolve();
+            return;
+          }
+
+          setChars((current) =>
+            current.map((char) => ({
+              ...char,
+              placeholder: char.placeholder ? getRandomChar() : undefined,
+            })),
+          );
+          resolve();
+        });
+      });
+
+      await wait(SCRAMBLE_SPEED);
+    }
+
+    // Revealing phase
+    const keysToReveal = props.content.split("").map((_, index) => index);
+
+    while (keysToReveal.length > 0 && isMountedRef.current) {
+      // Scramble a few times before revealing
+      for (let i = 0; i < 4; i++) {
+        if (!isMountedRef.current) return;
+
+        await new Promise<void>((resolve) => {
+          animationRef.current = requestAnimationFrame(() => {
+            if (!isMountedRef.current) {
+              resolve();
+              return;
+            }
+
+            setChars((current) =>
+              current.map((char) => ({
+                ...char,
+                placeholder: char.placeholder ? getRandomChar() : undefined,
+              })),
+            );
+            resolve();
+          });
+        });
+
         await wait(SCRAMBLE_SPEED);
       }
 
-      const keysToReveal = props.content.split("").map((_, index) => index);
+      // Reveal characters in batches
+      const batchSize = Math.min(
+        (keysToReveal.length % 2) + 1,
+        keysToReveal.length,
+      );
+      const keysToRevealNow = new Set<number>();
 
-      while (keysToReveal.length > 0) {
-        for (let i = 0; i < 4; i++) {
-          scrambleChars();
-          await wait(SCRAMBLE_SPEED);
+      for (let i = 0; i < batchSize; i++) {
+        const randomIndex = Math.floor(Math.random() * keysToReveal.length);
+        const keyToReveal = keysToReveal.splice(randomIndex, 1)[0];
+        if (keyToReveal !== undefined) {
+          keysToRevealNow.add(keyToReveal);
         }
-
-        const nextKeys = new Set<number>();
-        for (
-          let iterations = (keysToReveal.length % 2) + 1;
-          iterations > 0;
-          iterations--
-        ) {
-          const keyToReveal = getRandomItem(keysToReveal);
-          if (keyToReveal === undefined) continue;
-          keysToReveal.splice(keyToReveal.index, 1);
-          nextKeys.add(keyToReveal.item);
-        }
-
-        revealChars(nextKeys);
       }
-    })();
-  }, [props.delay, props.content]);
+
+      if (!isMountedRef.current) return;
+
+      // Batch the reveal update
+      setChars((current) =>
+        current.map((char, index) => {
+          if (!keysToRevealNow.has(index)) return char;
+          return { ...char, placeholder: undefined };
+        }),
+      );
+    }
+  }, [props.content, props.delay, initChars, getRandomChar, wait]);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    void animateScramble();
+
+    return () => {
+      isMountedRef.current = false;
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [animateScramble]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   return (
     <span className={props.className}>
@@ -90,20 +174,3 @@ export function ScrambleText(props: ScrambleTextProps) {
     </span>
   );
 }
-
-const wait = (ms: number) =>
-  new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-
-function getRandomItem<G>(
-  arrOrSet: Array<G> | Set<G>,
-): { item: G; index: number } | undefined {
-  const values = Array.isArray(arrOrSet) ? arrOrSet : Array.from(arrOrSet);
-  const randomIndex = Math.floor(Math.random() * values.length);
-  const item = values[randomIndex];
-  if (item === undefined) return undefined;
-  return { item, index: randomIndex };
-}
-
-const getRandomChar = (): string => getRandomItem(SCRAMBLE_CHARS)?.item ?? "_";

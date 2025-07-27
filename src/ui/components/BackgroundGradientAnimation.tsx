@@ -1,5 +1,6 @@
 "use client";
 
+import type { JSX } from "react";
 import { useEffect, useRef, useState } from "react";
 
 import { cn } from "@/ui/utils";
@@ -14,6 +15,7 @@ export const BackgroundGradientAnimation = ({
   size = "80%",
   blendingValue = "hard-light",
   children,
+  component: Tag = "div",
   className,
   interactive = true,
   containerClassName,
@@ -28,6 +30,7 @@ export const BackgroundGradientAnimation = ({
   blendingValue?: string;
   children?: React.ReactNode;
   className?: string;
+  component?: keyof JSX.IntrinsicElements;
   interactive?: boolean;
   containerClassName?: string;
 }) => {
@@ -79,9 +82,9 @@ export const BackgroundGradientAnimation = ({
   }, []);
 
   return (
-    <div
+    <Tag
       className={cn(
-        "bg-gradient relative top-0 left-0 h-screen w-screen overflow-hidden bg-cover",
+        "bg-gradient relative h-full overflow-hidden bg-cover",
         containerClassName,
       )}
     >
@@ -170,6 +173,6 @@ export const BackgroundGradientAnimation = ({
           ></div>
         )}
       </div>
-    </div>
+    </Tag>
   );
 };

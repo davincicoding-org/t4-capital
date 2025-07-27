@@ -31,14 +31,13 @@ export function Footer({
   const [isNewsletterOpen, newsletter] = useDisclosure();
 
   return (
-    <footer className={cn("border-t p-4 sm:p-8", className)} {...attrs}>
-      <Image
-        src="/gradients/default.webp"
-        alt="Background"
-        fill
-        className="absolute inset-0 -z-10"
-        sizes="100vw"
-      />
+    <footer
+      className={cn(
+        "bg-gradient border-t bg-cover bg-center p-4 sm:p-8",
+        className,
+      )}
+      {...attrs}
+    >
       <div className="flex items-center justify-between gap-6">
         <div className="grid gap-3">
           <Link href="/">
