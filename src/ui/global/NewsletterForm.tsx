@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Alert, Button, FocusTrap, Modal, TextInput } from "@mantine/core";
 import { useForm } from "@tanstack/react-form";
 import { useTranslations } from "next-intl";
 import { z } from "zod";
@@ -18,15 +17,10 @@ const formSchema = z.object({
 
 export interface NewsletterFormProps {
   handler: NewsletterHandler;
-  open: boolean;
-  onClose: () => void;
+  className?: string;
 }
 
-export function NewsletterForm({
-  handler,
-  open,
-  onClose,
-}: NewsletterFormProps) {
+export function NewsletterForm({ handler, className }: NewsletterFormProps) {
   const t = useTranslations("newsletter");
   const [submission, setSubmission] = useState<NewsletterSubscriptionOutput>();
   const form = useForm({
@@ -45,28 +39,11 @@ export function NewsletterForm({
   });
 
   return (
-    <Modal
-      title={
-        <span className="text-center text-xl font-medium">{t("title")}</span>
-      }
-      opened={open}
-      transitionProps={{
-        transition: "pop",
-      }}
-      onClose={onClose}
-      centered
-      radius="lg"
-    >
-      <FocusTrap.InitialFocus />
-      {submission?.success === true && (
-        <Alert color="green" className="mb-3" title={t("success")} />
-      )}
+    <div className={className}>
       {submission?.success === false && (
-        <Alert
-          color="red"
-          className="mb-3"
-          title={submission.error ?? t("error")}
-        />
+        <div role="alert" className="alert alert-error mb-3">
+          <span>{submission.error ?? t("error")}</span>
+        </div>
       )}
       <p className="mb-4 text-center text-balance">{t("description")}</p>
       <form
@@ -78,8 +55,9 @@ export function NewsletterForm({
         <div className={cn("mb-5 grid grid-cols-2 gap-2")}>
           <form.Field name="firstname">
             {(field) => (
-              <TextInput
-                label={t("fields.firstname")}
+              <input
+                className="input"
+                placeholder={t("fields.firstname")}
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 disabled={field.form.state.isSubmitting}
@@ -88,8 +66,9 @@ export function NewsletterForm({
           </form.Field>
           <form.Field name="lastname">
             {(field) => (
-              <TextInput
-                label={t("fields.lastname")}
+              <input
+                className="input"
+                placeholder={t("fields.lastname")}
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 disabled={field.form.state.isSubmitting}
@@ -99,9 +78,9 @@ export function NewsletterForm({
 
           <form.Field name="email">
             {(field) => (
-              <TextInput
-                className="col-span-2"
-                label={t("fields.email")}
+              <input
+                className="input col-span-2 w-full"
+                placeholder={t("fields.email")}
                 type="email"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
@@ -119,19 +98,20 @@ export function NewsletterForm({
           })}
         >
           {({ canSubmit, isSubmitting, isTouched }) => (
-            <Button
-              fullWidth
+            <button
+              className="btn w-full rounded-lg"
               type="submit"
-              radius="xl"
-              color="accent"
               disabled={!isTouched || !canSubmit}
-              loading={isSubmitting}
             >
-              {t("submit")}
-            </Button>
+              {isSubmitting ? (
+                <span className="loading loading-spinner loading-lg"></span>
+              ) : (
+                t("submit")
+              )}
+            </button>
           )}
         </form.Subscribe>
       </form>
-    </Modal>
+    </div>
   );
 }

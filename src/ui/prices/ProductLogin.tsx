@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader, Modal, PasswordInput, Tooltip } from "@mantine/core";
 import { useForm } from "@tanstack/react-form";
 
-import { unlockProductData } from "@/server/actions";
+import { unlockProductData } from "@/server/requests/prices";
+
+import { cn } from "../utils";
 
 export function ProductLogin() {
   const [loading, setLoading] = useState(false);
@@ -31,23 +32,9 @@ export function ProductLogin() {
   });
 
   return (
-    <Modal
-      opened
-      onClose={() => void 0}
-      fullScreen
-      withCloseButton={false}
-      withOverlay={false}
-      transitionProps={{
-        transition: "fade",
-        duration: 500,
-      }}
-      classNames={{
-        body: "space-y-4 p-0 !container flex flex-col h-full",
-        content: "bg-white",
-      }}
-    >
+    <main className="bg-base-200 fixed inset-0 z-10 flex flex-col">
       <form
-        className="my-auto"
+        className="m-auto"
         onSubmit={async (event) => {
           event.preventDefault();
           return authForm.handleSubmit(event);
@@ -55,38 +42,52 @@ export function ProductLogin() {
       >
         <authForm.Field name="password">
           {(field) => (
-            <Tooltip
-              label={error ? "Invalid password" : ""}
-              opened={error}
-              position="bottom-start"
-              color="red"
-              transitionProps={{
-                transition: "pop",
-                duration: 300,
-                exitDuration: 0,
-              }}
-            >
-              <PasswordInput
-                size="xl"
-                radius="md"
-                classNames={{
-                  root: "max-w-xs mx-auto",
-                  input: "border-2",
-                }}
+            // <Tooltip
+            //   label={error ? "Invalid password" : ""}
+            //   opened={error}
+            //   position="bottom-start"
+            //   color="red"
+            //   transitionProps={{
+            //     transition: "pop",
+            //     duration: 300,
+            //     exitDuration: 0,
+            //   }}
+            // >
+            <div className="relative">
+              <input
+                className={cn("input input-xl rounded-lg text-center")}
                 placeholder="Enter Password"
                 type="password"
                 disabled={loading}
-                rightSection={loading ? <Loader size="sm" /> : null}
+                // rightSection={loading ? <Loader size="sm" /> : null}
                 value={field.state.value}
                 onChange={(event) => {
                   field.handleChange(event.target.value);
                   setError(false);
                 }}
               />
-            </Tooltip>
+              <div
+                className={cn(
+                  "invisible absolute inset-x-0 mt-2 flex -translate-y-1/2 opacity-0 transition-all duration-700",
+                  {
+                    "visible translate-y-0 opacity-100": error,
+                  },
+                )}
+              >
+                {error && (
+                  <div
+                    className={cn(
+                      "alert alert-error mx-auto rounded-md px-3 py-1",
+                    )}
+                  >
+                    <p className="text-lg tracking-wider">Invalid password</p>
+                  </div>
+                )}
+              </div>
+            </div>
           )}
         </authForm.Field>
       </form>
-    </Modal>
+    </main>
   );
 }

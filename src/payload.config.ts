@@ -38,7 +38,7 @@ import {
 import { LandingPage } from "@/cms/globals";
 import { env } from "@/env";
 import { MESSAGES_SCHEMA, SUPPORTED_LOCALES } from "@/i18n/config";
-import { revalidateCache } from "@/server/actions";
+import { revalidateCache } from "@/server/cache";
 
 import { withAccess } from "./cms/access";
 

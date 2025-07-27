@@ -1,26 +1,19 @@
-import type { HTMLAttributes } from "react";
 import { getTranslations } from "next-intl/server";
 
-import type { Strategy } from "@/payload-types";
-import { cn, ensureResolved } from "@/ui/utils";
+import type { Strategy } from "@/types";
+import { cn } from "@/ui/utils";
 
 import { StrategyTile } from "./StrategyTile";
 
 export interface StrategiesProps {
   strategies: Strategy[];
+  className?: string;
 }
 
-export async function Strategies({
-  strategies,
-  className,
-  ...attrs
-}: StrategiesProps & HTMLAttributes<HTMLElement>) {
+export async function Strategies({ strategies, className }: StrategiesProps) {
   const t = await getTranslations("strategies");
   return (
-    <section
-      className={cn("md:gap-16", "grid content-start gap-10", className)}
-      {...attrs}
-    >
+    <section className={cn("grid content-start gap-10 md:gap-16", className)}>
       <div className="grid content-start gap-4 text-center">
         <span className={cn("md:text-5xl", "text-4xl font-medium")}>
           {t("title")}
@@ -41,8 +34,8 @@ export async function Strategies({
             subtitle={strategy.description}
             launchDate={strategy.launchDate}
             image={`/gradients/${strategy.color}.webp`}
-            presentationUrl={ensureResolved(strategy.deck)!.url!}
-            video={ensureResolved(strategy.video)?.url}
+            presentationUrl={strategy.presentationUrl}
+            video={strategy.video}
           />
         ))}
       </div>

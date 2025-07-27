@@ -1,32 +1,33 @@
-import type { HTMLAttributes } from "react";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 
-import type { Media } from "@/payload-types";
+import type { PressArticle } from "@/types";
 import { cn } from "@/ui/utils";
 
 export interface PressProps {
-  articles: {
-    url: string;
-    logo: Media;
-  }[];
+  articles: PressArticle[];
+  className?: string;
 }
 
-export async function Press({
-  articles,
-  className,
-  ...attrs
-}: PressProps & HTMLAttributes<HTMLElement>) {
+export async function MediaCoverage({ articles, className }: PressProps) {
   const t = await getTranslations("press");
 
+  if (articles.length === 0) return null;
+
   return (
-    <section className={cn(className)} {...attrs}>
+    <section className={cn("container", className)}>
       <p className="text-gray-69 mb-4 text-center text-xl font-medium md:mb-8">
         {t("title")}
       </p>
-      <div className="flex justify-center gap-4 md:gap-12">
+      <div className="flex flex-wrap justify-center gap-4 md:gap-12">
         {articles.map((article) => (
-          <a href={article.url} key={article.url}>
+          <a
+            key={article.id}
+            href={article.url}
+            target="_blank"
+            rel="noopener"
+            className="shrink-0"
+          >
             <Image
               src={article.logo.url ?? ""}
               alt={article.logo.description ?? ""}

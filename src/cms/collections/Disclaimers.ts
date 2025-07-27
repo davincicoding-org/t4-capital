@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
 
-import { revalidateCache } from "@/server/actions";
+import { revalidateCache } from "@/server/cache";
 
 import { withAccess } from "../access";
 

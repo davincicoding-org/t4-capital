@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
 
-import { fetchLegalPage } from "@/server/actions";
+import { fetchLegalPage } from "@/server/requests/legal-pages";
 import RichText from "@/ui/components/RichText";
 import { resolveMetadata } from "@/utils/resolveMetadata";
 

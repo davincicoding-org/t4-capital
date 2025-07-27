@@ -1,7 +1,8 @@
 import type { CollectionConfig } from "payload";
 
 import { withAccess } from "@/cms/access";
-import { exportPrices, revalidateCache } from "@/server/actions";
+import { revalidateCache } from "@/server/cache";
+import { exportPrices } from "@/server/requests/prices";
 
 export const ProductPrices: CollectionConfig = {
   slug: "product-prices",

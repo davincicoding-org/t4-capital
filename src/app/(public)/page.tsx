@@ -1,43 +1,30 @@
-import type { Media } from "@/payload-types";
-import { fetchLandingPage, fetchStrategies } from "@/server/actions";
-import { About, Hero, Press, Strategies } from "@/ui/landing";
+import { getLandingPageData } from "@/server/requests/landing";
+import { About, Hero, MediaCoverage, Strategies } from "@/ui/landing";
 import { Advisors } from "@/ui/landing/Advisors";
-import { cn, ensureResolved } from "@/ui/utils";
 
 export default async function Home() {
-  const [strategies, pageData] = await Promise.all([
-    fetchStrategies("en"),
-    fetchLandingPage("en"),
-  ]);
-
-  const articles = (pageData.articles ?? []).filter(
-    (article): article is { url: string; logo: Media } =>
-      ensureResolved(article.logo) !== undefined,
-  );
+  const data = await getLandingPageData("en");
 
   return (
     <>
       <Hero />
-      <main className={cn("pb-48 md:pb-72")}>
-        {articles.length > 0 && (
-          <Press
-            className="container mb-32 pt-16 md:mb-48"
-            articles={articles}
-          />
-        )}
-
+      <main className="pb-48 md:pb-72">
+        <MediaCoverage
+          articles={data.articles}
+          className="mb-32 pt-16 md:mb-48"
+        />
         <Strategies
+          strategies={data.strategies}
           className="container mb-32 pt-16 md:mb-48"
-          strategies={strategies}
         />
         <About
+          teamImage={data.teamImage}
+          teamMembers={data.teamMembers}
           className="container"
-          teamImage={pageData.teamImage}
-          teamMembers={pageData.teamMembers}
         />
         <Advisors
+          advisors={data.advisors}
           className="container mt-16 md:mt-24"
-          advisors={pageData.advisors}
         />
       </main>
     </>

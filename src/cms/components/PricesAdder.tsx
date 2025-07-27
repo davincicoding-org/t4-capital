@@ -1,7 +1,7 @@
 import type { ListViewServerProps } from "payload";
 import { Gutter } from "@payloadcms/ui";
 
-import { addProductPrice, deleteProductPrices } from "@/server/actions";
+import { addProductPrice, deleteProductPrices } from "@/server/requests/prices";
 
 import { DailyPriceForm } from "./DailyPriceForm";
 

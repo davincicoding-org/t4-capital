@@ -1,6 +1,6 @@
 import type { GlobalConfig } from "payload";
 
-import { revalidateCache } from "@/server/actions";
+import { revalidateCache } from "@/server/cache";
 
 import { withAccess } from "../access";
 
@@ -55,6 +55,7 @@ export const LandingPage: GlobalConfig = {
               label: "Members",
               type: "array",
               dbName: "team_members",
+              interfaceName: "TeamMembers",
               required: true,
               fields: [
                 {
@@ -81,6 +82,7 @@ export const LandingPage: GlobalConfig = {
               type: "array",
               dbName: "advisors",
               required: true,
+              interfaceName: "Advisors",
               fields: [
                 {
                   name: "name",

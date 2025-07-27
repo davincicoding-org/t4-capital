@@ -1,5 +1,3 @@
-import "./globals.css";
-
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { getLocale } from "next-intl/server";
@@ -8,7 +6,7 @@ import {
   fetchDisclaimer,
   fetchProductMetadata,
   fetchProductPriceData,
-} from "@/server/actions";
+} from "@/server/requests/prices";
 import { ProductLogin, ProductPrices } from "@/ui/prices";
 import { isResolved } from "@/ui/utils";
 
@@ -22,12 +20,7 @@ export default async function PricesPage() {
   const cookieStore = await cookies();
   const productCookie = cookieStore.get("product-id");
 
-  if (!productCookie)
-    return (
-      <main className="h-screen">
-        <ProductLogin />
-      </main>
-    );
+  if (!productCookie) return <ProductLogin />;
 
   const productId = Number(productCookie.value);
 

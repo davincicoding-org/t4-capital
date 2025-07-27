@@ -1,41 +1,21 @@
-import type { HTMLAttributes } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { ActionIcon } from "@mantine/core";
 import { IconBrandLinkedinFilled } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 
-import type { LandingPage } from "@/payload-types";
-import { cn, ensureResolved } from "@/ui/utils";
-
-function Logo() {
-  return (
-    <Image
-      src="/images/logo.svg"
-      alt="T4 Logo"
-      className={cn("inline h-8 w-8 md:h-14 md:w-14")}
-      width={56}
-      height={112}
-    />
-  );
-}
+import type { Media, TeamMember } from "@/types";
+import { cn } from "@/ui/utils";
 
 export interface AboutProps {
-  teamImage: LandingPage["teamImage"];
-  teamMembers: LandingPage["teamMembers"];
+  teamImage: Media;
+  teamMembers: TeamMember[];
+  className?: string;
 }
 
-export function About({
-  teamImage,
-  teamMembers,
-  className,
-  ...attrs
-}: AboutProps & HTMLAttributes<HTMLElement>) {
+export function About({ teamImage, teamMembers, className }: AboutProps) {
   const t = useTranslations();
-  const image = ensureResolved(teamImage);
 
   return (
-    <section className={cn("grid gap-12 md:gap-16", className)} {...attrs}>
+    <section className={cn("grid gap-12 md:gap-16", className)}>
       <div className={cn("grid gap-6 md:grid-cols-[auto_1fr] md:gap-32")}>
         <span className="text-xl font-medium max-sm:text-lg">
           {t("about.title")}
@@ -54,19 +34,17 @@ export function About({
 
       <div
         className={cn(
-          "bg-noise mx-auto grid w-full max-w-4xl overflow-clip rounded-2xl bg-black/5 shadow-sm",
+          "bg-noise container-lg mx-auto grid overflow-clip rounded-2xl bg-black/5 shadow-lg",
         )}
       >
-        {image?.url && (
-          <Image
-            src={image.url}
-            width={image.width ?? undefined}
-            height={image.height ?? undefined}
-            alt={image.description ?? ""}
-            className={cn("h-auto w-full rounded-2xl shadow-sm")}
-            sizes="(max-width: 960px) 90vw, 896px"
-          />
-        )}
+        <Image
+          src={teamImage.url!}
+          width={teamImage.width!}
+          height={teamImage.height!}
+          alt={teamImage.description ?? ""}
+          layout="constrained"
+          className={cn("h-auto w-full rounded-2xl shadow-md")}
+        />
         <div
           className={cn(
             "flex justify-evenly gap-3 overflow-x-auto overscroll-x-contain px-3 pt-3 pb-1 md:p-6 md:pb-3",
@@ -80,26 +58,30 @@ export function About({
               <span className={cn("text-lg max-sm:hidden md:text-2xl")}>
                 {member.name}
               </span>
-              <ActionIcon
-                variant="subtle"
-                radius="xl"
-                size="xl"
-                color="gray"
-                className={cn("group")}
-                component={Link}
-                aria-label={`${member.name} LinkedIn`}
+              <a
+                className="btn btn-ghost btn-lg btn-circle hover:text-linkedin"
+                aria-label={`Visit LinkedIn Profile`}
                 href={member.linkedIn}
                 target="_blank"
               >
-                <IconBrandLinkedinFilled
-                  size={32}
-                  className="transition-colors group-hover:fill-[#0072b1]"
-                />
-              </ActionIcon>
+                <IconBrandLinkedinFilled className="size-8" />
+              </a>
             </div>
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+function Logo() {
+  return (
+    <Image
+      src="/images/logo.svg"
+      alt="T4 Logo"
+      width={260}
+      height={130}
+      className="inline h-6 w-auto align-baseline md:h-9"
+    />
   );
 }

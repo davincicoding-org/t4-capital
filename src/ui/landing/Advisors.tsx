@@ -1,89 +1,66 @@
-"use client";
-
-import type { HTMLAttributes } from "react";
-import { useRef, useState } from "react";
-import { Button, Collapse, Paper, ScrollArea } from "@mantine/core";
+import { Fragment } from "react";
+import { IconX } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 
-import type { LandingPage } from "@/payload-types";
+import type { Advisor } from "@/types";
 import { cn } from "@/ui/utils";
 
 export interface AdvisorsProps {
-  advisors: LandingPage["advisors"];
+  advisors: Advisor[];
+  className?: string;
 }
 
-export function Advisors({
-  className,
-  advisors,
-  ...attrs
-}: AdvisorsProps & HTMLAttributes<HTMLElement>) {
+export function Advisors({ className, advisors }: AdvisorsProps) {
   const t = useTranslations();
-  const [activeAdvisorIndex, setActiveAdvisorIndex] = useState<string | null>();
-  const advistorDescriptionRef = useRef<HTMLDivElement>(null);
+
+  if (advisors.length === 0) return null;
 
   return (
-    <section className={cn("grid gap-4", className)} {...attrs}>
+    <section className={cn("grid gap-4", className)}>
       <div className="sm:text-center">
         <h3 className="mb-2 text-2xl font-medium">{t("advisors.title")}</h3>
         <p className="text-gray-69 text-xl">{t("advisors.description")}</p>
       </div>
 
-      <div
-        className="grid gap-2 max-md:-mx-8"
-        onMouseLeave={() => setActiveAdvisorIndex(null)}
-      >
-        <ScrollArea className="w-full overscroll-x-contain" scrollbars="x">
-          <div className="flex w-full pb-3">
-            <div className="h-8 w-8 shrink-0 basis-8 md:hidden" />
-            <div className="mx-auto flex grow flex-nowrap gap-2 py-1 sm:gap-4">
-              {advisors.map((advisor) => (
-                <Button
-                  key={advisor.name}
-                  className="shrink-0 cursor-pointer transition-colors first:ml-auto last:mr-auto max-sm:grow-1"
-                  size="lg"
-                  radius="md"
-                  px="sm"
-                  variant={
-                    activeAdvisorIndex === advisor.id ? "outline" : "default"
-                  }
-                  onMouseEnter={() => {
-                    setActiveAdvisorIndex(advisor.id);
-                    setTimeout(() => {
-                      advistorDescriptionRef.current?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "nearest",
-                      });
-                    }, 500);
-                  }}
-                >
-                  {advisor.name}
-                </Button>
-              ))}
-            </div>
-            <div className="h-8 w-8 shrink-0 basis-8 md:hidden" />
-          </div>
-        </ScrollArea>
-        <div
-          ref={advistorDescriptionRef}
-          className="mx-auto max-w-4xl scroll-mb-8"
-        >
+      <div className="grid gap-2">
+        <div className="mx-auto flex flex-wrap gap-2 py-1 sm:gap-4">
           {advisors.map((advisor) => (
-            <Collapse
-              key={advisor.name}
-              in={activeAdvisorIndex === advisor.id}
-              transitionDuration={500}
-            >
-              <Paper
-                radius="lg"
-                color="gray"
-                p="md"
-                bg="gray.0"
-                withBorder
-                className="text-lg text-pretty max-sm:!rounded-none"
+            <Fragment key={advisor.id}>
+              <label
+                htmlFor={`modal-${advisor.id}`}
+                className="btn btn-lg rounded-md text-nowrap shadow-sm"
               >
-                {advisor.description}
-              </Paper>
-            </Collapse>
+                {advisor.name}
+              </label>
+
+              <input
+                type="checkbox"
+                id={`modal-${advisor.id}`}
+                className="modal-toggle"
+              />
+              <div className="modal modal-bottom px-6" role="dialog">
+                <div className="modal-box mx-auto max-w-2xl pt-4">
+                  <header className="mb-4 flex items-center justify-between">
+                    <h3 className="text-xl font-medium">{advisor.name}</h3>
+
+                    <label
+                      htmlFor={`modal-${advisor.id}`}
+                      className="btn btn-ghost btn-sm btn-square -mr-2 rounded-sm"
+                    >
+                      <IconX />
+                    </label>
+                  </header>
+
+                  <p className="text-lg text-pretty">{advisor.description}</p>
+                </div>
+                <label
+                  className="modal-backdrop"
+                  htmlFor={`modal-${advisor.id}`}
+                >
+                  Close
+                </label>
+              </div>
+            </Fragment>
           ))}
         </div>
       </div>

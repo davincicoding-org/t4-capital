@@ -21,12 +21,7 @@ const config = {
     ],
   },
   experimental: {
-    optimizePackageImports: [
-      "@mantine/core",
-      "@mantine/charts",
-      "@mantine/hooks",
-      "motion",
-    ],
+    optimizePackageImports: ["@mantine/hooks", "motion"],
   },
 };
 

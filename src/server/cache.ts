@@ -1,4 +1,4 @@
-import { unstable_cache } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 
 export type CacheTag =
   | "cms"
@@ -9,6 +9,8 @@ export type CacheTag =
   | "products"
   | "landing-page"
   | "legal-pages";
+
+export const revalidateCache = async (tag: CacheTag) => revalidateTag(tag);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const cachedRequest = <T extends (...args: any[]) => Promise<any>>(

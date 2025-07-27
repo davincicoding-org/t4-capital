@@ -1,43 +1,18 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { groupBy } from "lodash-es";
 
 import type { SupportedLocale } from "@/i18n/config";
-import type {
-  LegalPage,
-  Product,
-  ProductPrice,
-  Strategy,
-} from "@/payload-types";
+import type { Product, ProductPrice, Strategy } from "@/payload-types";
 import type { ExportedProductPrices } from "@/types";
 import {
   computeSecurityPerformance,
   computeSecurityReturns,
 } from "@/utils/prices";
 
-import type { CacheTag } from "./cache";
-import { cachedRequest } from "./cache";
-import { getPayloadClient } from "./payload";
-
-export const revalidateCache = async (tag: CacheTag) => revalidateTag(tag);
-
-// MARK: Requests
-
-export const fetchStrategies = cachedRequest(
-  async (locale: SupportedLocale) => {
-    const payload = await getPayloadClient();
-    const { docs } = await payload.find({
-      collection: "strategies",
-      sort: "order",
-      locale,
-      pagination: false,
-    });
-    return docs;
-  },
-  ["cms", "strategies"],
-);
+import { cachedRequest } from "../cache";
+import { getPayloadClient } from "../payload";
 
 export const addProductPrice = async (data: {
   date: string;
@@ -68,59 +43,6 @@ export const deleteProductPrices = async (ids: ProductPrice["id"][]) => {
     },
   });
 };
-
-export const fetchLandingPage = cachedRequest(
-  async (locale: SupportedLocale) => {
-    const payload = await getPayloadClient();
-    return payload.findGlobal({
-      slug: "landing-page",
-      locale,
-    });
-  },
-  ["landing-page"],
-);
-
-export const fetchLegalPage = cachedRequest(
-  async (slug: LegalPage["slug"], locale: SupportedLocale) => {
-    const payload = await getPayloadClient();
-    const {
-      docs: [data],
-    } = await payload.find({
-      collection: "legal-pages",
-      where: {
-        slug: {
-          equals: slug,
-        },
-      },
-      locale,
-    });
-
-    return data;
-  },
-  ["legal-pages"],
-);
-
-export const fetchLegalPagesLinks = cachedRequest(
-  async (locale: SupportedLocale) => {
-    const payload = await getPayloadClient();
-    const { docs } = await payload.find({
-      collection: "legal-pages",
-      sort: "navigation.order",
-      locale,
-      select: {
-        title: true,
-        slug: true,
-        navigation: true,
-      },
-    });
-
-    return docs.map(({ title, slug, navigation }) => ({
-      label: navigation.label ?? title,
-      slug,
-    }));
-  },
-  ["legal-pages"],
-);
 
 export const fetchProductIdByPassword = cachedRequest(
   async (password: Product["password"]) => {

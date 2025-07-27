@@ -7,6 +7,24 @@
  */
 
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TeamMembers".
+ */
+export type TeamMembers = {
+  name: string;
+  linkedIn: string;
+  id?: string | null;
+}[];
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Advisors".
+ */
+export type Advisors = {
+  name: string;
+  description: string;
+  id?: string | null;
+}[];
+/**
  * Supported timezones in IANA format.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -643,16 +661,8 @@ export interface LandingPage {
       }[]
     | null;
   teamImage?: (number | null) | Media;
-  teamMembers: {
-    name: string;
-    linkedIn: string;
-    id?: string | null;
-  }[];
-  advisors: {
-    name: string;
-    description: string;
-    id?: string | null;
-  }[];
+  teamMembers: TeamMembers;
+  advisors: Advisors;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -677,20 +687,8 @@ export interface LandingPageSelect<T extends boolean = true> {
         id?: T;
       };
   teamImage?: T;
-  teamMembers?:
-    | T
-    | {
-        name?: T;
-        linkedIn?: T;
-        id?: T;
-      };
-  advisors?:
-    | T
-    | {
-        name?: T;
-        description?: T;
-        id?: T;
-      };
+  teamMembers?: T | TeamMembersSelect<T>;
+  advisors?: T | AdvisorsSelect<T>;
   meta?:
     | T
     | {
@@ -701,6 +699,24 @@ export interface LandingPageSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TeamMembers_select".
+ */
+export interface TeamMembersSelect<T extends boolean = true> {
+  name?: T;
+  linkedIn?: T;
+  id?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "Advisors_select".
+ */
+export interface AdvisorsSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  id?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

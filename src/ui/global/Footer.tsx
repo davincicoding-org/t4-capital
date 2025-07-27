@@ -3,8 +3,6 @@
 import { type HTMLAttributes } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ActionIcon, Anchor, Tooltip } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { IconBrandLinkedinFilled, IconSpeakerphone } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 
@@ -28,12 +26,11 @@ export function Footer({
   ...attrs
 }: FooterProps & HTMLAttributes<HTMLElement>) {
   const t = useTranslations();
-  const [isNewsletterOpen, newsletter] = useDisclosure();
 
   return (
     <footer
       className={cn(
-        "bg-gradient border-t bg-cover bg-center p-4 sm:p-8",
+        "bg-gradient border-base-200 border-t bg-cover bg-center p-4 sm:p-8",
         className,
       )}
       {...attrs}
@@ -53,68 +50,64 @@ export function Footer({
 
         <div className="flex flex-row-reverse items-end gap-x-3 sm:flex-col">
           <div className="flex flex-col sm:flex-row">
-            <ActionIcon
-              component="a"
-              variant="subtle"
-              color="black"
-              size="xl"
-              radius="lg"
+            <a
+              className="btn btn-ghost btn-circle hover:text-linkedin"
               href="https://www.linkedin.com/company/t4-capital"
               aria-label={t("footer.cta.follow")}
             >
               <IconBrandLinkedinFilled size={32} />
-            </ActionIcon>
-            <Tooltip
-              label={t("footer.cta.newsletter")}
-              position="bottom"
-              transitionProps={{
-                transition: "fade-down",
-              }}
-            >
-              <ActionIcon
-                variant="subtle"
-                color="black"
-                size="xl"
-                radius="lg"
-                onClick={newsletter.open}
+            </a>
+
+            <div className="tooltip" data-tip={t("footer.cta.newsletter")}>
+              <label
+                htmlFor="newsletter-modal"
+                className="btn btn-ghost btn-circle"
                 aria-label={t("footer.cta.newsletter")}
               >
                 <IconSpeakerphone stroke={1.5} size={32} />
-              </ActionIcon>
-            </Tooltip>
+              </label>
+            </div>
+
+            <input
+              type="checkbox"
+              id="newsletter-modal"
+              className="modal-toggle"
+            />
+            <div className="modal" role="dialog">
+              <div className="modal-box max-w-md">
+                <h3 className="mb-3 text-center text-xl font-medium">
+                  {t("newsletter.title")}
+                </h3>
+                <NewsletterForm handler={newsletterHandler} />
+              </div>
+              <label className="modal-backdrop" htmlFor="newsletter-modal">
+                Close
+              </label>
+            </div>
           </div>
+
           <div className="flex gap-x-4 text-right opacity-70 max-sm:flex-col">
-            <Anchor
-              size="lg"
-              className="underline-offset-4"
-              c="black"
+            <a
+              className="underline-offset-4 hover:underline"
               href={`mailto:info@t4-capital.ch`}
               target="_blank"
             >
               Contact
-            </Anchor>
+            </a>
 
             {legalPages.map(({ label, slug }) => (
-              <Anchor
+              <a
                 key={slug}
-                component={Link}
-                size="lg"
-                className="underline-offset-4"
-                c="black"
+                className="underline-offset-4 hover:underline"
                 href={`/${slug}`}
                 target="_blank"
               >
                 {label}
-              </Anchor>
+              </a>
             ))}
           </div>
         </div>
       </div>
-      <NewsletterForm
-        open={isNewsletterOpen}
-        onClose={newsletter.close}
-        handler={newsletterHandler}
-      />
     </footer>
   );
 }

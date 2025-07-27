@@ -1,42 +1,42 @@
 import { useMemo } from "react";
-import Link from "next/link";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
-
-import { cn } from "@/ui/utils";
 
 import { BackgroundGradientAnimation } from "../components/BackgroundGradientAnimation";
 import { ScrambleText } from "../components/ScrambleText";
+import { cn } from "../utils";
 
 export function Hero({ className }: { className?: string }) {
   const t = useTranslations();
   const headline = useMemo(() => t("headline").split("\n"), [t]);
 
   return (
-    <header className="h-screen">
-      <div className="sticky top-0 z-20 flex justify-center p-2 md:justify-end">
-        <Link
+    <header className="bg-gradient relative h-screen">
+      <div className="sticky top-0 z-20 flex h-16 items-center justify-center px-4 md:justify-end">
+        <a
           href="/prices"
-          className="rounded-full px-4 py-2 text-xl tracking-widest backdrop-blur-sm transition-colors hover:bg-black/10"
+          className="btn btn-outline rounded-lg tracking-widest backdrop-blur-sm"
         >
           {t("header.login")}
-        </Link>
+        </a>
       </div>
-
-      <BackgroundGradientAnimation
-        fifthColor="72,155,199"
-        fourthColor="163,121,223"
-        secondColor="73,155,197"
-        pointerColor="189,241,252"
-        size="300%"
-        containerClassName="-mt-[58px]"
-      >
+      <BackgroundGradientAnimation containerClassName="-mt-16">
         <div
           className={cn(
-            "bg-noise pointer-events-none absolute inset-0 z-10 grid min-h-screen grid-rows-2 overflow-x-hidden",
+            "pointer-events-none absolute inset-0 z-10 grid grid-rows-2",
             className,
           )}
         >
           <div className="relative flex items-end justify-center">
+            <div className="absolute inset-x-0 bottom-0 flex justify-center">
+              <Image
+                priority
+                src="/images/logo-placeholder.png"
+                alt="T4 Logo"
+                width={260}
+                height={130}
+              />
+            </div>
             <svg
               className="animate-logo relative z-10 translate-x-[-50vw]"
               width="130"
@@ -78,13 +78,12 @@ export function Hero({ className }: { className?: string }) {
 
           <div
             className={cn(
-              "animate-headline text-brand container my-auto min-w-0 text-center font-mono text-3xl font-light text-balance md:text-4xl",
+              "my-auto min-w-0 px-8 text-center font-mono text-3xl font-light text-balance md:text-4xl",
             )}
           >
             {headline.map((content) => (
               <ScrambleText
                 key={content}
-                delay={1_000}
                 content={content}
                 className="mx-2 my-1 inline-block"
               />

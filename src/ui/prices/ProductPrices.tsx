@@ -1,29 +1,20 @@
 "use client";
 
+import type { DateRange } from "react-day-picker";
 import { useMemo, useState } from "react";
-import {
-  Badge,
-  Button,
-  Divider,
-  Paper,
-  Popover,
-  ScrollArea,
-  Tooltip,
-} from "@mantine/core";
-import { DatePicker } from "@mantine/dates";
-import { useClickOutside } from "@mantine/hooks";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useTranslations } from "next-intl";
+import { DayPicker } from "react-day-picker";
 
 import type { Disclaimer, Product, Strategy } from "@/payload-types";
-
 import {
   type PricePoint,
   type ProductPerformance,
   type YearlyReturn,
-} from "../../types";
+} from "@/types";
+
 import RichText from "../components/RichText";
 import { cn } from "../utils";
 import { PriceChart } from "./PriceChart";
@@ -52,17 +43,21 @@ export function ProductPrices({
   className,
 }: ProductPricesProps) {
   const t = useTranslations("prices");
-  const [dateRange, setDateRange] = useState<
-    "ALL" | "1M" | "3M" | "1Y" | "DATE"
+  const [dateRangeSelection, setDateRangeSelection] = useState<
+    "ALL" | "1M" | "3M" | "1Y" | "CUSTOM"
   >("ALL");
 
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [isSelectingDate, setIsSelectingDate] = useState(false);
-  const datePickerRef = useClickOutside(() => setIsSelectingDate(false));
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const filteredPrices = useMemo(() => {
-    if (startDate === null) return prices;
-    return prices.filter(({ date }) => dayjs(date).isAfter(dayjs(startDate)));
-  }, [prices, startDate]);
+    const startDate = dateRange?.from?.toISOString();
+    const endDate = dateRange?.to?.toISOString();
+    if (!startDate && !endDate) return prices;
+    return prices.filter(({ date }) => {
+      if (startDate && date < startDate) return false;
+      if (endDate && date > endDate) return false;
+      return true;
+    });
+  }, [prices, dateRange]);
 
   const launchDate = useMemo(() => {
     const [firstPrice] = prices;
@@ -71,20 +66,17 @@ export function ProductPrices({
   }, [prices]);
 
   return (
-    <Paper
-      withBorder
-      radius="lg"
+    <div
       className={cn(
-        "flex max-w-2xl flex-col overflow-clip border-2",
+        "border-base-300 flex max-w-2xl flex-col overflow-clip rounded-2xl border-2",
         className,
       )}
     >
-      <Paper
-        className="flex items-center justify-between rounded-b-none bg-cover px-5 py-3"
+      <div
+        className="flex items-center justify-between rounded-b-none bg-cover px-5 py-3 text-black shadow-sm"
         style={{
           backgroundImage: `url("/gradients/${strategy.color}.webp")`,
         }}
-        shadow="xs"
       >
         <div className="grid">
           <span className="mb-1 text-xl leading-tight font-bold text-pretty">
@@ -94,136 +86,158 @@ export function ProductPrices({
         </div>
 
         <ReturnsSummary data={returns} />
-      </Paper>
+      </div>
       <PriceChart prices={filteredPrices} color={strategy.color} />
       {launchDate && (
-        <p className="mb-3 text-center text-sm text-neutral-600 uppercase">
+        <p className="text-center text-sm text-neutral-600 uppercase">
           {t("liveFor", { time: launchDate.fromNow(true) })}
         </p>
       )}
-      <Divider
-        label={
-          // TODO turn into segmeented control with a dropdown
-          <div className="flex gap-2">
-            <Button
-              variant={dateRange === "ALL" ? "filled" : "default"}
-              size="compact-sm"
-              onClick={() => {
-                setDateRange("ALL");
-                setStartDate(null);
-              }}
+      <div className="divider">
+        <div className="flex gap-2">
+          <button
+            tabIndex={0}
+            className={cn("btn btn-sm border-base-300 rounded-md", {
+              "btn-primary": dateRangeSelection === "ALL",
+            })}
+            onClick={() => {
+              setDateRangeSelection("ALL");
+              setDateRange(undefined);
+            }}
+          >
+            {t("rangeLabels.all")}
+          </button>
+          <button
+            tabIndex={0}
+            className={cn("btn btn-sm border-base-300 rounded-md", {
+              "btn-primary": dateRangeSelection === "1M",
+            })}
+            onClick={() => {
+              setDateRangeSelection("1M");
+              setDateRange({
+                from: dayjs().subtract(1, "month").toDate(),
+                to: new Date(),
+              });
+            }}
+          >
+            {t("rangeLabels.1M")}
+          </button>
+          <button
+            tabIndex={0}
+            className={cn("btn btn-sm border-base-300 rounded-md", {
+              "btn-primary": dateRangeSelection === "3M",
+            })}
+            onClick={() => {
+              setDateRangeSelection("3M");
+              setDateRange({
+                from: dayjs().subtract(3, "month").toDate(),
+                to: new Date(),
+              });
+            }}
+          >
+            {t("rangeLabels.3M")}
+          </button>
+          <button
+            tabIndex={0}
+            className={cn("btn btn-sm border-base-300 rounded-md", {
+              "btn-primary": dateRangeSelection === "1Y",
+            })}
+            onClick={() => {
+              setDateRangeSelection("1Y");
+              setDateRange({
+                from: dayjs().subtract(1, "year").toDate(),
+                to: new Date(),
+              });
+            }}
+          >
+            {t("rangeLabels.1Y")}
+          </button>
+
+          <div className="dropdown dropdown-bottom dropdown-center">
+            <div
+              tabIndex={0}
+              role="button"
+              className={cn("btn btn-sm border-base-300 rounded-md", {
+                "btn-primary": dateRangeSelection === "CUSTOM",
+              })}
             >
-              {t("rangeLabels.all")}
-            </Button>
-            <Button
-              variant={dateRange === "1M" ? "filled" : "default"}
-              size="compact-sm"
-              onClick={() => {
-                setDateRange("1M");
-                setStartDate(dayjs().subtract(1, "month").toDate());
-              }}
+              <span
+                className={cn({
+                  "tooltip tooltip-top": dateRangeSelection === "CUSTOM",
+                })}
+                data-tip={`${dayjs(dateRange?.from).format("DD/MM/YYYY")} - ${dayjs(dateRange?.to).format("DD/MM/YYYY")}`}
+              >
+                {t("rangeLabels.custom")}
+              </span>
+            </div>
+            <div
+              tabIndex={0}
+              className="dropdown-content bg-base-100 rounded-box z-1 shadow-sm"
             >
-              {t("rangeLabels.1M")}
-            </Button>
-            <Button
-              variant={dateRange === "3M" ? "filled" : "default"}
-              size="compact-sm"
-              onClick={() => {
-                setDateRange("3M");
-                setStartDate(dayjs().subtract(3, "month").toDate());
-              }}
-            >
-              {t("rangeLabels.3M")}
-            </Button>
-            <Button
-              variant={dateRange === "1Y" ? "filled" : "default"}
-              size="compact-sm"
-              onClick={() => {
-                setDateRange("1Y");
-                setStartDate(dayjs().subtract(1, "year").toDate());
-              }}
-            >
-              {t("rangeLabels.1Y")}
-            </Button>
-            <Popover
-              opened={isSelectingDate}
-              onClose={() => setIsSelectingDate(false)}
-            >
-              <Popover.Target>
-                <Button
-                  variant={dateRange === "DATE" ? "filled" : "default"}
-                  size="compact-sm"
-                  onClick={() => setIsSelectingDate(true)}
-                >
-                  {dateRange === "DATE"
-                    ? dayjs(startDate).format("DD/MM/YY")
-                    : t("rangeLabels.custom")}
-                </Button>
-              </Popover.Target>
-              <Popover.Dropdown p={4}>
-                <DatePicker
-                  size="xs"
-                  ref={datePickerRef}
-                  value={startDate}
-                  onChange={(value) => {
-                    if (!value) return;
-                    setDateRange("DATE");
-                    setStartDate(new Date(value));
-                    setIsSelectingDate(false);
-                  }}
-                  minDate={launchDate?.toDate()}
-                  maxDate={new Date()}
-                />
-              </Popover.Dropdown>
-            </Popover>
+              <DayPicker
+                className="react-day-picker"
+                mode="range"
+                selected={dateRange}
+                startMonth={launchDate?.toDate()}
+                endMonth={new Date()}
+                onSelect={(date) => {
+                  setDateRange(date);
+                  setDateRangeSelection("CUSTOM");
+                }}
+              />
+            </div>
           </div>
-        }
-      />
+        </div>
+      </div>
+
       <div className="flex flex-wrap gap-4 p-5">
-        <Paper className="grid flex-1" withBorder radius="md" p="sm">
+        <div className="border-base-200 grid flex-1 rounded-lg border-2 p-4">
           <span>MTD</span>
           <span className="text-lg font-medium sm:text-2xl">
             {performance.MTD === null ? "-" : `${performance.MTD.toFixed(1)}%`}
           </span>
-        </Paper>
-        <Paper className="grid flex-1" withBorder radius="md" p="sm">
+        </div>
+        <div className="border-base-200 grid flex-1 rounded-lg border-2 p-4">
           <span>YTD</span>
           <span className="text-lg font-medium sm:text-2xl">
             {performance.YTD === null ? "-" : `${performance.YTD.toFixed(1)}%`}
           </span>
-        </Paper>
-        <Paper className="grid flex-1" withBorder radius="md" p="sm">
+        </div>
+        <div className="border-base-200 grid flex-1 rounded-lg border-2 p-4">
           <span>ITD</span>
           <span className="text-lg font-medium sm:text-2xl">
             {performance.ITD === null ? "-" : `${performance.ITD.toFixed(1)}%`}
           </span>
-        </Paper>
+        </div>
       </div>
       {disclaimer && (
         <>
-          <Divider size="sm" />
-          <ScrollArea>
+          <div className="divider my-0" />
+          <div className="-mt-1.5 overflow-y-auto">
             <div className="p-6">
               <div className="mb-3 flex items-center justify-between">
                 <span className="text-xl font-medium">
                   {t("disclaimer.title")}
                 </span>
-                <Tooltip
-                  label={dayjs(disclaimer.updatedAt).format("DD/MM/YYYY HH:mm")}
+                <div
+                  className="tooltip"
+                  data-tip={dayjs(disclaimer.updatedAt).format(
+                    "DD/MM/YYYY HH:mm",
+                  )}
                 >
-                  <Badge size="md" variant="default">
+                  <div className="badge badge-neutral">
                     {t("disclaimer.updatedAt", {
                       time: dayjs(disclaimer.updatedAt).fromNow(true),
                     })}
-                  </Badge>
-                </Tooltip>
+                  </div>
+                </div>
               </div>
 
               <RichText data={disclaimer.content} />
             </div>
-          </ScrollArea>
+          </div>
         </>
       )}
-    </Paper>
+    </div>
   );
 }

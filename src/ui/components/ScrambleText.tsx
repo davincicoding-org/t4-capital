@@ -13,7 +13,7 @@ type Char = {
   placeholder?: string;
 };
 
-const SCRAMBLE_SPEED = 70;
+const SCRAMBLE_SPEED = 100; // Increased from 70ms to reduce frequency
 const SCRAMBLE_CHARS = "!<>\\/[]{}@=+*^?#________".split("");
 
 export function ScrambleText(props: ScrambleTextProps) {
@@ -62,62 +62,42 @@ export function ScrambleText(props: ScrambleTextProps) {
     const initialChars = initChars(props.content);
     setChars(initialChars);
 
-    // Initial scrambling phase
-    for (let i = 0; i < 5; i++) {
+    // Reduced initial scrambling phase from 5 to 3 iterations
+    for (let i = 0; i < 3; i++) {
       if (!isMountedRef.current) return;
 
-      // Use requestAnimationFrame for smoother updates
-      await new Promise<void>((resolve) => {
-        animationRef.current = requestAnimationFrame(() => {
-          if (!isMountedRef.current) {
-            resolve();
-            return;
-          }
-
-          setChars((current) =>
-            current.map((char) => ({
-              ...char,
-              placeholder: char.placeholder ? getRandomChar() : undefined,
-            })),
-          );
-          resolve();
-        });
-      });
+      // Use setTimeout instead of RAF for less frequent updates
+      setChars((current) =>
+        current.map((char) => ({
+          ...char,
+          placeholder: char.placeholder ? getRandomChar() : undefined,
+        })),
+      );
 
       await wait(SCRAMBLE_SPEED);
     }
 
-    // Revealing phase
+    // Revealing phase - simplified
     const keysToReveal = props.content.split("").map((_, index) => index);
 
     while (keysToReveal.length > 0 && isMountedRef.current) {
-      // Scramble a few times before revealing
-      for (let i = 0; i < 4; i++) {
+      // Reduced scramble iterations from 4 to 2
+      for (let i = 0; i < 2; i++) {
         if (!isMountedRef.current) return;
 
-        await new Promise<void>((resolve) => {
-          animationRef.current = requestAnimationFrame(() => {
-            if (!isMountedRef.current) {
-              resolve();
-              return;
-            }
-
-            setChars((current) =>
-              current.map((char) => ({
-                ...char,
-                placeholder: char.placeholder ? getRandomChar() : undefined,
-              })),
-            );
-            resolve();
-          });
-        });
+        setChars((current) =>
+          current.map((char) => ({
+            ...char,
+            placeholder: char.placeholder ? getRandomChar() : undefined,
+          })),
+        );
 
         await wait(SCRAMBLE_SPEED);
       }
 
-      // Reveal characters in batches
+      // Reveal characters in larger batches for faster completion
       const batchSize = Math.min(
-        (keysToReveal.length % 2) + 1,
+        Math.max(2, Math.ceil(keysToReveal.length / 3)), // Larger batches
         keysToReveal.length,
       );
       const keysToRevealNow = new Set<number>();

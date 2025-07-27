@@ -1,6 +1,34 @@
-import type { ProductPrice } from "@/payload-types";
+import type * as Payload from "@/payload-types";
 
-export type PricePoint = Pick<ProductPrice, "date" | "price">;
+type ExcludeMeta<T> = Omit<T, "createdAt" | "updatedAt">;
+
+export type Media = ExcludeMeta<Payload.Media>;
+
+export interface PressArticle {
+  id?: string | null;
+  url: string;
+  logo: ExcludeMeta<Payload.Media>;
+}
+
+export type Advisor = ExcludeMeta<Payload.Advisors[number]>;
+export type TeamMember = ExcludeMeta<Payload.TeamMembers[number]>;
+
+export interface Strategy
+  extends Pick<
+    ExcludeMeta<Payload.Strategy>,
+    "id" | "title" | "description" | "launchDate" | "color" | "deck"
+  > {
+  image: string;
+  presentationUrl: string;
+  video: string | null;
+}
+
+// MARK: Prices
+
+export type PricePoint = Pick<
+  ExcludeMeta<Payload.ProductPrice>,
+  "date" | "price"
+>;
 
 export interface YearlyReturn {
   year: number;

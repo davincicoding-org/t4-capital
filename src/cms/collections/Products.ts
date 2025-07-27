@@ -1,7 +1,7 @@
 import type { CollectionConfig } from "payload";
 
 import { withAccess } from "@/cms/access";
-import { revalidateCache } from "@/server/actions";
+import { revalidateCache } from "@/server/cache";
 
 export const Products: CollectionConfig = {
   slug: "products",

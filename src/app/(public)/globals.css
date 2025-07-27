@@ -1,45 +1,48 @@
-@import "@mantine/core/styles/baseline.css" layer(base);
-@import "@mantine/core/styles/default-css-variables.css" layer(base);
-@import "@mantine/core/styles/global.css" layer(base);
-
-@import "@mantine/core/styles/UnstyledButton.css" layer(base);
-@import "@mantine/core/styles/Button.css" layer(base);
-@import "@mantine/core/styles/ActionIcon.css" layer(base);
-@import "@mantine/core/styles/Input.css" layer(base);
-@import "@mantine/core/styles/Tooltip.css" layer(base);
-@import "@mantine/core/styles/ScrollArea.css" layer(base);
-@import "@mantine/core/styles/Anchor.css" layer(base);
-
-@import "@mantine/core/styles/Alert.css" layer(base);
-@import "@mantine/core/styles/Paper.css" layer(base);
-@import "@mantine/core/styles/Divider.css" layer(base);
-
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
-
-@theme {
-  --color-black: #08202d;
-  --color-primary: #cbe5f4;
-  --color-primary-foreground: #000;
-
-  --color-dark: #3c4460;
-
-  --color-gray-69: #696969;
-  --color-gray-AC: #acacac;
-
-  --font-mono: var(--font-mono);
-
-  --background-image-noise: url(/images/noise.svg);
-
-  --radius-lg: 0.5rem;
-  --radius-md: calc(0.5rem - 2px);
-  --radius-sm: calc(0.5rem - 4px);
-
-  --width-max: 1224px;
+@plugin "daisyui" {
+  themes: alt --default;
+}
+@plugin "daisyui/theme" {
+  name: "alt";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(98% 0.001 106.423);
+  --color-base-200: oklch(97% 0.001 106.424);
+  --color-base-300: oklch(92% 0.003 48.717);
+  --color-base-content: oklch(21% 0.006 56.043);
+  --color-primary: oklch(58% 0.158 241.966);
+  --color-primary-content: oklch(100% 0 0);
+  --color-secondary: oklch(82% 0.111 230.318);
+  --color-secondary-content: oklch(100% 0 0);
+  --color-accent: oklch(65% 0.241 354.308);
+  --color-accent-content: oklch(100% 0 0);
+  --color-neutral: oklch(44% 0.011 73.639);
+  --color-neutral-content: oklch(98% 0.001 106.423);
+  --color-info: oklch(90% 0.058 230.902);
+  --color-info-content: oklch(0% 0 0);
+  --color-success: oklch(52% 0.154 150.069);
+  --color-success-content: oklch(97% 0.021 166.113);
+  --color-warning: oklch(75% 0.183 55.934);
+  --color-warning-content: oklch(98% 0.016 73.684);
+  --color-error: oklch(57% 0.245 27.325);
+  --color-error-content: oklch(97% 0.014 343.198);
+  --radius-selector: 0.25rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
 }
 
-.bg-gradient {
-  background-image:
+@theme inline {
+  --font-mono: var(--font-mono);
+  --color-linkedin: oklch(0.5313 0.1301 243.65);
+  --background-image-noise: url(/images/noise.svg);
+  --background-image-gradient:
     radial-gradient(
       circle at 69% 3%,
       rgba(255, 255, 255, 0.04) 0%,
@@ -111,9 +114,8 @@
       transparent 96%
     ),
     linear-gradient(419deg, rgb(218, 241, 241), rgb(195, 204, 235));
-}
 
-@theme inline {
+  /* MARK:  Animations */
   --animate-logo: logo 0.5s linear 0.5s forwards;
   @keyframes logo {
     0% {
@@ -123,8 +125,7 @@
       translate: 0 0;
     }
   }
-
-  --animate-headline: headline 0.5s ease-in-out 1.5s;
+  --animate-headline: headline 0.5s linear 1s forwards;
   @keyframes headline {
     0% {
       opacity: 0;
@@ -134,11 +135,23 @@
     }
   }
 
-  --animate-first: moveVertical 30s ease infinite;
-  --animate-second: moveInCircle 20s reverse infinite;
-  --animate-third: moveInCircle 40s linear infinite;
-  --animate-fourth: moveHorizontal 40s ease infinite;
-  --animate-fifth: moveInCircle 20s ease infinite;
+  /* Background Gradient Animations */
+
+  --first-color: 18, 113, 255;
+  --second-color: 73, 155, 197;
+  --third-color: 100, 220, 255;
+  --fourth-color: 163, 121, 223;
+  --fifth-color: 72, 155, 199;
+  --pointer-color: 189, 241, 252;
+  --size: 200%; /* Reduced from 300% to 200% */
+  --blending-value: hard-light;
+
+  /* Simplified animations with longer durations to reduce CPU usage */
+  --animate-first: moveVertical 45s ease infinite; /* Increased from 30s */
+  --animate-second: moveInCircle 30s reverse infinite; /* Increased from 20s */
+  --animate-third: moveInCircle 60s linear infinite; /* Increased from 40s */
+  --animate-fourth: moveHorizontal 60s ease infinite; /* Increased from 40s */
+  --animate-fifth: moveInCircle 30s ease infinite; /* Increased from 20s */
 
   @keyframes moveHorizontal {
     0% {
@@ -178,53 +191,11 @@
 }
 
 @utility container {
-  margin-inline: auto;
-  padding-inline: 2rem;
-  @media (width >= --theme(--breakpoint-sm)) {
-    max-width: none;
-  }
-  @media (width >= 1224px) {
-    max-width: 1224px;
-  }
-}
-
-@theme {
-  --font-sans:
-    var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
-
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
+  @apply mx-auto px-6;
 }
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
   body {
-    @apply bg-white text-black;
+    @apply overscroll-y-none;
   }
-}
-
-:root {
-  font-variant-ligatures: none;
-}
-
-.hero {
-  background-attachment: scroll, fixed;
 }
