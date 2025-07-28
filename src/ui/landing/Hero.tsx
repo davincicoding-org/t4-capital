@@ -38,7 +38,8 @@ export function Hero({ className }: { className?: string }) {
               />
             </div>
             <svg
-              className="animate-logo relative z-10 translate-x-[-50vw]"
+              className="animate-logo relative z-10"
+              style={{ "--logo-start-x": "-50vw" } as React.CSSProperties}
               width="130"
               height="130"
               viewBox="0 0 150 150"
@@ -51,7 +52,8 @@ export function Hero({ className }: { className?: string }) {
               />
             </svg>
             <svg
-              className="animate-logo absolute bottom-0 left-1/2 z-10 translate-y-[-50vh]"
+              className="animate-logo absolute bottom-0 left-1/2 z-10"
+              style={{ "--logo-start-y": "-50vh" } as React.CSSProperties}
               width="130"
               height="130"
               viewBox="0 0 150 150"
@@ -61,7 +63,8 @@ export function Hero({ className }: { className?: string }) {
               <rect x="4" width="46" height="46" fill="#08202D" />
             </svg>
             <svg
-              className="animate-logo relative z-10 translate-x-[50vw]"
+              className="animate-logo relative z-10"
+              style={{ "--logo-start-x": "50vw" } as React.CSSProperties}
               width="130"
               height="130"
               viewBox="0 0 150 150"

@@ -116,15 +116,17 @@
     linear-gradient(419deg, rgb(218, 241, 241), rgb(195, 204, 235));
 
   /* MARK:  Animations */
-  --animate-logo: logo 0.5s linear 0.5s forwards;
+  --animate-logo: logo 0.5s ease-out 0.5s forwards;
   @keyframes logo {
     0% {
-      transform: initial;
+      transform: translateX(var(--logo-start-x, 0))
+        translateY(var(--logo-start-y, 0)) translateZ(0);
     }
     100% {
-      translate: 0 0;
+      transform: translateX(0) translateY(0) translateZ(0);
     }
   }
+
   --animate-headline: headline 0.5s linear 1s forwards;
   @keyframes headline {
     0% {
@@ -198,4 +200,11 @@
   body {
     @apply overscroll-y-none;
   }
+}
+
+.animate-logo {
+  animation: var(--animate-logo);
+  transform: translateX(var(--logo-start-x, 0))
+    translateY(var(--logo-start-y, 0)) translateZ(0);
+  will-change: transform;
 }
