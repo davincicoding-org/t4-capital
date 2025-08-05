@@ -93,7 +93,7 @@ export interface Config {
     'product-prices': ProductPrice;
     users: User;
     'legal-pages': LegalPage;
-    polyglot_messages: PolyglotMessage;
+    messages: Message;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -108,7 +108,7 @@ export interface Config {
     'product-prices': ProductPricesSelect<false> | ProductPricesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'legal-pages': LegalPagesSelect<false> | LegalPagesSelect<true>;
-    polyglot_messages: PolyglotMessagesSelect<false> | PolyglotMessagesSelect<true>;
+    messages: MessagesSelect<false> | MessagesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -341,22 +341,23 @@ export interface LegalPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "polyglot_messages".
+ * via the `definition` "messages".
  */
-export interface PolyglotMessage {
+export interface Message {
   id: number;
   locale: string;
-  content:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -398,8 +399,8 @@ export interface PayloadLockedDocument {
         value: number | LegalPage;
       } | null)
     | ({
-        relationTo: 'polyglot_messages';
-        value: number | PolyglotMessage;
+        relationTo: 'messages';
+        value: number | Message;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -607,13 +608,22 @@ export interface LegalPagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "polyglot_messages_select".
+ * via the `definition` "messages_select".
  */
-export interface PolyglotMessagesSelect<T extends boolean = true> {
+export interface MessagesSelect<T extends boolean = true> {
   locale?: T;
-  content?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -1,6 +1,7 @@
 "use server";
 
-import type { SupportedLocale } from "@/i18n/config";
+import type { TypedLocale } from "payload";
+
 import type {
   Advisor,
   Media,
@@ -14,7 +15,7 @@ import { cachedRequest } from "../cache";
 import { getPayloadClient } from "../payload";
 
 export const fetchGlobalMetadata = cachedRequest(
-  async (locale: SupportedLocale) => {
+  async (locale: TypedLocale) => {
     const payload = await getPayloadClient();
     const { meta } = await payload.findGlobal({
       slug: "landing-page",
@@ -29,7 +30,7 @@ export const fetchGlobalMetadata = cachedRequest(
 );
 
 const fetchStrategies = cachedRequest(
-  async (locale: SupportedLocale) => {
+  async (locale: TypedLocale) => {
     const payload = await getPayloadClient();
     const { docs } = await payload.find({
       collection: "strategies",
@@ -43,7 +44,7 @@ const fetchStrategies = cachedRequest(
 );
 
 const fetchLandingPage = cachedRequest(
-  async (locale: SupportedLocale) => {
+  async (locale: TypedLocale) => {
     const payload = await getPayloadClient();
     return payload.findGlobal({
       slug: "landing-page",
@@ -54,7 +55,7 @@ const fetchLandingPage = cachedRequest(
 );
 
 export const getLandingPageData = async (
-  locale: SupportedLocale,
+  locale: TypedLocale,
 ): Promise<{
   articles: PressArticle[];
   strategies: Strategy[];

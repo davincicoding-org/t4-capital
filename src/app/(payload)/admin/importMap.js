@@ -22,9 +22,10 @@ import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c08
 import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
-import { MessagesEditor as MessagesEditor_c6c0778e90db7bb0cd65291aef6aa70f } from 'payload-polyglot/rsc'
 import { default as default_9d3275354960aca54a1f4f98f479a1c2 } from '@/cms/components/AdminLogo'
+import { MessagesLink as MessagesLink_77833c228fec376212747c040184fa6e } from 'payload-intl/rsc'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
+import { MessagesView as MessagesView_77833c228fec376212747c040184fa6e } from 'payload-intl/rsc'
 
 export const importMap = {
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -51,7 +52,8 @@ export const importMap = {
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "payload-polyglot/rsc#MessagesEditor": MessagesEditor_c6c0778e90db7bb0cd65291aef6aa70f,
   "@/cms/components/AdminLogo#default": default_9d3275354960aca54a1f4f98f479a1c2,
-  "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24
+  "payload-intl/rsc#MessagesLink": MessagesLink_77833c228fec376212747c040184fa6e,
+  "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
+  "payload-intl/rsc#MessagesView": MessagesView_77833c228fec376212747c040184fa6e
 }

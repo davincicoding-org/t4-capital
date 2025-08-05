@@ -1,9 +1,9 @@
 "use server";
 
+import type { TypedLocale } from "payload";
 import { cookies } from "next/headers";
 import { groupBy } from "lodash-es";
 
-import type { SupportedLocale } from "@/i18n/config";
 import type { Product, ProductPrice, Strategy } from "@/payload-types";
 import type { ExportedProductPrices } from "@/types";
 import {
@@ -87,7 +87,7 @@ export const unlockProductData = async (password: Product["password"]) => {
 };
 
 export const fetchProductMetadata = cachedRequest(
-  async (productId: Product["id"], locale: SupportedLocale) => {
+  async (productId: Product["id"], locale: TypedLocale) => {
     const payload = await getPayloadClient();
     return await payload.findByID({
       collection: "products",
@@ -103,7 +103,7 @@ export const fetchProductMetadata = cachedRequest(
 );
 
 export const fetchDisclaimer = cachedRequest(
-  async (strategyId: Strategy["id"], locale: SupportedLocale) => {
+  async (strategyId: Strategy["id"], locale: TypedLocale) => {
     const payload = await getPayloadClient();
     const {
       docs: [disclaimer],

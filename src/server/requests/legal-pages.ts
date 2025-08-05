@@ -1,13 +1,14 @@
 "use server";
 
-import type { SupportedLocale } from "@/i18n/config";
+import type { TypedLocale } from "payload";
+
 import type { LegalPage } from "@/payload-types";
 
 import { cachedRequest } from "../cache";
 import { getPayloadClient } from "../payload";
 
 export const fetchLegalPage = cachedRequest(
-  async (slug: LegalPage["slug"], locale: SupportedLocale) => {
+  async (slug: LegalPage["slug"], locale: TypedLocale) => {
     const payload = await getPayloadClient();
     const {
       docs: [data],
@@ -27,7 +28,7 @@ export const fetchLegalPage = cachedRequest(
 );
 
 export const fetchLegalPagesLinks = cachedRequest(
-  async (locale: SupportedLocale) => {
+  async (locale: TypedLocale) => {
     const payload = await getPayloadClient();
     const { docs } = await payload.find({
       collection: "legal-pages",

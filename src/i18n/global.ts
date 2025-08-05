@@ -1,10 +1,10 @@
-import type { ResolvedMessagesSchema } from "payload-polyglot";
+import type { TypedLocale } from "payload";
 
-import type { MESSAGES_SCHEMA, SupportedLocale } from "./config";
+import type { MESSAGES } from "./messages";
 
 declare module "next-intl" {
   interface AppConfig {
-    Locale: SupportedLocale;
-    Messages: ResolvedMessagesSchema<typeof MESSAGES_SCHEMA>;
+    Locale: TypedLocale;
+    Messages: typeof MESSAGES;
   }
 }

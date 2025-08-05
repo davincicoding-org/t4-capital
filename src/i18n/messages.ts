@@ -1,10 +1,4 @@
-import type { MessagesSchema } from "payload-polyglot";
-
-export const SUPPORTED_LOCALES = ["en"] as const;
-
-export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
-
-export const MESSAGES_SCHEMA = {
+export const MESSAGES = {
   header: {
     login: "short",
     newsletter: "short",
@@ -21,7 +15,7 @@ export const MESSAGES_SCHEMA = {
   },
   about: {
     title: "short",
-    content: ["long", "<Logo></Logo>"],
+    content: "long <Logo></Logo>",
     founders: "long",
   },
   advisors: {
@@ -37,7 +31,7 @@ export const MESSAGES_SCHEMA = {
     },
   },
   prices: {
-    liveFor: ["short", "{time}"],
+    liveFor: "Live for {time}",
     rangeLabels: {
       all: "short",
       "1M": "short",
@@ -47,7 +41,7 @@ export const MESSAGES_SCHEMA = {
     },
     disclaimer: {
       title: "short",
-      updatedAt: ["short", "{time}"],
+      updatedAt: "short {time}",
     },
   },
   newsletter: {
@@ -62,4 +56,4 @@ export const MESSAGES_SCHEMA = {
     success: "short",
     error: "short",
   },
-} satisfies MessagesSchema;
+} as const;

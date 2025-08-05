@@ -22,7 +22,7 @@ import {
 } from "@payloadcms/richtext-lexical";
 import { s3Storage } from "@payloadcms/storage-s3";
 import { buildConfig } from "payload";
-import { polyglotPlugin } from "payload-polyglot";
+import { intlPlugin } from "payload-intl";
 import sharp from "sharp";
 
 import {
@@ -37,10 +37,10 @@ import {
 } from "@/cms/collections";
 import { LandingPage } from "@/cms/globals";
 import { env } from "@/env";
-import { MESSAGES_SCHEMA, SUPPORTED_LOCALES } from "@/i18n/config";
 import { revalidateCache } from "@/server/cache";
 
 import { withAccess } from "./cms/access";
+import { MESSAGES } from "./i18n/messages";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -58,8 +58,8 @@ export default buildConfig({
     },
   },
   localization: {
-    locales: [...SUPPORTED_LOCALES],
-    defaultLocale: SUPPORTED_LOCALES[0],
+    locales: ["en"],
+    defaultLocale: "en",
   },
   globals: [LandingPage],
   collections: [
@@ -107,22 +107,11 @@ export default buildConfig({
     apiKey: env.RESEND_API_KEY,
   }),
   plugins: [
-    polyglotPlugin({
-      access: {
-        read: withAccess("content"),
-        create: withAccess("content"),
-        update: withAccess("content"),
-        delete: withAccess("content"),
-      },
-      locales: [...SUPPORTED_LOCALES],
-      schema: MESSAGES_SCHEMA,
-      collection: {
-        admin: {
-          group: "Assets",
-        },
-        hooks: {
-          afterUpdate: () => revalidateCache("messages"),
-        },
+    intlPlugin({
+      schema: MESSAGES,
+      editorAccess: (req) => withAccess("content")({ req }),
+      hooks: {
+        afterUpdate: () => revalidateCache("messages"),
       },
     }),
     seoPlugin({
@@ -133,6 +122,11 @@ export default buildConfig({
     }),
     s3Storage({
       collections: {
+        messages: {
+          prefix: "messages",
+          generateFileURL: async ({ filename, prefix }) =>
+            `${env.SUPABASE_URL}/storage/v1/object/public/${env.S3_BUCKET}/${prefix}/${filename}`,
+        },
         media: {
           prefix: "media",
           generateFileURL: async ({ filename, prefix }) =>
