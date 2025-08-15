@@ -191,19 +191,19 @@ export function ProductPrices({
       </div>
 
       <div className="flex flex-wrap gap-4 p-5">
-        <div className="border-base-200 grid flex-1 rounded-lg border-2 p-4">
+        <div className="border-base-200 bg-base-100 grid flex-1 rounded-lg border-2 p-4">
           <span>MTD</span>
           <span className="text-lg font-medium sm:text-2xl">
             {performance.MTD === null ? "-" : `${performance.MTD.toFixed(1)}%`}
           </span>
         </div>
-        <div className="border-base-200 grid flex-1 rounded-lg border-2 p-4">
+        <div className="border-base-200 bg-base-100 grid flex-1 rounded-lg border-2 p-4">
           <span>YTD</span>
           <span className="text-lg font-medium sm:text-2xl">
             {performance.YTD === null ? "-" : `${performance.YTD.toFixed(1)}%`}
           </span>
         </div>
-        <div className="border-base-200 grid flex-1 rounded-lg border-2 p-4">
+        <div className="border-base-200 bg-base-100 grid flex-1 rounded-lg border-2 p-4">
           <span>ITD</span>
           <span className="text-lg font-medium sm:text-2xl">
             {performance.ITD === null ? "-" : `${performance.ITD.toFixed(1)}%`}
