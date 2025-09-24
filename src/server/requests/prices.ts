@@ -128,6 +128,9 @@ export const fetchDisclaimer = cachedRequest(
 
 export const fetchProductPriceData = cachedRequest(
   async (productId: Product["id"]) => {
+    console.log(
+      `[Cache] Fetching product price data for productId: ${productId} at ${new Date().toISOString()}`,
+    );
     const payload = await getPayloadClient();
     const { docs: prices } = await payload.find({
       collection: "product-prices",
@@ -154,6 +157,7 @@ export const fetchProductPriceData = cachedRequest(
     };
   },
   ["prices"],
+  { revalidate: 60 * 60 * 24 },
 );
 
 export const exportPrices = async (): Promise<ExportedProductPrices[]> => {
